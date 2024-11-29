@@ -3,6 +3,8 @@ import cors from 'cors';
 import passport, { initialize } from 'passport';
 import session from 'express-session';
 import * as dotenv from 'dotenv';
+import exercisesRouter from './routes/exercises';
+
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
 }
@@ -44,6 +46,8 @@ app.use(express.static(__dirname));
  app.use(passport.initialize());
  app.use(passport.session());
  //initializePassport(passport);
+
+ app.use('/exercises', exercisesRouter);
 
  app.listen(PORT, () => {
     console.log(`Server running on port: ${PORT}`)

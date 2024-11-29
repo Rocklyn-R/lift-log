@@ -14,3 +14,7 @@ export interface Workout {
     exercises: Exercise[];
 }
 
+export interface Categories {
+    id: number,
+    name: string
+}

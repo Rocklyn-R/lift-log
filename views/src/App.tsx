@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navigation } from './features/Navigation/Navigation';
 import { LogsPage } from './features/Logs/LogsPage/LogsPage';
 import { SignIn } from './features/Authentication/SignIn';
+import { ExerciseLibrary } from './features/ExerciseLibrary/ExerciseLibrary';
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
             
             {/* Logs page route */}
             <Route path="/logs" element={<LogsPage />} />
-            
+            <Route path="/exercise-library" element={<ExerciseLibrary />} />
             {/* SignIn page route */}
             <Route path="/signin" element={<SignIn />} />
           </Routes>

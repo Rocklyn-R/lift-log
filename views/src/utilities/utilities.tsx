@@ -32,9 +32,9 @@ export const getTodayDate = () => {
     }
   }
 
-  export const adjustDate = (direction: 'back' | 'forward', dateString: string): string => {
+export const adjustDate = (direction: 'back' | 'forward', dateString: string): string => {
     const inputDate = new Date(dateString);
-  
+    
     // Ensure that we're dealing with the correct date format and adjust the day
     if (direction === 'back') {
       inputDate.setDate(inputDate.getDate() - 1);  // Subtract one day
