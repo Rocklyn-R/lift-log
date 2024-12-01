@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { getTodayDate } from "../utilities/utilities";
 import { RootState } from "./store";
 

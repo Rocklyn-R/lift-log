@@ -1,8 +1,10 @@
 import express from 'express';
-import { getCategories } from '../controllers/exercises';
+import { getCategories, getExercises } from '../controllers/exercises';
 
-const exercisesRotuer = express.Router();
+const exercisesRouter = express.Router();
 
-exercisesRotuer.get('/categories', getCategories);
+exercisesRouter.get('/categories', getCategories);
 
-export default exercisesRotuer;
+exercisesRouter.get('/exercises', getExercises);
+
+export default exercisesRouter;

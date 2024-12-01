@@ -1,13 +1,25 @@
-import { Wrapper } from "../../components/Wrapper"
-import { ExerciseCategories } from "./Categories/Categories"
+import { useState } from "react"
+import { Header } from "../../components/Header";
+import { ExerciseCategories } from "./ExerciseCategories/ExerciseCategories"
+import { useParams } from "react-router-dom";
+import { Exercises } from "./Exercises/Exercises";
+
 
 export const ExerciseLibrary = () => {
-    
-
+    const { categoryId } = useParams<{ categoryId?: string }>();
     return (
-        <Wrapper className="flex flex-col">
-                <h1 className="text-lightestBlue bg-darkestBlue text-xl font-semibold flex-grow text-center p-5">Exercise Library</h1>
-                <ExerciseCategories />
-        </Wrapper>
-    )
+        <div className="flex flex-col h-screen w-full justify-center">
+            {/* Sticky Header */}
+            <Header text="Exercise Library" />
+            {/* Scrollable content area */}
+            <div className="flex-grow overflow-y-auto p-4">
+                {/* Conditionally render ExerciseCategories or Exercises based on categoryId */}
+                {categoryId ? (
+                    <Exercises />
+                ) : (
+                    <ExerciseCategories />
+                )}
+            </div>
+        </div>
+    );
 }

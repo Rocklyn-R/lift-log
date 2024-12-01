@@ -14,7 +14,14 @@ export interface Workout {
     exercises: Exercise[];
 }
 
-export interface Categories {
+export interface Category {
     id: number,
     name: string
+}
+
+export interface Exercise {
+    id: number,
+    name: string,
+    category_name: string,
+    type_name: string,
 }

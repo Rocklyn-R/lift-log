@@ -12,8 +12,22 @@ export const getCategories = async () => {
             },
         })
         const data = await response.json();
-        console.log(data);
         return data.categories;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getExercises = async (category_id: number) => {
+    try {
+        const response = await fetch(`${BASE_URL}/exercises?category_id=${category_id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        const data = await response.json();
+        return data.exercises;
     } catch (error) {
         console.log(error);
     }
