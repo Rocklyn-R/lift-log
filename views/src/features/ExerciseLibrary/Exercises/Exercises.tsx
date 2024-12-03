@@ -10,9 +10,13 @@ import { Exercise } from "../../../types/types";
 import { getExercises } from "../../../api/exercises";
 import { useDispatch } from "react-redux";
 
+interface ExercisesProps {
+    source: "logs" | "library",
+    handleShowCategories?: () => void;
+    handleSelectExercise?: () => void;
+}
 
-
-export const Exercises = () => {
+export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategories, handleSelectExercise }) => {
     const exercises = useSelector(selectExercises);
     const navigate = useNavigate();
     const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
@@ -20,11 +24,19 @@ export const Exercises = () => {
     const dispatch = useDispatch();
 
     const handleNavigateBack = () => {
-        navigate('/exercise-library')
+        if (source === "library") {
+           navigate('/exercise-library') 
+        } else if (source === 'logs' && handleShowCategories){
+            handleShowCategories();
+        }
     }
 
     const handleOpenExercise = (exercise: Exercise) => {
-        setSelectedExercise(exercise)
+        if (source === "library") {
+           setSelectedExercise(exercise) 
+        } else if (source === "logs" && handleSelectExercise) {
+            handleSelectExercise();
+        }
     }
 
     const handleCloseExervise = () => {
@@ -42,7 +54,7 @@ export const Exercises = () => {
     }, [categoryId])
 
     return (
-        <div className="flex flex-col h-screen relative">
+        <div className="flex flex-col relative">
             {/* Header */}
 
             <button
@@ -51,7 +63,7 @@ export const Exercises = () => {
                 className="top-4 sticky ml-6"
             ><MdArrowBackIos className="text-3xl text-darkestPurple hover:text-darkPurple" /></button>
             {/* Main Content with Flex for center alignment */}
-            <div className="flex-grow p-4 overflow-y-auto flex justify-center">
+            <div className="flex-grow flex justify-center my-4">
 
                 <div className="flex flex-col items-center w-1/2 space-y-2">
                     {exercises.map((exercise, index) => (
@@ -70,7 +82,7 @@ export const Exercises = () => {
                     headerText={selectedExercise.name}
                     onClose={handleCloseExervise}
                     className="w-1/3"
-                    >
+                >
                     <ViewExercise
                         exercise={selectedExercise}
                     />

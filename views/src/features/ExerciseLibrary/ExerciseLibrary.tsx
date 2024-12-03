@@ -15,9 +15,13 @@ export const ExerciseLibrary = () => {
             <div className="flex-grow overflow-y-auto p-4">
                 {/* Conditionally render ExerciseCategories or Exercises based on categoryId */}
                 {categoryId ? (
-                    <Exercises />
+                    <Exercises 
+                        source="library"
+                    />
                 ) : (
-                    <ExerciseCategories />
+                    <ExerciseCategories 
+                        source="library"
+                    />
                 )}
             </div>
         </div>
