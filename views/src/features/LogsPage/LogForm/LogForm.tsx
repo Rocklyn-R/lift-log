@@ -7,11 +7,14 @@ interface LogFormProps {
 }
 
 export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack }) => {
-    const [weightInput, setWeightInput] = useState<number>();
-    const inputLength = weightInput?.toString().length || 0;
+    const [weightInput, setWeightInput] = useState<number | undefined>(undefined);
+    const [repsInput, setRepsInput] = useState<number | undefined>(undefined);
 
     // Calculate width: Start at 5rem for 5 or fewer characters, expand beyond that
-    const calculatedWidth = inputLength > 5 ? inputLength * 1 : 5;
+    const weightInputLength = weightInput?.toString().length || 0;
+    const calculatedWeightWidth = weightInputLength > 5 ? weightInputLength * 1 : 5;
+    const repsInputLength = repsInput?.toString().length || 0;
+    const calculatedRepsWidth = repsInputLength > 5 ? repsInputLength * 1 : 5;
     return (
         <div className="w-full flex justify-center relative my-4">
             <button
@@ -30,15 +33,17 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack }) => {
                         </button>
 
                         <input
-                            value={weightInput || ""}
+                            value={weightInput !== undefined ? weightInput : ""} // Ensure it's a string or empty
                             type="number"
                             step="0.1"
                             className="border-b-2 border-darkPurple focus:outline-none appearance-none bg-transparent text-2xl text-center"
-                            style={{ width: `${calculatedWidth}rem` }}
+                            style={{ width: `${calculatedWeightWidth}rem` }}
                             placeholder=""
                             onChange={(e) => {
-                                const value = parseFloat(e.target.value);
-                                setWeightInput(isNaN(value) ? undefined : value);
+                                const value = e.target.value;
+                                if (value.length <= 8) {
+                                    setWeightInput(value === "" ? undefined : Number(value)); // Clear or set number
+                                }
                             }}
                         />
 
@@ -62,10 +67,19 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack }) => {
                             <FaMinus />
                         </button>
                         <input
+                            value={repsInput !== undefined ? repsInput : ""}
                             type="number"
                             step="0.1"
-                            className="border-b-2 border-darkPurple focus:outline-none appearance-none bg-transparent text-2xl w-20"
+                            className="border-b-2 border-darkPurple focus:outline-none appearance-none bg-transparent text-2xl text-center"
+                            style={{ width: `${calculatedRepsWidth}rem` }}
                             placeholder=""
+                            onChange={(e) => {
+                                console.log(e.target.value);
+                                const value = e.target.value;
+                                if (value.length <= 8) {
+                                    setRepsInput(value === "" ? undefined : Number(value)); // Clear or set number
+                                }
+                            }}
 
                         />
                         <button
