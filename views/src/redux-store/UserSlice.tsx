@@ -12,6 +12,15 @@ export const UserSlice = createSlice({
     reducers: {
         setIsAuthenticated: (state, action) => {
             state.isAuthenticated = action.payload;
+        },
+        setUserFirstName: (state, action) => {
+            state.firstName = action.payload;
+        },
+        setUserLastName: (state, action) => {
+            state.lastName = action.payload;
+        },
+        setUserEmail: (state, action) => {
+            state.email = action.payload
         }
     }
 })
@@ -20,7 +29,10 @@ export const UserSlice = createSlice({
 export const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
 
 export const {
-    setIsAuthenticated
+    setIsAuthenticated,
+    setUserFirstName,
+    setUserLastName,
+    setUserEmail
 } = UserSlice.actions;
 
 

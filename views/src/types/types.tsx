@@ -25,3 +25,8 @@ export interface Exercise {
     category_name: string,
     type_name: string,
 }
+
+export interface SetList {
+    weight: number,
+    reps: number
+}

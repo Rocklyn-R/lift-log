@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { selectSelectedDate, setSelectedDate } from "../../redux-store/LogsSlice";
+import { selectSelectedCategory, selectSelectedDate, selectSelectedExercise, setSelectedDate } from "../../redux-store/LogsSlice";
 import { MdArrowBackIos } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
 import { adjustDate, formatDate } from "../../utilities/utilities";
@@ -12,11 +12,14 @@ import { ExerciseCategories } from "../ExerciseLibrary/ExerciseCategories/Exerci
 import { getExercises } from "../../api/exercises";
 import { setExercises } from "../../redux-store/LibrarySlice";
 import { Exercises } from "../ExerciseLibrary/Exercises/Exercises";
+import { SetData } from "./LogForm/SetData/SetData";
 
 
 export const LogsPage = () => {
     const selectedDate = useSelector(selectSelectedDate);
     const dispatch = useDispatch();
+    const selectedCategory = useSelector(selectSelectedCategory);
+    const selectedExercise = useSelector(selectSelectedExercise);
 
     const handleAdjustDate = (direction: 'back' | 'forward') => {
         const newDate = adjustDate(direction, selectedDate);
@@ -28,10 +31,10 @@ export const LogsPage = () => {
     const [showExercises, setShowExercises] = useState(false);
     const [showLogForm, setShowLogForm] = useState(false);
 
-  /*  const handleAddToLog = () => {
-        setShowAddExercise(true);
-        setShowCategories(true);
-    }*/
+    /*  const handleAddToLog = () => {
+          setShowAddExercise(true);
+          setShowCategories(true);
+      }*/
 
     const handleShowExercises = () => {
         setShowExercises(true);
@@ -92,7 +95,12 @@ export const LogsPage = () => {
             {showAddExercise && (
                 <OverlayWindow
                     onClose={handleCloseOverlay}
-                    headerText="Add Exercise"
+                    headerText={`Add Exercise ${showExercises
+                            ? `- ${selectedCategory}`
+                            : showLogForm
+                                ? `- ${selectedExercise?.name}`
+                                : ""
+                        }`}
                     className="w-1/3"
                 >
                     {showCategories && (
@@ -102,18 +110,21 @@ export const LogsPage = () => {
                         />
                     )}
                     {showExercises && (
-                        <Exercises 
+                        <Exercises
                             source="logs"
                             handleShowCategories={handleShowCategories}
                             handleSelectExercise={handleSelectExercise}
                         />
                     )}
                     {showLogForm && (
-                        <LogForm 
-                            handleNavigateBack={handleShowExercises}
-                        />
+                        <>
+                            <LogForm
+                                handleNavigateBack={handleShowExercises}
+                            />
+                            <SetData />
+                        </>
                     )}
-                    
+
                 </OverlayWindow>
             )}
         </div>

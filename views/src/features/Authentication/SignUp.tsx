@@ -1,5 +1,9 @@
 import { useState } from "react"
+import { createNewUser } from "../../api/users";
 import { Header } from "../../components/Header";
+import { setIsAuthenticated, setUserFirstName, setUserLastName, setUserEmail } from "../../redux-store/UserSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export const SignUp = () => {
     const [firstName, setFirstName] = useState("");
@@ -7,8 +11,37 @@ export const SignUp = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [repeatPassword, setRepeatPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState('');
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const handleSignUp = () => {
+    const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (password !== repeatPassword) {
+            setErrorMessage("Passwords don't match.")
+            return;
+        }
+        try {
+            const response = await createNewUser(firstName, lastName, email, password);
+            if (response.error) {
+                if (response.error === 'User with this email already exists') {
+                    setErrorMessage("User with this email already exists. Try a different email.");
+                } else {
+                    setErrorMessage('Failed to sign up');
+                }
+            } else if (response.user) {
+                dispatch(setIsAuthenticated(true));
+                setErrorMessage("");
+                dispatch(setUserFirstName(response.user.first_name));
+                dispatch(setUserLastName(response.user.last_name));
+                dispatch(setUserEmail(response.user.email));
+                navigate('/logs');
+            } else {
+                setErrorMessage('An unexpected error occurred');
+            }
+        } catch (error: any) {
+            setErrorMessage("Failed to sign up");
+        }
         
     }
 
@@ -18,7 +51,7 @@ export const SignUp = () => {
             <div className="flex-grow flex items-center justify-center">
                 <div className="bg-white h-fit p-8 rounded-lg shadow-lg w-96 flex flex-col justify-center">
                     <h2 className="text-2xl font-semibold text-center mb-6 text-darkestPurple">Sign Up</h2>
-                    <form>
+                    <form onSubmit={handleSignUp}>
                         <div className="mb-4">
                             <label htmlFor="first-name"></label>
                             <input
@@ -92,7 +125,7 @@ export const SignUp = () => {
                                 }}
                             />
                         </div>
-
+                        {errorMessage && <p className="mt-6 text-red-800">{errorMessage}</p>}
                         {/* Submit Button */}
                         <button
                             type="submit"

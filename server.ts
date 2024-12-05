@@ -5,12 +5,14 @@ import session from 'express-session';
 import * as dotenv from 'dotenv';
 import exercisesRouter from './routes/exercises';
 import usersRouter from './routes/users';
+import { initializePassport } from './config/passport';
 
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
 }
 
 const app = express();
+app.use(express.json());
 const PORT = process.env.PORT || 4000;
 
 const corsOptions = {
@@ -46,7 +48,7 @@ app.use(express.static(__dirname));
 
  app.use(passport.initialize());
  app.use(passport.session());
- //initializePassport(passport);
+ initializePassport(passport);
 
  app.use('/exercises', exercisesRouter);
  app.use('/user', usersRouter);

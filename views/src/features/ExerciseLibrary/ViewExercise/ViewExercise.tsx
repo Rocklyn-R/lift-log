@@ -9,8 +9,8 @@ interface ViewExerciseProps {
 export const ViewExercise: React.FC<ViewExerciseProps> = ({ exercise }) => {
     return (
         <div className="flex w-full justify-around p-6">
-            <Button onClick={() => {}}>Add to Log</Button>
-            <Button onClick={() => {}}>View Video Demonstration</Button>
+            <Button type="button" onClick={() => {}}>Add to Log</Button>
+            <Button type="button" onClick={() => {}}>View Video Demonstration</Button>
         </div>
     )
 }

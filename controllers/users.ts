@@ -20,3 +20,10 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
         res.status(500).json({ message: 'Failed to create user', error: (error as Error).message  });
     }
 };
+
+export const checkAuthenticated = (req: Request, res: Response, next: NextFunction) => {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.status(200).json({ message: "User not signed in" });
+}

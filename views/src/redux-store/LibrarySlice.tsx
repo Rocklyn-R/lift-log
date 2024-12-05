@@ -7,7 +7,7 @@ export const LibrarySlice = createSlice({
     name: "library",
     initialState: {
         categories: [] as Category[],
-        exercises: [] as Exercise[]
+        exercises: [] as Exercise[],
     },
     reducers: {
         setCategories: (state, action) => {
@@ -15,7 +15,7 @@ export const LibrarySlice = createSlice({
         },
         setExercises: (state, action) => {
             state.exercises = action.payload;
-        }
+        },
     }
 })
 

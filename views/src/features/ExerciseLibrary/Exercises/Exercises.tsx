@@ -9,6 +9,7 @@ import { OverlayWindow } from "../../../components/OverlayWIndow";
 import { Exercise } from "../../../types/types";
 import { getExercises } from "../../../api/exercises";
 import { useDispatch } from "react-redux";
+import { selectSelectedExercise, setSelectedExercise } from "../../../redux-store/LogsSlice";
 
 interface ExercisesProps {
     source: "logs" | "library",
@@ -19,7 +20,8 @@ interface ExercisesProps {
 export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategories, handleSelectExercise }) => {
     const exercises = useSelector(selectExercises);
     const navigate = useNavigate();
-    const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
+    const selectedExercise = useSelector(selectSelectedExercise);
+    //const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
     const { categoryId } = useParams<{ categoryId: string }>();
     const dispatch = useDispatch();
 
@@ -33,14 +35,15 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
 
     const handleOpenExercise = (exercise: Exercise) => {
         if (source === "library") {
-           setSelectedExercise(exercise) 
+           dispatch(setSelectedExercise(exercise)) 
         } else if (source === "logs" && handleSelectExercise) {
             handleSelectExercise();
+            dispatch(setSelectedExercise(exercise));
         }
     }
 
     const handleCloseExervise = () => {
-        setSelectedExercise(null)
+        dispatch(setSelectedExercise(null))
     }
 
     useEffect(() => {
@@ -77,7 +80,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
                     ))}
                 </div>
             </div>
-            {selectedExercise && (
+            {selectedExercise && (source=== "library") && (
                 <OverlayWindow
                     headerText={selectedExercise.name}
                     onClose={handleCloseExervise}

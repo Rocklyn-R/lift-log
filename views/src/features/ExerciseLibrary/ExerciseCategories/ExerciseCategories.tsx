@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getCategories, getExercises } from "../../../api/exercises";
 import { selectCategories, setCategories, setExercises } from "../../../redux-store/LibrarySlice";
+import { setSelectedCategory } from "../../../redux-store/LogsSlice";
+import { Category } from "../../../types/types";
 import { Exercises } from "../Exercises/Exercises";
 
 interface ExerciseCategoriesProps {
@@ -28,15 +30,16 @@ export const ExerciseCategories: React.FC<ExerciseCategoriesProps> = ({ source, 
         categoriesFetch();
     }, []);
 
-    const handleGetExercises = async (category_id: number) => {
-        const exercisesFetch = await getExercises(category_id);
+    const handleGetExercises = async (category: Category) => {
+        const exercisesFetch = await getExercises(category.id);
         if (exercisesFetch) {
             dispatch(setExercises(exercisesFetch));
         }
         if (source === "library") {
-           navigate(`/exercise-library/${category_id}`) 
+           navigate(`/exercise-library/${category.id}`) 
         } else if (source === 'logs' && handleShowExercises){
             handleShowExercises();
+            dispatch(setSelectedCategory(category.name))
         }
     }
 
@@ -46,13 +49,12 @@ export const ExerciseCategories: React.FC<ExerciseCategoriesProps> = ({ source, 
             <div className="flex flex-col items-center justify-around rounded-md w-1/2 space-y-2">
                {categories.map((category, index) => (
                 <button
-                    onClick={() => handleGetExercises(category.id)}
+                    onClick={() => handleGetExercises(category)}
                     key={index}
                     className="border-2 border-darkestPurple rounded-md hover:text-xl hover:font-semibold shadow-lg hover:bg-lightPurple text-lg p-2 w-full"
                 >{category.name}
                 </button>
             ))}
-    
             </div>
             
         </div>
