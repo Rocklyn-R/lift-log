@@ -4,6 +4,7 @@ import { Header } from "../../components/Header";
 import { setIsAuthenticated, setUserFirstName, setUserLastName, setUserEmail } from "../../redux-store/UserSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../../components/Button";
 
 export const SignUp = () => {
     const [firstName, setFirstName] = useState("");
@@ -42,7 +43,6 @@ export const SignUp = () => {
         } catch (error: any) {
             setErrorMessage("Failed to sign up");
         }
-        
     }
 
     return (
@@ -127,12 +127,13 @@ export const SignUp = () => {
                         </div>
                         {errorMessage && <p className="mt-6 text-red-800">{errorMessage}</p>}
                         {/* Submit Button */}
-                        <button
+                        <Button
+
                             type="submit"
-                            className="w-full bg-darkestPurple text-lightestPurple text-lg font-semibold p-3 rounded-md hover:bg-darkPurple focus:outline-none focus:ring-2 focus:ring-darkPurple"
+                            className="w-full text-lg font-semibold p-3 hover:bg-darkPurple focus:outline-none focus:ring-2 focus:ring-darkPurple"
                         >
                             Sign Up
-                        </button>
+                        </Button>
                     </form>
 
                 </div>

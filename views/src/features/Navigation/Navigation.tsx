@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectFirstName } from '../../redux-store/UserSlice';
+import { SignOut } from '../Authentication/SignOut';
 
 export const Navigation = () => {
   const [selectedTab, setSelectedTab] = useState('');
   const location = useLocation();  // Hook to get the current location (pathname)
+  const userFirstName = useSelector(selectFirstName);
 
   useEffect(() => {
       // Get the pathname from the current location
@@ -24,11 +28,19 @@ export const Navigation = () => {
   }, [location]);
 
 
+
   return (
     <div className="flex">
       {/* Sidebar */}
-      <nav className="w-64 bg-darkestPurple text-lightestPurple h-screen">
+      <nav className="flex flex-col justify-between w-64 bg-darkestPurple text-lightestPurple h-screen">
         <ul className="space-y-4 mt-4">
+        <li>
+            <p
+              className="block py-4 px-4 rounded font-semibold italic text-lightestPurple"
+            >
+              Welcome, {userFirstName}!
+            </p>
+          </li>
           <li>
             <Link
               to="/logs"
@@ -66,6 +78,7 @@ export const Navigation = () => {
             </Link>
           </li>
         </ul>
+        <SignOut />
       </nav>
     </div>
   );
