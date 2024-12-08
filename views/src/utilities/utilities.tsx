@@ -49,3 +49,17 @@ export const adjustDate = (direction: 'back' | 'forward', dateString: string): s
   
     return `${year}-${month}-${day}`;  // Return the date in 'YYYY-MM-DD' format
   };
+
+
+  export const formatNumber = (numberString: string) => {
+    // Convert the string to a number and back to string to remove trailing zeros
+    const num = parseFloat(numberString);
+    
+    // If the number is an integer, return it as an integer string
+    if (Number.isInteger(num)) {
+      return num.toString();
+    }
+  
+    // Otherwise, return the number as a string with no trailing zeros
+    return num.toString().replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+  }

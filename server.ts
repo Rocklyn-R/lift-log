@@ -6,6 +6,7 @@ import * as dotenv from 'dotenv';
 import exercisesRouter from './routes/exercises';
 import usersRouter from './routes/users';
 import { initializePassport } from './config/passport';
+import logsRouter from './routes/logs';
 
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
@@ -52,6 +53,7 @@ app.use(express.static(__dirname));
 
  app.use('/exercises', exercisesRouter);
  app.use('/user', usersRouter);
+ app.use('/logs', logsRouter);
 
  app.listen(PORT, () => {
     console.log(`Server running on port: ${PORT}`)

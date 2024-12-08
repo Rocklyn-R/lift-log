@@ -24,9 +24,11 @@ export interface Exercise {
     name: string,
     category_name: string,
     type_name: string,
+    sets: Set []
 }
 
-export interface SetList {
+export interface Set {
     weight: number,
-    reps: number
+    reps: number,
+    number: number
 }

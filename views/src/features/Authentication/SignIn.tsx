@@ -29,7 +29,7 @@ export const SignIn = () => {
         dispatch(setUserFirstName(response.user.first_name));
         dispatch(setUserLastName(response.user.last_name));
         dispatch(setUserEmail(response.user.email));
-
+        
       }
 
     } catch (error: any) {

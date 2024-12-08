@@ -32,3 +32,4 @@ export const exercisesGet = async (id: string) => {
       el.category = $1`;
     return queryExecutor(query, [id]);  // Pass the id as the parameter
 };
+

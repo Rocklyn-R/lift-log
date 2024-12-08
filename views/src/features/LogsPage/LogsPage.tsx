@@ -7,12 +7,13 @@ import { useDispatch } from "react-redux";
 import { FaPlus } from "react-icons/fa6";
 import { useState } from "react";
 import { OverlayWindow } from "../../components/OverlayWIndow";
-import { LogForm } from "./LogForm/LogForm";
+import { LogForm } from "./AddExercise/LogForm/LogForm";
 import { ExerciseCategories } from "../ExerciseLibrary/ExerciseCategories/ExerciseCategories";
 import { getExercises } from "../../api/exercises";
 import { setExercises } from "../../redux-store/LibrarySlice";
 import { Exercises } from "../ExerciseLibrary/Exercises/Exercises";
-import { SetData } from "./LogForm/SetData/SetData";
+import { SetData } from "./AddExercise/LogForm/SetData/SetData";
+import { AddExercise } from "./AddExercise/AddExercise";
 
 
 export const LogsPage = () => {
@@ -93,39 +94,9 @@ export const LogsPage = () => {
 
             </div>
             {showAddExercise && (
-                <OverlayWindow
-                    onClose={handleCloseOverlay}
-                    headerText={`Add Exercise ${showExercises
-                            ? `- ${selectedCategory}`
-                            : showLogForm
-                                ? `- ${selectedExercise?.name}`
-                                : ""
-                        }`}
-                    className="w-1/3"
-                >
-                    {showCategories && (
-                        <ExerciseCategories
-                            handleShowExercises={handleShowExercises}
-                            source="logs"
-                        />
-                    )}
-                    {showExercises && (
-                        <Exercises
-                            source="logs"
-                            handleShowCategories={handleShowCategories}
-                            handleSelectExercise={handleSelectExercise}
-                        />
-                    )}
-                    {showLogForm && (
-                        <>
-                            <LogForm
-                                handleNavigateBack={handleShowExercises}
-                            />
-                            <SetData />
-                        </>
-                    )}
-
-                </OverlayWindow>
+               <AddExercise 
+                 setShowAddExercise={setShowAddExercise}
+               />
             )}
         </div>
     )

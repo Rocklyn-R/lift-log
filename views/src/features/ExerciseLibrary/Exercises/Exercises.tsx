@@ -73,7 +73,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
                         <button
                             onClick={() => handleOpenExercise(exercise)}
                             key={index}
-                            className="border-2 border-darkestPurple rounded-md hover:text-xl hover:font-semibold shadow-lg hover:bg-lightPurple text-lg p-2 w-full"
+                            className="bg-gray-100 border-2 border-darkestPurple rounded-md hover:text-xl hover:font-semibold shadow-lg hover:bg-lightPurple text-lg p-2 w-full"
                         >
                             {exercise.name}
                         </button>
