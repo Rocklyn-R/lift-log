@@ -34,7 +34,7 @@ export const LogsSlice = createSlice({
             state.selectedSet = action.payload;
         },
         addExerciseToWorkout: (state, action: PayloadAction<any>) => {
-            const {date, exercise_id, exercise_name, set_number, exercise_order, weight, reps} = action.payload;
+            const {date, exercise_id, exercise_name, set_number, exercise_order, weight, reps, set_id} = action.payload;
             const index = state.workout.findIndex(exercise => exercise.exercise_id === action.payload.exercise_id);
             if (index === -1) {
              state.workout.push({
@@ -45,14 +45,16 @@ export const LogsSlice = createSlice({
                 sets: [ {
                     weight: weight,
                     reps: reps,
-                    set_number: set_number
+                    set_number: set_number,
+                    set_id: set_id
                 }]
               });
             } else {
                 state.workout[index].sets.push({
                     weight: weight,
                     reps: reps,
-                    set_number: set_number
+                    set_number: set_number,
+                    set_id: set_id
                 })
             }
         },

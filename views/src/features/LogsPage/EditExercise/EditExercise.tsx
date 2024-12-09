@@ -24,7 +24,9 @@ export const EditExercise: React.FC<EditExerciseProps> = ({setShowEditExercise})
         headerText={`${selectedExercise?.exercise_name}`}
         className="w-1/3"
         >
-            <LogForm />
+            <LogForm 
+                source="edit"
+            />
         </OverlayWindow>
     )
 }

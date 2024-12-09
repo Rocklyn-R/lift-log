@@ -19,6 +19,7 @@ export const Log: React.FC<LogProps> = ({ setShowEditExercise }) => {
         const fetchWorkoutData = async () => {
             const workoutFetchResults = await getLog(selectedDate);
             if (workoutFetchResults) {
+                console.log(workoutFetchResults);
                 const workoutArray = workoutFetchResults.reduce((acc: Workout[], set: any) => {
                     // Find if the exercise already exists in the workout array
                     const existingExercise = acc.find(workout => workout.exercise_id === set.exercise_id);
@@ -29,6 +30,7 @@ export const Log: React.FC<LogProps> = ({ setShowEditExercise }) => {
                             weight: set.weight,
                             reps: set.reps,
                             set_number: set.set_number,
+                            set_id: set.id
                         });
                     } else {
                         // If the exercise is not found, create a new Workout object
@@ -41,6 +43,7 @@ export const Log: React.FC<LogProps> = ({ setShowEditExercise }) => {
                                 weight: set.weight,
                                 reps: set.reps,
                                 set_number: set.set_number,
+                                set_id: set.id
                             }]
                         });
                     }
@@ -61,18 +64,16 @@ export const Log: React.FC<LogProps> = ({ setShowEditExercise }) => {
 
     return (
         <div className="space-y-4">
-            {workout.map(exercise => (
-                <div onClick={() => handleSelectExercise(exercise)} className="bg-gray-100 rounded-md shadow-xl hover:cursor-pointer hover:bg-lightPurple">
+            {workout.map((exercise, index) => (
+                <div key={index} onClick={() => handleSelectExercise(exercise)} className="bg-gray-100 rounded-md shadow-xl hover:cursor-pointer hover:bg-lightPurple">
                     <h3 className="p-2 border-b-2 border-lightPurple font-semibold text-lg">{exercise.exercise_name}</h3>
-                    {exercise.sets.map(set => (
-                        <div className="p-2 flex justify-end space-x-20">
+                    {exercise.sets.map((set, index) => (
+                        <div key={index} className="p-2 flex justify-end space-x-20">
                             <span>{set.set_number}</span>
-
                             <span>{formatNumber(set.weight)} kgs</span>
                             <span>{set.reps} reps</span>
                         </div>
                     ))}
-
                 </div>
             ))}
 

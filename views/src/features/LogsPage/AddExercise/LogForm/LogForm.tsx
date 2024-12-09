@@ -12,9 +12,10 @@ import { SetData } from "./SetData/SetData";
 
 interface LogFormProps {
     handleNavigateBack?: () => void;
+    source: "edit" | "add";
 }
 
-export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack }) => {
+export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack, source }) => {
     const selectedExercise = useSelector(selectSelectedExercise);
     const [weightInput, setWeightInput] = useState<string | null>(null);
     const [repsInput, setRepsInput] = useState<number | null>(null);
@@ -34,11 +35,12 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack }) => {
     useEffect(() => {
         if (selectedExercise) {
             const foundIndex = workout.findIndex(exercise => exercise.exercise_id === selectedExercise.exercise_id);
-            if (foundIndex) {
+            console.log(foundIndex);
+            if (foundIndex !== -1) {
                 const setIndex = workout[foundIndex].sets.length - 1;
                 const weightToSet = workout[foundIndex].sets[setIndex].weight;
                 setWeightInput(formatNumber(weightToSet));
-            } 
+            }
         }
     }, [selectedExercise, setWeightInput])
 
@@ -92,7 +94,9 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack }) => {
     }
 
     const handleSaveSet = async () => {
+        console.log(weightInput, repsInput);
         if (!weightInput && !repsInput) {
+            console.log("RUNIN")
             setErrorMessage('Please enter a value for this set');
             return;
         }
@@ -106,15 +110,15 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack }) => {
             const repsInputToAdd = repsInput ? repsInput : 0;
             const exercise_order = (findIndexOfExercise === -1) ? workout.length + 1 : workout[findIndexOfExercise].exercise_order;
             const addSetResult = await addSetToLog(selectedDate, selectedExercise.exercise_id, setNumber, weightInputToAdd, repsInputToAdd, exercise_order);
-            console.log(addSetResult);
             if (addSetResult) {
                 dispatch(addExerciseToWorkout(addSetResult));
+                dispatch(addToSetList({
+                    weight: savedWeight,
+                    reps: savedReps,
+                    set_number: setList.length + 1,
+                    set_id: addSetResult.id
+                }))
             }
-            dispatch(addToSetList({
-                weight: savedWeight,
-                reps: savedReps,
-                set_number: setList.length + 1
-            }))
         }
 
     }
@@ -126,14 +130,17 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack }) => {
     }
 
     return (
-        <div className="w-full flex justify-center items-center relative mt-4 flex-col overflow-y-auto">
-            {errorMessage && <p className="absolute -top-8 bg-lightPurple px-2 rounded-md text-darkestPurple">{errorMessage}</p>}
-            <button
-                onClick={handleNavigateBack}
-                className="absolute top-2 left-6"
-            >
-                <MdArrowBackIos className="text-3xl text-darkestPurple hover:text-darkPurple" />
-            </button>
+        <div className="w-full flex justify-center items-center relative pt-8 flex-col overflow-y-auto z-40">
+            {errorMessage && <p className="absolute top-0 z-50 bg-lightPurple px-2 rounded-md text-darkestPurple">{errorMessage}</p>}
+            {source === "add" && (
+                <button
+                    onClick={handleNavigateBack}
+                    className="absolute top-6 left-6"
+                >
+                    <MdArrowBackIos className="text-3xl text-darkestPurple hover:text-darkPurple" />
+                </button>
+            )}
+
             <form className="flex flex-col w-2/3 space-y-6">
                 <div className="px-2 space-y-2 flex flex-col">
                     <h4 className="border-b-2 border-darkPurple">Weight (kgs)</h4>

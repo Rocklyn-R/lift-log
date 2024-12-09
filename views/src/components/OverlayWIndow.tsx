@@ -29,7 +29,7 @@ export const OverlayWindow: React.FC<OverlayWindowProps> = ({
                         <IoCloseSharp className="text-xl" />
                     </button>
                 </div>
-                <div className="pt-4 flex flex-col max-h-[55vh] min-h-[55vh] overflow-y-auto">{children}</div>
+                <div className="flex flex-col max-h-[55vh] min-h-[55vh] overflow-y-auto z-20">{children}</div>
             </div>
         </div>
     );

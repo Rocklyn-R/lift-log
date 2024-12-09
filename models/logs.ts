@@ -66,3 +66,22 @@ ORDER BY
         throw error;
     }
 }
+
+export const logEdit = async (
+    user_id: number,
+    exercise_id: number,
+    set_number: number,
+    set_id: number
+) => {
+    const query = ``;
+    try {
+        const result = await db.query(query, [
+            user_id, exercise_id, set_number, set_id
+        ]);
+        return result.rows;
+    } catch (error) {
+        throw error;
+    }
+}
+
+ 

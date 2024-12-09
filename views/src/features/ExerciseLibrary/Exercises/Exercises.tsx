@@ -63,7 +63,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
             <button
                 onClick={() => handleNavigateBack()}
                 style={{ height: '0' }}
-                className="top-4 sticky ml-6"
+                className="top-6 sticky ml-6"
             ><MdArrowBackIos className="text-3xl text-darkestPurple hover:text-darkPurple" /></button>
             {/* Main Content with Flex for center alignment */}
             <div className="flex-grow flex justify-center my-4">

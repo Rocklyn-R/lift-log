@@ -26,10 +26,9 @@ export const SetData: React.FC<SetDataProps> = ({ setEditMode, setWeightInput, s
         setRepsInput(set.reps);
     }
 
-    console.log(setArray);
 
     return (
-        <div className="flex w-full overflow-y-auto flex-col my-2 px-2">
+        <div className="flex w-full overflow-y-auto flex-col mt-4 mb-2 px-2">
             {setArray.map((set, index) => (
                 <button onClick={() => handleSelectSet(set)} key={index} className={`${selectedSet?.set_number === index + 1 && 'bg-lightPurple'} flex w-full justify-around items-center text-darkestPurple py-2 border-b-2 border-lightPurple hover:bg-lightPurple`}>
                     <div className="text-mediumPurple"><MdOutlineMessage /></div>
