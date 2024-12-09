@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Exercise, Set } from "../types/types";
+import { SelectedExercise, Set, Exercise, Workout } from "../types/types";
 import { getTodayDate } from "../utilities/utilities";
 import { RootState } from "./store";
 
 export const LogsSlice = createSlice({
     name: "logs",
     initialState: {
-        workout: [] as Exercise[], 
+        workout: [] as Workout[], 
         selectedDate: getTodayDate(), // Currently selected date in the calendar
         selectedCategory: "" as string,
-        selectedExercise: {} as Exercise,
+        selectedExercise: {} as SelectedExercise,
         setList: [] as Set[],
         selectedSet: {} as Set,
         totalExercises: 0
@@ -33,14 +33,36 @@ export const LogsSlice = createSlice({
         setSelectedSet: (state, action) => {
             state.selectedSet = action.payload;
         },
-        addExerciseToWorkout: (state, action) => {
-            const index = state.workout.findIndex(exercise => exercise.id === action.payload.id);
+        addExerciseToWorkout: (state, action: PayloadAction<any>) => {
+            const {date, exercise_id, exercise_name, set_number, exercise_order, weight, reps} = action.payload;
+            const index = state.workout.findIndex(exercise => exercise.exercise_id === action.payload.exercise_id);
             if (index === -1) {
-              state.workout.push(action.payload);
+             state.workout.push({
+                date: date,
+                exercise_id: exercise_id,
+                exercise_name: exercise_name,
+                exercise_order: exercise_order,
+                sets: [ {
+                    weight: weight,
+                    reps: reps,
+                    set_number: set_number
+                }]
+              });
+            } else {
+                state.workout[index].sets.push({
+                    weight: weight,
+                    reps: reps,
+                    set_number: set_number
+                })
             }
+        },
+        setWorkout: (state, action) => {
+            state.workout = action.payload;
         }
+
     }
 })
+
 
 export const { 
     setSelectedDate,
@@ -48,7 +70,9 @@ export const {
     setSelectedExercise,
     addToSetList,
     setSetList,
-    setSelectedSet
+    setSelectedSet,
+    addExerciseToWorkout,
+    setWorkout
 } = LogsSlice.actions;
 
 export const selectSelectedDate = (state: RootState) => state.logs.selectedDate;
@@ -56,5 +80,6 @@ export const selectSelectedCategory = (state: RootState) => state.logs.selectedC
 export const selectSelectedExercise = (state: RootState) => state.logs.selectedExercise;
 export const selectSetList = (state: RootState) => state.logs.setList;
 export const selectSelectedSet = (state: RootState) => state.logs.selectedSet;
+export const selectWorkout = (state: RootState) => state.logs.workout;
 
 export default LogsSlice.reducer;

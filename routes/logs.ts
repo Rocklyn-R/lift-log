@@ -1,10 +1,10 @@
 import express from 'express';
-import { addToLog } from '../controllers/logs';
+import { addToLog, getLog } from '../controllers/logs';
 
 const logsRouter = express.Router();
 
 logsRouter.post('/add', addToLog);
 
-//logRouter.get('/exercises', getExercises);
+logsRouter.get('/', getLog);
 
 export default logsRouter;

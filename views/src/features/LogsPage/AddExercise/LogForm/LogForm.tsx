@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addSetToLog } from "../../../../api/logs";
 import { Button } from "../../../../components/Button";
-import { addToSetList, selectSelectedDate, selectSelectedExercise, selectSetList } from "../../../../redux-store/LogsSlice";
+import { addExerciseToWorkout, addToSetList, selectSelectedDate, selectSelectedExercise, selectSetList, selectWorkout } from "../../../../redux-store/LogsSlice";
 import { SetData } from "./SetData/SetData";
 
 interface LogFormProps {
@@ -28,6 +28,7 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack }) => {
     const setList = useSelector(selectSetList);
     const selectedDate = useSelector(selectSelectedDate);
     const selectedExercise = useSelector(selectSelectedExercise);
+    const workout = useSelector(selectWorkout);
 
     const handleDecrementWeight = () => {
         if (weightInputLength >= 7 && !weightInput?.includes('.')) {
@@ -85,23 +86,24 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack }) => {
         }
         setErrorMessage(null);
         const savedReps = repsInput !== null ? repsInput : 0;
-        const savedWeight = weightInput !== null ? Number(weightInput) : 0;
-       /* date: string,
-    exercise_id: number,
-    set_number: number,
-    weight: number,
-    reps: number*/
-        const setNumber = setList.length + 1;
+        const savedWeight = weightInput !== null ? weightInput : '0';
+        const findIndexOfExercise = workout.findIndex(exercise => exercise.exercise_id === selectedExercise.id);
+        const setNumber = (findIndexOfExercise === -1) ? 1 : workout[findIndexOfExercise].sets.length + 1;
         const weightInputToAdd = weightInput ? Number(weightInput) : 0;
         const repsInputToAdd = repsInput ? repsInput : 0;
-        const addSetResult = await addSetToLog(selectedDate, selectedExercise.id, setNumber, weightInputToAdd, repsInputToAdd);
+        const exercise_order = (findIndexOfExercise === -1) ? workout.length + 1 : workout[findIndexOfExercise].exercise_order;
+        const addSetResult = await addSetToLog(selectedDate, selectedExercise.id, setNumber, weightInputToAdd, repsInputToAdd, exercise_order);
         console.log(addSetResult);
+        if (addSetResult) {
+            dispatch(addExerciseToWorkout(addSetResult));
+        }
         dispatch(addToSetList({
             weight: savedWeight,
             reps: savedReps,
-            number: setList.length + 1
+            set_number: setList.length + 1
         }))
     }
+
 
     const handleClear = () => {
         setWeightInput(null);

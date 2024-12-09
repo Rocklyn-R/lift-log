@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { selectSelectedCategory, selectSelectedDate, selectSelectedExercise, setSelectedDate } from "../../redux-store/LogsSlice";
+import { selectSelectedCategory, selectSelectedDate, selectSelectedExercise, selectWorkout, setSelectedDate } from "../../redux-store/LogsSlice";
 import { MdArrowBackIos } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
 import { adjustDate, formatDate } from "../../utilities/utilities";
@@ -14,6 +14,7 @@ import { setExercises } from "../../redux-store/LibrarySlice";
 import { Exercises } from "../ExerciseLibrary/Exercises/Exercises";
 import { SetData } from "./AddExercise/LogForm/SetData/SetData";
 import { AddExercise } from "./AddExercise/AddExercise";
+import { Log } from "./Log/Log";
 
 
 export const LogsPage = () => {
@@ -21,6 +22,7 @@ export const LogsPage = () => {
     const dispatch = useDispatch();
     const selectedCategory = useSelector(selectSelectedCategory);
     const selectedExercise = useSelector(selectSelectedExercise);
+    const workout = useSelector(selectWorkout);
 
     const handleAdjustDate = (direction: 'back' | 'forward') => {
         const newDate = adjustDate(direction, selectedDate);
@@ -28,43 +30,12 @@ export const LogsPage = () => {
     }
 
     const [showAddExercise, setShowAddExercise] = useState(false);
-    const [showCategories, setShowCategories] = useState(true);
-    const [showExercises, setShowExercises] = useState(false);
-    const [showLogForm, setShowLogForm] = useState(false);
 
-    /*  const handleAddToLog = () => {
-          setShowAddExercise(true);
-          setShowCategories(true);
-      }*/
 
-    const handleShowExercises = () => {
-        setShowExercises(true);
-        setShowCategories(false);
-        setShowLogForm(false);
-    }
-
-    const handleShowCategories = () => {
-        setShowExercises(false);
-        setShowCategories(true);
-    }
-
-    const handleSelectExercise = () => {
-        setShowExercises(false);
-        setShowCategories(false);
-        setShowLogForm(true);
-    }
-
-    const handleCloseOverlay = () => {
-        setShowAddExercise(false);
-        setShowExercises(false);
-        setShowCategories(true);
-        setShowLogForm(false);
-        dispatch(setExercises([]));
-    }
 
     return (
         <div className="w-full flex justify-center">
-            <div className="w-full flex flex-col items-center justify-between h-screen">
+            <div className="w-full flex flex-col items-center  h-screen">
                 <div className="w-full py-5 px-52 bg-darkestPurple flex justify-between items-center">
                     <button
                         onClick={() => handleAdjustDate('back')}
@@ -84,19 +55,26 @@ export const LogsPage = () => {
                         <MdArrowForwardIos />
                     </button>
                 </div>
-                <div className="mb-10">
+
+                <div className="flex flex-col w-1/3 space-y-4 mt-4">
+               
+                 <Log />
+                 
+
+                </div>
+                <div className="mb-10 mt-auto">
                     <button
                         onClick={() => setShowAddExercise(true)}
-                        className="bg-darkestPurple p-3 rounded-full text-lightestPurple text-2xl hover:bg-darkPurple">
+                        className="bg-darkestPurple p-3 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
                         <FaPlus />
                     </button>
                 </div>
 
             </div>
             {showAddExercise && (
-               <AddExercise 
-                 setShowAddExercise={setShowAddExercise}
-               />
+                <AddExercise
+                    setShowAddExercise={setShowAddExercise}
+                />
             )}
         </div>
     )
