@@ -75,14 +75,14 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
                             key={index}
                             className="bg-gray-100 border-2 border-darkestPurple rounded-md hover:text-xl hover:font-semibold shadow-lg hover:bg-lightPurple text-lg p-2 w-full"
                         >
-                            {exercise.name}
+                            {exercise.exercise_name}
                         </button>
                     ))}
                 </div>
             </div>
             {selectedExercise && (source=== "library") && (
                 <OverlayWindow
-                    headerText={selectedExercise.name}
+                    headerText={selectedExercise.exercise_name}
                     onClose={handleCloseExervise}
                     className="w-1/3"
                 >

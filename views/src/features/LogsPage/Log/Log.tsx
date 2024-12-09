@@ -2,11 +2,15 @@ import { useEffect } from "react"
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
 import { getLog } from "../../../api/logs";
-import { setWorkout, selectSelectedDate, selectWorkout } from "../../../redux-store/LogsSlice"
-import { Workout } from "../../../types/types";
+import { setWorkout, selectSelectedDate, selectWorkout, setSelectedExercise } from "../../../redux-store/LogsSlice"
+import { Exercise, Workout } from "../../../types/types";
 import { formatNumber } from "../../../utilities/utilities";
 
-export const Log = () => {
+interface LogProps {
+    setShowEditExercise: (arg0: boolean) => void;
+}
+
+export const Log: React.FC<LogProps> = ({ setShowEditExercise }) => {
     const selectedDate = useSelector(selectSelectedDate);
     const dispatch = useDispatch();
     const workout = useSelector(selectWorkout);
@@ -48,17 +52,22 @@ export const Log = () => {
             }
         };
         fetchWorkoutData();
-    }, [selectedDate, dispatch])
+    }, [selectedDate, dispatch]);
+
+    const handleSelectExercise = (exercise: Workout) => {
+        dispatch(setSelectedExercise(exercise));
+        setShowEditExercise(true);
+    }
 
     return (
         <div className="space-y-4">
             {workout.map(exercise => (
-                <div className="bg-gray-100 rounded-md shadow-xl hover:cursor-pointer hover:bg-lightPurple">
+                <div onClick={() => handleSelectExercise(exercise)} className="bg-gray-100 rounded-md shadow-xl hover:cursor-pointer hover:bg-lightPurple">
                     <h3 className="p-2 border-b-2 border-lightPurple font-semibold text-lg">{exercise.exercise_name}</h3>
                     {exercise.sets.map(set => (
                         <div className="p-2 flex justify-end space-x-20">
                             <span>{set.set_number}</span>
-                         
+
                             <span>{formatNumber(set.weight)} kgs</span>
                             <span>{set.reps} reps</span>
                         </div>

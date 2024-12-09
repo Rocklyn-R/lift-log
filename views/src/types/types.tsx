@@ -1,6 +1,6 @@
 export interface Exercise {
-    id: number;
-    name: string;
+    exercise_id: number;
+    exercise_name: string;
 }
 
 /*export interface Workout {
@@ -13,9 +13,10 @@ export interface Category {
     name: string
 }
 
+
 export interface SelectedExercise {
-    id: number,
-    name: string,
+    exercise_id: number,
+    exercise_name: string,
     category_name: string,
     type_name: string,
 }

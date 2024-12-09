@@ -45,9 +45,9 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
         setShowLogForm(false);
         dispatch(setExercises([]));
         dispatch(setSelectedCategory(""));
-        dispatch(setSelectedExercise({}));
+        dispatch(setSelectedExercise(null));
         dispatch(setSetList([]));
-        dispatch(setSelectedSet({}));
+        dispatch(setSelectedSet(null));
     }
     return (
         <OverlayWindow
@@ -55,7 +55,7 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
             headerText={`Add Exercise ${showExercises
                 ? `- ${selectedCategory}`
                 : showLogForm
-                    ? `- ${selectedExercise?.name}`
+                    ? `- ${selectedExercise?.exercise_name}`
                     : ""
                 }`}
             className="w-1/3"

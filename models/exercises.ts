@@ -18,8 +18,8 @@ export const categoriesGet = async () => {
 export const exercisesGet = async (id: string) => {
     const query = `
     SELECT 
-      el.id, 
-      el.name, 
+      el.id as exercise_id, 
+      el.name as exercise_name, 
       ec.name AS category_name, 
       et.name AS type_name
     FROM 

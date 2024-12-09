@@ -17,19 +17,21 @@ export const SetData: React.FC<SetDataProps> = ({ setEditMode, setWeightInput, s
     const selectedSet = useSelector(selectSelectedSet);
     const selectedExercise = useSelector(selectSelectedExercise);
     const workout = useSelector(selectWorkout);
-    const setArray = workout.find(exercise => exercise.exercise_id === selectedExercise.id)?.sets ?? [];
+    const setArray = selectedExercise ? workout.find(exercise => exercise.exercise_id === selectedExercise.exercise_id)?.sets ?? [] : [];
 
     const handleSelectSet = (set: Set) => {
         dispatch(setSelectedSet(set))
         setEditMode(true);
-        setWeightInput(set.weight);
+        setWeightInput(formatNumber(set.weight));
         setRepsInput(set.reps);
     }
+
+    console.log(setArray);
 
     return (
         <div className="flex w-full overflow-y-auto flex-col my-2 px-2">
             {setArray.map((set, index) => (
-                <button onClick={() => handleSelectSet(set)} key={index} className={`${selectedSet.set_number === index + 1 && 'bg-lightPurple'} flex w-full justify-around items-center text-darkestPurple py-2 border-b-2 border-lightPurple hover:bg-lightPurple`}>
+                <button onClick={() => handleSelectSet(set)} key={index} className={`${selectedSet?.set_number === index + 1 && 'bg-lightPurple'} flex w-full justify-around items-center text-darkestPurple py-2 border-b-2 border-lightPurple hover:bg-lightPurple`}>
                     <div className="text-mediumPurple"><MdOutlineMessage /></div>
                     <p>{index + 1}</p>
                     <p>{formatNumber(set.weight)} kgs</p>

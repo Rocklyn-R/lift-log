@@ -9,9 +9,9 @@ export const LogsSlice = createSlice({
         workout: [] as Workout[], 
         selectedDate: getTodayDate(), // Currently selected date in the calendar
         selectedCategory: "" as string,
-        selectedExercise: {} as SelectedExercise,
+        selectedExercise: null as SelectedExercise | null,
         setList: [] as Set[],
-        selectedSet: {} as Set,
+        selectedSet: null as Set | null,
         totalExercises: 0
     },
     reducers: {

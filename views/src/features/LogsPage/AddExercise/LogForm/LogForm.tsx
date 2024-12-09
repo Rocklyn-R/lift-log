@@ -1,19 +1,21 @@
 import e from "express";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import { MdArrowBackIos } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addSetToLog } from "../../../../api/logs";
 import { Button } from "../../../../components/Button";
-import { addExerciseToWorkout, addToSetList, selectSelectedDate, selectSelectedExercise, selectSetList, selectWorkout } from "../../../../redux-store/LogsSlice";
+import { addExerciseToWorkout, addToSetList, selectSelectedDate, selectSelectedExercise, selectSetList, selectWorkout, setSelectedExercise } from "../../../../redux-store/LogsSlice";
+import { formatNumber } from "../../../../utilities/utilities";
 import { SetData } from "./SetData/SetData";
 
 interface LogFormProps {
-    handleNavigateBack: () => void;
+    handleNavigateBack?: () => void;
 }
 
 export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack }) => {
+    const selectedExercise = useSelector(selectSelectedExercise);
     const [weightInput, setWeightInput] = useState<string | null>(null);
     const [repsInput, setRepsInput] = useState<number | null>(null);
     const [isProgrammaticChange, setIsProgrammaticChange] = useState(false);
@@ -27,8 +29,18 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack }) => {
     const [editMode, setEditMode] = useState(false);
     const setList = useSelector(selectSetList);
     const selectedDate = useSelector(selectSelectedDate);
-    const selectedExercise = useSelector(selectSelectedExercise);
     const workout = useSelector(selectWorkout);
+
+    useEffect(() => {
+        if (selectedExercise) {
+            const foundIndex = workout.findIndex(exercise => exercise.exercise_id === selectedExercise.exercise_id);
+            if (foundIndex) {
+                const setIndex = workout[foundIndex].sets.length - 1;
+                const weightToSet = workout[foundIndex].sets[setIndex].weight;
+                setWeightInput(formatNumber(weightToSet));
+            } 
+        }
+    }, [selectedExercise, setWeightInput])
 
     const handleDecrementWeight = () => {
         if (weightInputLength >= 7 && !weightInput?.includes('.')) {
@@ -85,23 +97,26 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack }) => {
             return;
         }
         setErrorMessage(null);
-        const savedReps = repsInput !== null ? repsInput : 0;
-        const savedWeight = weightInput !== null ? weightInput : '0';
-        const findIndexOfExercise = workout.findIndex(exercise => exercise.exercise_id === selectedExercise.id);
-        const setNumber = (findIndexOfExercise === -1) ? 1 : workout[findIndexOfExercise].sets.length + 1;
-        const weightInputToAdd = weightInput ? Number(weightInput) : 0;
-        const repsInputToAdd = repsInput ? repsInput : 0;
-        const exercise_order = (findIndexOfExercise === -1) ? workout.length + 1 : workout[findIndexOfExercise].exercise_order;
-        const addSetResult = await addSetToLog(selectedDate, selectedExercise.id, setNumber, weightInputToAdd, repsInputToAdd, exercise_order);
-        console.log(addSetResult);
-        if (addSetResult) {
-            dispatch(addExerciseToWorkout(addSetResult));
+        if (selectedExercise) {
+            const savedReps = repsInput !== null ? repsInput : 0;
+            const savedWeight = weightInput !== null ? weightInput : '0';
+            const findIndexOfExercise = workout.findIndex(exercise => exercise.exercise_id === selectedExercise.exercise_id);
+            const setNumber = (findIndexOfExercise === -1) ? 1 : workout[findIndexOfExercise].sets.length + 1;
+            const weightInputToAdd = weightInput ? Number(weightInput) : 0;
+            const repsInputToAdd = repsInput ? repsInput : 0;
+            const exercise_order = (findIndexOfExercise === -1) ? workout.length + 1 : workout[findIndexOfExercise].exercise_order;
+            const addSetResult = await addSetToLog(selectedDate, selectedExercise.exercise_id, setNumber, weightInputToAdd, repsInputToAdd, exercise_order);
+            console.log(addSetResult);
+            if (addSetResult) {
+                dispatch(addExerciseToWorkout(addSetResult));
+            }
+            dispatch(addToSetList({
+                weight: savedWeight,
+                reps: savedReps,
+                set_number: setList.length + 1
+            }))
         }
-        dispatch(addToSetList({
-            weight: savedWeight,
-            reps: savedReps,
-            set_number: setList.length + 1
-        }))
+
     }
 
 
@@ -231,7 +246,7 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack }) => {
                     </div>
                 </div>
             </form>
-            <SetData 
+            <SetData
                 setEditMode={setEditMode}
                 setWeightInput={setWeightInput}
                 setRepsInput={setRepsInput}

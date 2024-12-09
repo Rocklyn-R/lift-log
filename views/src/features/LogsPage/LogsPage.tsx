@@ -15,6 +15,7 @@ import { Exercises } from "../ExerciseLibrary/Exercises/Exercises";
 import { SetData } from "./AddExercise/LogForm/SetData/SetData";
 import { AddExercise } from "./AddExercise/AddExercise";
 import { Log } from "./Log/Log";
+import { EditExercise } from "./EditExercise/EditExercise";
 
 
 export const LogsPage = () => {
@@ -30,12 +31,12 @@ export const LogsPage = () => {
     }
 
     const [showAddExercise, setShowAddExercise] = useState(false);
-
+    const [showEditExercise, setShowEditExercise] = useState(false);
 
 
     return (
-        <div className="w-full flex justify-center">
-            <div className="w-full flex flex-col items-center  h-screen">
+        <div className="w-full flex justify-center overflow-y-auto">
+            <div className="w-full relative flex flex-col items-center  h-screen">
                 <div className="w-full py-5 px-52 bg-darkestPurple flex justify-between items-center">
                     <button
                         onClick={() => handleAdjustDate('back')}
@@ -58,11 +59,13 @@ export const LogsPage = () => {
 
                 <div className="flex flex-col w-1/3 space-y-4 mt-4">
                
-                 <Log />
+                 <Log 
+                    setShowEditExercise={setShowEditExercise}
+                 />
                  
 
                 </div>
-                <div className="mb-10 mt-auto">
+                <div className="mb-10 bottom-2 sticky">
                     <button
                         onClick={() => setShowAddExercise(true)}
                         className="bg-darkestPurple p-3 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
@@ -74,6 +77,12 @@ export const LogsPage = () => {
             {showAddExercise && (
                 <AddExercise
                     setShowAddExercise={setShowAddExercise}
+                />
+            )}
+
+            {showEditExercise && (
+                <EditExercise 
+                    setShowEditExercise={setShowEditExercise}
                 />
             )}
         </div>
