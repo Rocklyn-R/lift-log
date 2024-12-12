@@ -12,7 +12,6 @@ export const addSetToLog = async (
     exercise_order: number
 ) => {
     try {
-        console.log(date, exercise_id, set_number, weight, reps, exercise_order);
         const response = await fetch(`${BASE_URL}/add`, {
             method: 'POST',
             headers: {
@@ -39,6 +38,60 @@ export const getLog = async (date: string) => {
         })
         const data = await response.json();
         return data.workout;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const editLog = async (
+    weight: number,
+    reps: number,
+    set_id: number
+) => {
+    try {
+        console.log(weight, reps, set_id);
+        const response = await fetch(`${BASE_URL}/edit`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({ weight, reps, set_id})
+        })
+        console.log(response)
+        return response.ok;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const deleteSet = async (set_id: number) => {
+    try {
+        const response = await fetch(`${BASE_URL}/delete`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({ set_id })
+        })
+        return response.ok;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updateSetNumber = async (set_id: number) => {
+    try {
+        const response = await fetch(`${BASE_URL}/edit-set-number`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({ set_id })
+        })
+        return response.ok;
     } catch (error) {
         console.log(error);
     }

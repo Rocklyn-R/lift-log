@@ -31,7 +31,7 @@ function App() {
       <div className="flex w-full h-screen bg-lightestPurple overflow-y-auto">
 
         {isAuthenticated && <Navigation />}
-        <div className="w-full h-screen">
+        <div className="w-full h-screen overflow-y-auto">
           <Routes>
             <Route
               path="/"

@@ -30,4 +30,6 @@ usersRouter.get('/logout', checkAuthenticated, (req, res) => {
 });
 
 
+
+
 export default usersRouter;

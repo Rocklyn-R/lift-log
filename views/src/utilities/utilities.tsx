@@ -54,12 +54,12 @@ export const adjustDate = (direction: 'back' | 'forward', dateString: string): s
   export const formatNumber = (numberString: string) => {
     // Convert the string to a number and back to string to remove trailing zeros
     const num = parseFloat(numberString);
-    
-    // If the number is an integer, return it as an integer string
+  
+    // If the number is an integer, return it as a string with ".0" appended
     if (Number.isInteger(num)) {
-      return num.toString();
+      return num.toFixed(1); // Adds ".0" to integers
     }
   
-    // Otherwise, return the number as a string with no trailing zeros
+    // Otherwise, remove trailing zeros after the decimal
     return num.toString().replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
   }

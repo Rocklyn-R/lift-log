@@ -34,4 +34,9 @@ export interface Set {
     reps: number,
     set_number: number,
     set_id: number
+    pr: boolean
+}
+
+export interface SelectedSet extends Set {
+    exercise_id: number
 }

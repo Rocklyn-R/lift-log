@@ -4,9 +4,9 @@ import { FaPlus, FaMinus } from "react-icons/fa6";
 import { MdArrowBackIos } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { addSetToLog } from "../../../../api/logs";
+import { addSetToLog, deleteSet, editLog, updateSetNumber } from "../../../../api/logs";
 import { Button } from "../../../../components/Button";
-import { addExerciseToWorkout, addToSetList, selectSelectedDate, selectSelectedExercise, selectSetList, selectWorkout, setSelectedExercise } from "../../../../redux-store/LogsSlice";
+import { addExerciseToWorkout, addToSetList, deleteSetUpdateSetNumbers, editSet, selectSelectedDate, selectSelectedExercise, selectSelectedSet, selectSetList, selectWorkout, setSelectedExercise, setSelectedSet } from "../../../../redux-store/LogsSlice";
 import { formatNumber } from "../../../../utilities/utilities";
 import { SetData } from "./SetData/SetData";
 
@@ -31,11 +31,11 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack, source }) 
     const setList = useSelector(selectSetList);
     const selectedDate = useSelector(selectSelectedDate);
     const workout = useSelector(selectWorkout);
+    const selectedSet = useSelector(selectSelectedSet);
 
     useEffect(() => {
         if (selectedExercise) {
             const foundIndex = workout.findIndex(exercise => exercise.exercise_id === selectedExercise.exercise_id);
-            console.log(foundIndex);
             if (foundIndex !== -1) {
                 const setIndex = workout[foundIndex].sets.length - 1;
                 const weightToSet = workout[foundIndex].sets[setIndex].weight;
@@ -111,22 +111,57 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack, source }) 
             const exercise_order = (findIndexOfExercise === -1) ? workout.length + 1 : workout[findIndexOfExercise].exercise_order;
             const addSetResult = await addSetToLog(selectedDate, selectedExercise.exercise_id, setNumber, weightInputToAdd, repsInputToAdd, exercise_order);
             if (addSetResult) {
+                console.log(addSetResult.PR);
                 dispatch(addExerciseToWorkout(addSetResult));
                 dispatch(addToSetList({
                     weight: savedWeight,
                     reps: savedReps,
                     set_number: setList.length + 1,
-                    set_id: addSetResult.id
+                    set_id: addSetResult.id,
+                    pr: addSetResult.PR
                 }))
             }
         }
 
     }
 
-
     const handleClear = () => {
         setWeightInput(null);
         setRepsInput(null);
+    }
+
+    const updateSet = async () => {
+        const weightInputToAdd = weightInput ? Number(weightInput) : 0;
+        const repsInputToAdd = repsInput ? repsInput : 0;
+        if (selectedSet) {
+            const updateResult = await editLog(weightInputToAdd, repsInputToAdd, selectedSet?.set_id);
+            if (updateResult) {
+                dispatch(editSet(selectedSet));
+                dispatch(setSelectedSet(null));
+            }
+        }
+    }
+
+    const handleDeleteSet = async () => {
+        if (selectedSet) {
+            const foundIndex = workout.findIndex(exercise => exercise.exercise_id === selectedSet.exercise_id);
+            const setIds = workout[foundIndex].sets
+            .filter(set => set.set_number > selectedSet.set_number) // Filter sets with set_number greater than selectedSet.set_number
+            .map(set => set.set_id);
+            console.log(setIds);
+    
+            setIds.forEach(async (set_id) => {
+              await updateSetNumber(set_id);
+               
+            })
+            const setDeletion = await deleteSet(selectedSet.set_id);
+
+            if (setDeletion) {
+                dispatch(deleteSetUpdateSetNumbers(selectedSet));
+                dispatch(setSelectedSet(null));
+            }
+        }
+
     }
 
     return (
@@ -216,14 +251,14 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack, source }) 
                         {editMode ? (
                             <>
                                 <Button
-                                    onClick={() => { }}
+                                    onClick={updateSet}
                                     type="button"
                                     className="flex-grow"
                                 >
                                     Update
                                 </Button>
                                 <Button
-                                    onClick={() => { }}
+                                    onClick={handleDeleteSet}
                                     type="button"
                                     className="flex-grow"
                                 >

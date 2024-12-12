@@ -1,17 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SelectedExercise, Set, Exercise, Workout } from "../types/types";
+import { SelectedExercise, Set, Exercise, Workout, SelectedSet } from "../types/types";
 import { getTodayDate } from "../utilities/utilities";
 import { RootState } from "./store";
 
 export const LogsSlice = createSlice({
     name: "logs",
     initialState: {
-        workout: [] as Workout[], 
+        workout: [] as Workout[],
         selectedDate: getTodayDate(), // Currently selected date in the calendar
         selectedCategory: "" as string,
         selectedExercise: null as SelectedExercise | null,
         setList: [] as Set[],
-        selectedSet: null as Set | null,
+        selectedSet: null as SelectedSet | null,
         totalExercises: 0
     },
     reducers: {
@@ -34,39 +34,76 @@ export const LogsSlice = createSlice({
             state.selectedSet = action.payload;
         },
         addExerciseToWorkout: (state, action: PayloadAction<any>) => {
-            const {date, exercise_id, exercise_name, set_number, exercise_order, weight, reps, set_id} = action.payload;
+            const {
+                date,
+                exercise_id,
+                exercise_name,
+                set_number,
+                exercise_order,
+                weight,
+                reps,
+                set_id,
+                PR
+            } = action.payload;
             const index = state.workout.findIndex(exercise => exercise.exercise_id === action.payload.exercise_id);
             if (index === -1) {
-             state.workout.push({
-                date: date,
-                exercise_id: exercise_id,
-                exercise_name: exercise_name,
-                exercise_order: exercise_order,
-                sets: [ {
-                    weight: weight,
-                    reps: reps,
-                    set_number: set_number,
-                    set_id: set_id
-                }]
-              });
+                state.workout.push({
+                    date: date,
+                    exercise_id: exercise_id,
+                    exercise_name: exercise_name,
+                    exercise_order: exercise_order,
+                    sets: [{
+                        weight: weight,
+                        reps: reps,
+                        set_number: set_number,
+                        set_id: set_id,
+                        pr: PR
+                    }]
+                });
             } else {
                 state.workout[index].sets.push({
                     weight: weight,
                     reps: reps,
                     set_number: set_number,
-                    set_id: set_id
+                    set_id: set_id,
+                    pr: PR
                 })
             }
         },
         setWorkout: (state, action) => {
             state.workout = action.payload;
+        },
+        editSet: (state, action) => {
+            const foundIndex = state.workout.findIndex(exercise => exercise.exercise_id === action.payload.exercise_id);
+            if (foundIndex !== -1) {
+                const foundSetIndex = state.workout[foundIndex].sets.findIndex(set => set.set_id === action.payload.set_id);
+                if (foundSetIndex !== -1) {
+                    state.workout[foundIndex].sets[foundSetIndex].reps = action.payload.reps;
+                    state.workout[foundIndex].sets[foundSetIndex].weight = action.payload.weight;
+                }
+            }
+        },
+        deleteSetUpdateSetNumbers: (state, action) => {
+
+            const foundIndex = state.workout.findIndex(exercise => exercise.exercise_id === action.payload.exercise_id);
+            if (foundIndex !== -1) {
+                state.workout[foundIndex].sets.forEach(set => {
+                    if (set.set_number > action.payload.set_number) {
+                        set.set_number -= 1; // Decrease the set_number by 1
+                    }
+                });
+            }
+            const setIndex = state.workout[foundIndex].sets.findIndex(set => set.set_id === action.payload.set_id);
+            if (setIndex !== -1) {
+                state.workout[foundIndex].sets.splice(setIndex, 1);
+            }
         }
 
     }
 })
 
 
-export const { 
+export const {
     setSelectedDate,
     setSelectedCategory,
     setSelectedExercise,
@@ -74,7 +111,9 @@ export const {
     setSetList,
     setSelectedSet,
     addExerciseToWorkout,
-    setWorkout
+    setWorkout,
+    editSet,
+    deleteSetUpdateSetNumbers
 } = LogsSlice.actions;
 
 export const selectSelectedDate = (state: RootState) => state.logs.selectedDate;

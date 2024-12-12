@@ -32,6 +32,7 @@ export const toLogAdd = async (
         ]);
         return result.rows[0];
     } catch (error) {
+        console.log(error);
         throw error;
     }
 }
@@ -68,18 +69,59 @@ ORDER BY
 }
 
 export const logEdit = async (
-    user_id: number,
-    exercise_id: number,
-    set_number: number,
-    set_id: number
+   weight: number,
+   reps: number,
+   set_id: number,
+   user_id: number
 ) => {
-    const query = ``;
+    const query = `UPDATE sets SET weight = $1, reps = $2
+    WHERE id = $3 AND user_id = $4`;
+    try {
+        console.log(weight);
+        const result = await db.query(query, [
+            weight, reps, set_id, user_id
+        ]);
+        //console.log(result);
+        return result;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+export const setDelete = async (
+    set_id: number,
+    user_id: number
+) => {
+    const query = `DELETE FROM sets WHERE id = $1 and user_id = $2`;
     try {
         const result = await db.query(query, [
-            user_id, exercise_id, set_number, set_id
+            set_id, user_id
         ]);
-        return result.rows;
+        console.log(result);
+        return result;
     } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+
+
+export const setNumberUpdate = async (
+    set_id: number,
+    user_id: number
+) => {
+    
+    const query = `UPDATE sets SET set_number = set_number - 1 WHERE id = $1 and user_id = $2;`;
+    try {
+        const result = await db.query(query, [
+            set_id, user_id
+        ]);
+        console.log(result);
+        return result;
+    } catch (error) {
+        console.log(error);
         throw error;
     }
 }

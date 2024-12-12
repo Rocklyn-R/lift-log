@@ -35,8 +35,8 @@ export const LogsPage = () => {
 
 
     return (
-        <div className="w-full flex justify-center overflow-y-auto">
-            <div className="w-full relative flex flex-col items-center  h-screen">
+        <div className="w-full flex justify-center overflow-y-auto min-h-screen">
+            <div className="w-full relative flex flex-col items-center min-h-screen">
                 <div className="w-full py-5 px-52 bg-darkestPurple flex justify-between items-center">
                     <button
                         onClick={() => handleAdjustDate('back')}
