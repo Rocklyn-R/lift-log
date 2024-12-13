@@ -9,9 +9,11 @@ import { selectIsAuthenticated, selectIsLoading } from './redux-store/UserSlice'
 import { SignUp } from './features/Authentication/SignUp';
 import { useUserFetch } from './hooks/useUserFetch';
 import { Loading } from './components/Loading';
+import { useLogsFetch } from './hooks/useLogsFetch';
 
 function App() {
   useUserFetch();
+  useLogsFetch();
   const isLoading = useSelector(selectIsLoading);
   const isAuthenticated = useSelector(selectIsAuthenticated);
 

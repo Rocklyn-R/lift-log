@@ -17,48 +17,7 @@ export const Log: React.FC<LogProps> = ({ setShowEditExercise }) => {
     const dispatch = useDispatch();
     const workout = useSelector(selectWorkout);
 
-    useEffect(() => {
-        const fetchWorkoutData = async () => {
-            const workoutFetchResults = await getLog(selectedDate);
-            if (workoutFetchResults) {
-                const workoutArray = workoutFetchResults.reduce((acc: Workout[], set: any) => {
-                    // Find if the exercise already exists in the workout array
-                    const existingExercise = acc.find(workout => workout.exercise_id === set.exercise_id);
 
-                    // If the exercise is found, push the new set to its sets array
-                    if (existingExercise) {
-                        existingExercise.sets.push({
-                            weight: set.weight,
-                            reps: set.reps,
-                            set_number: set.set_number,
-                            set_id: set.id,
-                            pr: set.PR
-                        });
-                    } else {
-                        // If the exercise is not found, create a new Workout object
-                        acc.push({
-                            date: set.date, // Add the date
-                            exercise_id: set.exercise_id,
-                            exercise_name: set.exercise_name, // Make sure the exercise_name is available in your data
-                            exercise_order: set.exercise_order, // You may need to map this based on your data
-                            sets: [{
-                                weight: set.weight,
-                                reps: set.reps,
-                                set_number: set.set_number,
-                                set_id: set.id,
-                                pr: set.PR
-                            }]
-                        });
-                    }
-
-                    return acc; // Return the updated accumulator (workout array)
-                }, [] as Workout[]); // Initialize the accumulator as an empty array of Workout objects
-
-                dispatch(setWorkout(workoutArray)); // Update the workout state
-            }
-        };
-        fetchWorkoutData();
-    }, [selectedDate, dispatch]);
 
     const handleSelectExercise = (exercise: Workout) => {
         dispatch(setSelectedExercise(exercise));

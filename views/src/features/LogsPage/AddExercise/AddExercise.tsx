@@ -1,11 +1,11 @@
 import { OverlayWindow } from "../../../components/OverlayWIndow";
 import { ExerciseCategories } from "../../ExerciseLibrary/ExerciseCategories/ExerciseCategories";
 import { Exercises } from "../../ExerciseLibrary/Exercises/Exercises";
-import { LogForm } from "./LogForm/LogForm";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setExercises } from "../../../redux-store/LibrarySlice";
-import { selectSelectedCategory, selectSelectedExercise, setSelectedCategory, setSelectedExercise, setSelectedSet, setSetList } from "../../../redux-store/LogsSlice";
+import { selectSelectedCategory, selectSelectedExercise, setExerciseHistory, setSelectedCategory, setSelectedExercise, setSelectedSet } from "../../../redux-store/LogsSlice";
+import { ViewExercise } from "./ViewExercise/ViewExercise";
 
 interface AddExerciseProps {
     setShowAddExercise: (arg1: boolean) => void;
@@ -45,17 +45,17 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
         dispatch(setExercises([]));
         dispatch(setSelectedCategory(""));
         dispatch(setSelectedExercise(null));
-        dispatch(setSetList([]));
         dispatch(setSelectedSet(null));
+        dispatch(setExerciseHistory([]));
     }
     return (
         <OverlayWindow
             onClose={handleCloseOverlay}
-            headerText={`Add Exercise ${showExercises
-                ? `- ${selectedCategory}`
+            headerText={`${showExercises
+                ? `All Exercises - ${selectedCategory}`
                 : showLogForm
-                    ? `- ${selectedExercise?.exercise_name}`
-                    : ""
+                    ? `${selectedExercise?.exercise_name}`
+                    : "All Exercises"
                 }`}
             className="w-1/3"
         >
@@ -74,8 +74,9 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
             )}
             {showLogForm && (
                 <>
-                    <LogForm
-                        source="add"
+                    <ViewExercise
+                        action="add"
+                        source="logs"
                         handleNavigateBack={handleShowExercises}
                     />
                 </>

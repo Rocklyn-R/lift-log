@@ -1,5 +1,5 @@
 import e, { Request, Response } from 'express';
-import { logEdit, logGet, setDelete, setNumberUpdate, toLogAdd } from '../models/logs';
+import { historyGet, logEdit, logGet, prsGet, setDelete, setNumberUpdate, toLogAdd } from '../models/logs';
 
 interface User {
     id: number
@@ -41,7 +41,7 @@ export const editLog = async (req: Request, res: Response) => {
     try {
         const result = await logEdit(weight, reps, set_id, user_id);
         if (result) {
-            res.status(201).json({ message: "Set successfully updated"})
+            res.status(201).json({ updatedSet: result })
         }
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' })
@@ -54,7 +54,7 @@ export const deleteSet = async (req: Request, res: Response) => {
     try {
         const result = await setDelete(set_id, user_id);
         if (result) {
-            res.status(201).json({ message: "Set successfully deleted"})
+            res.status(201).json({ setData: result })
         }
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' })
@@ -63,11 +63,41 @@ export const deleteSet = async (req: Request, res: Response) => {
 
 export const updateSetNumber = async (req: Request, res: Response) => {
     const user_id = (req.user as User).id;
-    const {set_id} = req.body
+    const {set_id} = req.body;
     try {
         const result = await setNumberUpdate(set_id, user_id);
         if (result) {
             res.status(201).json({ message: "Set number updated"})
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' })
+    }
+}
+
+export const getHistory = async (req: Request, res: Response) => {
+    const user_id = (req.user as User).id;
+    const exercise_id_string = req.query.exercise_id as string;
+    const exercise_id = Number(exercise_id_string);
+    try {
+        const result = await historyGet(user_id, exercise_id);
+        if (result) {
+            res.status(201).json({ history: result })
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' })
+    }
+}
+
+export const getPrs = async (req: Request, res: Response) => {
+    const user_id = (req.user as User).id;
+    const exercise_id_string = req.query.exercise_id as string;
+    const exercise_id = Number(exercise_id_string);
+    const date = req.query.date as string;
+
+    try {
+        const result = await prsGet(user_id, exercise_id, date);
+        if (result) {
+            res.status(201).json({ prData: result })
         }
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' })

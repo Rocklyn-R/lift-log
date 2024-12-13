@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react";
 import { FaPlus, FaMinus } from "react-icons/fa6";
-import { MdArrowBackIos } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { addSetToLog, deleteSet, editLog, updateSetNumber } from "../../../../api/logs";
-import { Button } from "../../../../components/Button";
-import { 
-    addExerciseToWorkout, 
-    addToSetList, 
-    deleteSetUpdateSetNumbers, 
-    editSet, 
-    selectSelectedDate, 
-    selectSelectedExercise, 
-    selectSelectedSet, 
-    selectSetList, 
-    selectWorkout, 
-    setSelectedSet } from "../../../../redux-store/LogsSlice";
-import { formatNumber } from "../../../../utilities/utilities";
+import { addSetToLog, deleteSet, editLog, getUpdatedPrs, updateSetNumber } from "../../../../../api/logs";
+import { Button } from "../../../../../components/Button";
+import {
+    addExerciseToWorkout,
+    deleteSetUpdateSetNumbers,
+    editSet,
+    selectSelectedDate,
+    selectSelectedExercise,
+    selectSelectedSet,
+    selectWorkout,
+    setSelectedSet,
+    updatePr
+} from "../../../../../redux-store/LogsSlice";
+import { formatNumber } from "../../../../../utilities/utilities";
 import { SetData } from "./SetData/SetData";
 
 interface LogFormProps {
@@ -37,10 +36,17 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack, source }) 
     const dispatch = useDispatch();
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [editMode, setEditMode] = useState(false);
-    const setList = useSelector(selectSetList);
     const selectedDate = useSelector(selectSelectedDate);
     const workout = useSelector(selectWorkout);
     const selectedSet = useSelector(selectSelectedSet);
+
+    useEffect(() => {
+        if (errorMessage) {
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 1500)
+        }
+    }, [errorMessage])
 
     useEffect(() => {
         if (selectedExercise) {
@@ -105,14 +111,11 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack, source }) 
     const handleSaveSet = async () => {
         console.log(weightInput, repsInput);
         if (!weightInput && !repsInput) {
-            console.log("RUNIN")
             setErrorMessage('Please enter a value for this set');
             return;
         }
         setErrorMessage(null);
         if (selectedExercise) {
-            const savedReps = repsInput !== null ? repsInput : 0;
-            const savedWeight = weightInput !== null ? weightInput : '0';
             const findIndexOfExercise = workout.findIndex(exercise => exercise.exercise_id === selectedExercise.exercise_id);
             const setNumber = (findIndexOfExercise === -1) ? 1 : workout[findIndexOfExercise].sets.length + 1;
             const weightInputToAdd = weightInput ? Number(weightInput) : 0;
@@ -120,15 +123,11 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack, source }) 
             const exercise_order = (findIndexOfExercise === -1) ? workout.length + 1 : workout[findIndexOfExercise].exercise_order;
             const addSetResult = await addSetToLog(selectedDate, selectedExercise.exercise_id, setNumber, weightInputToAdd, repsInputToAdd, exercise_order);
             if (addSetResult) {
-                console.log(addSetResult.PR);
                 dispatch(addExerciseToWorkout(addSetResult));
-                dispatch(addToSetList({
-                    weight: savedWeight,
-                    reps: savedReps,
-                    set_number: setList.length + 1,
-                    set_id: addSetResult.id,
-                    pr: addSetResult.PR
-                }))
+                const newPRData = await getUpdatedPrs(selectedExercise.exercise_id, selectedDate);
+                newPRData.forEach((set: any) => {
+                    dispatch(updatePr(set))
+                })
             }
         }
 
@@ -140,50 +139,56 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack, source }) 
     }
 
     const updateSet = async () => {
-        const weightInputToAdd = weightInput ? Number(weightInput) : 0;
-        const repsInputToAdd = repsInput ? repsInput : 0;
-        if (selectedSet) {
-            const updateResult = await editLog(weightInputToAdd, repsInputToAdd, selectedSet?.set_id);
-            if (updateResult) {
-                dispatch(editSet(selectedSet));
-                dispatch(setSelectedSet(null));
+        if (selectedExercise) {
+            const weightInputToAdd = weightInput ? Number(weightInput) : 0;
+            const repsInputToAdd = repsInput ? repsInput : 0;
+            if (selectedSet) {
+                const updateResult = await editLog(weightInputToAdd, repsInputToAdd, selectedSet?.set_id);
+                if (updateResult) {
+                    console.log(updateResult);
+                    const newPRData = await getUpdatedPrs(selectedExercise.exercise_id, selectedDate);
+                    newPRData.forEach((set: any) => {
+                        dispatch(updatePr(set))
+                    })
+                    dispatch(editSet(updateResult));
+                    dispatch(setSelectedSet(null));
+                }
             }
+            setEditMode(false);
         }
+
     }
 
     const handleDeleteSet = async () => {
-        if (selectedSet) {
+        if (selectedSet && selectedExercise) {
             const foundIndex = workout.findIndex(exercise => exercise.exercise_id === selectedSet.exercise_id);
             const setIds = workout[foundIndex].sets
-            .filter(set => set.set_number > selectedSet.set_number) // Filter sets with set_number greater than selectedSet.set_number
-            .map(set => set.set_id);
+                .filter(set => set.set_number > selectedSet.set_number) // Filter sets with set_number greater than selectedSet.set_number
+                .map(set => set.set_id);
             console.log(setIds);
-    
+
             setIds.forEach(async (set_id) => {
-              await updateSetNumber(set_id);
-               
+                await updateSetNumber(set_id);
+
             })
             const setDeletion = await deleteSet(selectedSet.set_id);
 
             if (setDeletion) {
+                const newPRData = await getUpdatedPrs(selectedExercise.exercise_id, selectedDate);
+                newPRData.forEach((set: any) => {
+                    dispatch(updatePr(set))
+                })
                 dispatch(deleteSetUpdateSetNumbers(selectedSet));
                 dispatch(setSelectedSet(null));
             }
         }
-
+        setEditMode(false);
     }
 
     return (
-        <div className="w-full flex justify-center items-center relative pt-8 flex-col overflow-y-auto z-40">
-            {errorMessage && <p className="absolute top-0 z-50 bg-lightPurple px-2 rounded-md text-darkestPurple">{errorMessage}</p>}
-            {source === "add" && (
-                <button
-                    onClick={handleNavigateBack}
-                    className="absolute top-6 left-6"
-                >
-                    <MdArrowBackIos className="text-3xl text-darkestPurple hover:text-darkPurple" />
-                </button>
-            )}
+        <div className="w-full flex justify-center items-center relative pt-4 flex-col overflow-y-auto z-40">
+            {errorMessage && <p className="absolute top-0 z-50 bg-lightPurple px-2 rounded-md text-darkestPurple text-sm">{errorMessage}</p>}
+
 
             <form className="flex flex-col w-2/3 space-y-6">
                 <div className="px-2 space-y-2 flex flex-col">
@@ -293,7 +298,6 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack, source }) 
                                 </Button>
                             </>
                         )}
-
                     </div>
                 </div>
             </form>

@@ -58,8 +58,8 @@ export const editLog = async (
             credentials: "include",
             body: JSON.stringify({ weight, reps, set_id})
         })
-        console.log(response)
-        return response.ok;
+        const data = await response.json();
+        return data.updatedSet;
     } catch (error) {
         console.log(error);
     }
@@ -92,6 +92,38 @@ export const updateSetNumber = async (set_id: number) => {
             body: JSON.stringify({ set_id })
         })
         return response.ok;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getExerciseHistory = async (exercise_id: number) => {
+    try {
+        const response = await fetch(`${BASE_URL}/history?exercise_id=${exercise_id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include"
+        })
+        const data = await response.json();
+        return data.history;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getUpdatedPrs = async (exercise_id: number, date: string) => {
+    try {
+        const response = await fetch(`${BASE_URL}/prs?exercise_id=${exercise_id}&date=${date}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include"
+        })
+        const data = await response.json();
+        return data.prData;
     } catch (error) {
         console.log(error);
     }

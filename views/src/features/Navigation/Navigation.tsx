@@ -4,11 +4,15 @@ import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectFirstName } from '../../redux-store/UserSlice';
 import { SignOut } from '../Authentication/SignOut';
+import { useDispatch } from 'react-redux';
+import { setSelectedDate } from '../../redux-store/LogsSlice';
+import { getTodayDate } from '../../utilities/utilities';
 
 export const Navigation = () => {
   const [selectedTab, setSelectedTab] = useState('');
   const location = useLocation();  // Hook to get the current location (pathname)
   const userFirstName = useSelector(selectFirstName);
+  const dispatch = useDispatch();
 
   useEffect(() => {
       // Get the pathname from the current location
@@ -54,7 +58,10 @@ export const Navigation = () => {
             <Link
               to="/exercise-library"
               className={`${selectedTab === 'Exercises' ? 'bg-darkPurple' : ''} block py-4 px-4 hover:bg-darkPurple rounded`}
-              onClick={() => setSelectedTab('Exercises')}
+              onClick={() => {
+                setSelectedTab('Exercises')
+                dispatch(setSelectedDate(getTodayDate()))
+              }}
             >
               Exercise Library
             </Link>
@@ -63,7 +70,10 @@ export const Navigation = () => {
             <Link
               to="/rest-timer"
               className={`${selectedTab === 'Timer' ? 'bg-darkPurple' : ''} block py-4 px-4 hover:bg-darkPurple rounded`}
-              onClick={() => setSelectedTab('Timer')}
+              onClick={() => {
+                setSelectedTab('Timer')
+                dispatch(setSelectedDate(getTodayDate()))
+              }}
             >
               Rest Timer
             </Link>
@@ -72,7 +82,10 @@ export const Navigation = () => {
             <Link
               to="/settings"
               className={`${selectedTab === 'Settings' ? 'bg-darkPurple' : ''} block py-4 px-4 hover:bg-darkPurple rounded`}
-              onClick={() => setSelectedTab('Settings')}
+              onClick={() => {
+                setSelectedTab('Settings');
+                dispatch(setSelectedDate(getTodayDate()))
+              }}
             >
               Settings
             </Link>

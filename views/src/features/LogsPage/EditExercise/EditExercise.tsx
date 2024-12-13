@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { OverlayWindow } from "../../../components/OverlayWIndow";
 import { selectSelectedExercise, setSelectedExercise, setSelectedSet } from "../../../redux-store/LogsSlice";
-import { LogForm } from "../AddExercise/LogForm/LogForm";
+import { ViewExercise } from "../AddExercise/ViewExercise/ViewExercise";
 
 interface EditExerciseProps {
     setShowEditExercise: (arg0: boolean) => void;
@@ -24,8 +24,9 @@ export const EditExercise: React.FC<EditExerciseProps> = ({setShowEditExercise})
         headerText={`${selectedExercise?.exercise_name}`}
         className="w-1/3"
         >
-            <LogForm 
-                source="edit"
+            <ViewExercise 
+                source="logs"
+                action="edit"
             />
         </OverlayWindow>
     )

@@ -37,6 +37,7 @@ export interface Set {
     pr: boolean
 }
 
+
 export interface SelectedSet extends Set {
     exercise_id: number
 }

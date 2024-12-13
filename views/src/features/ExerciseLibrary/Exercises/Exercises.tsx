@@ -3,12 +3,12 @@ import { selectExercises, setExercises } from "../../../redux-store/LibrarySlice
 import { MdArrowBackIos } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { ViewExercise } from "../ViewExercise/ViewExercise";
 import { OverlayWindow } from "../../../components/OverlayWIndow";
 import { Exercise } from "../../../types/types";
 import { getExercises } from "../../../api/exercises";
 import { useDispatch } from "react-redux";
 import { selectSelectedExercise, setSelectedExercise } from "../../../redux-store/LogsSlice";
+import { ViewExercise } from "../../LogsPage/AddExercise/ViewExercise/ViewExercise";
 
 interface ExercisesProps {
     source: "logs" | "library",
@@ -85,9 +85,10 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
                     onClose={handleCloseExervise}
                     className="w-1/3"
                 >
-                    <ViewExercise
-                        exercise={selectedExercise}
-                    />
+                  <ViewExercise 
+                     action="add"
+                     source="library"
+                  />
                 </OverlayWindow>
 
             )}

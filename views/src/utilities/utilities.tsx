@@ -63,3 +63,30 @@ export const adjustDate = (direction: 'back' | 'forward', dateString: string): s
     // Otherwise, remove trailing zeros after the decimal
     return num.toString().replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
   }
+
+  export const formatDateForHistory = (dateString: string): string => {
+    const date = new Date(dateString);
+    
+    // Get the current year
+    const currentYear = new Date().getFullYear();
+
+    // Day of the week (e.g., "Friday")
+    const dayOfWeek = date.toLocaleString('en-US', { weekday: 'long' });
+
+    // Month (e.g., "December")
+    const month = date.toLocaleString('en-US', { month: 'long' });
+
+    // Day of the month (e.g., 13)
+    const day = date.getDate();
+
+    // Format the date with the suffix
+    const formattedDate = `${dayOfWeek}, ${month} ${day}`;
+
+    // If the year is not the current year, add it to the string
+    const year = date.getFullYear();
+    if (year !== currentYear) {
+        return `${formattedDate}, ${year}`;
+    }
+
+    return formattedDate;
+}

@@ -10,9 +10,9 @@ export const LogsSlice = createSlice({
         selectedDate: getTodayDate(), // Currently selected date in the calendar
         selectedCategory: "" as string,
         selectedExercise: null as SelectedExercise | null,
-        setList: [] as Set[],
         selectedSet: null as SelectedSet | null,
-        totalExercises: 0
+        totalExercises: 0,
+        exerciseHistory: [] as Workout[]
     },
     reducers: {
         setSelectedDate: (state, action) => {
@@ -23,12 +23,6 @@ export const LogsSlice = createSlice({
         },
         setSelectedExercise: (state, action) => {
             state.selectedExercise = action.payload;
-        },
-        addToSetList: (state, action: PayloadAction<Set>) => {
-            state.setList.push(action.payload);
-        },
-        setSetList: (state, action) => {
-            state.setList = action.payload;
         },
         setSelectedSet: (state, action) => {
             state.selectedSet = action.payload;
@@ -74,9 +68,10 @@ export const LogsSlice = createSlice({
             state.workout = action.payload;
         },
         editSet: (state, action) => {
+            console.log(action.payload);
             const foundIndex = state.workout.findIndex(exercise => exercise.exercise_id === action.payload.exercise_id);
             if (foundIndex !== -1) {
-                const foundSetIndex = state.workout[foundIndex].sets.findIndex(set => set.set_id === action.payload.set_id);
+                const foundSetIndex = state.workout[foundIndex].sets.findIndex(set => set.set_id === action.payload.id);
                 if (foundSetIndex !== -1) {
                     state.workout[foundIndex].sets[foundSetIndex].reps = action.payload.reps;
                     state.workout[foundIndex].sets[foundSetIndex].weight = action.payload.weight;
@@ -97,6 +92,21 @@ export const LogsSlice = createSlice({
             if (setIndex !== -1) {
                 state.workout[foundIndex].sets.splice(setIndex, 1);
             }
+        },
+        setExerciseHistory: (state, action) => {
+            state.exerciseHistory = action.payload;
+        },
+        updatePr: (state, action) => {
+            const {
+                PR
+            } = action.payload;
+            const foundExerciseIndex = state.workout.findIndex(exercise => exercise.exercise_id === action.payload.exercise_id);
+            if (foundExerciseIndex !== -1) {
+                const foundSetIndex = state.workout[foundExerciseIndex].sets.findIndex(set => set.set_id === action.payload.set_id);
+                if (foundSetIndex !== -1) {
+                    state.workout[foundExerciseIndex].sets[foundSetIndex].pr = PR;
+                }
+            }
         }
 
     }
@@ -107,20 +117,21 @@ export const {
     setSelectedDate,
     setSelectedCategory,
     setSelectedExercise,
-    addToSetList,
-    setSetList,
+
     setSelectedSet,
     addExerciseToWorkout,
     setWorkout,
     editSet,
-    deleteSetUpdateSetNumbers
+    deleteSetUpdateSetNumbers,
+    setExerciseHistory,
+    updatePr
 } = LogsSlice.actions;
 
 export const selectSelectedDate = (state: RootState) => state.logs.selectedDate;
 export const selectSelectedCategory = (state: RootState) => state.logs.selectedCategory;
 export const selectSelectedExercise = (state: RootState) => state.logs.selectedExercise;
-export const selectSetList = (state: RootState) => state.logs.setList;
 export const selectSelectedSet = (state: RootState) => state.logs.selectedSet;
 export const selectWorkout = (state: RootState) => state.logs.workout;
+export const selectHistory = (state: RootState) => state.logs.exerciseHistory;
 
 export default LogsSlice.reducer;

@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux"
-import { selectSelectedExercise, selectSelectedSet, selectWorkout, setSelectedSet } from "../../../../../redux-store/LogsSlice";
+import { selectSelectedExercise, selectSelectedSet, selectWorkout, setSelectedSet } from "../../../../../../redux-store/LogsSlice";
 import { MdOutlineMessage } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { Set } from "../../../../../types/types";
-import { formatNumber } from "../../../../../utilities/utilities";
+import { Set } from "../../../../../../types/types";
+import { formatNumber } from "../../../../../../utilities/utilities";
+import { FaTrophy } from "react-icons/fa6";
 
 interface SetDataProps {
     setEditMode: (arg0: boolean) => void;
@@ -37,12 +38,13 @@ export const SetData: React.FC<SetDataProps> = ({ setEditMode, setWeightInput, s
                     key={index} 
                     className={`${selectedSet?.set_number === set.set_number && 'bg-lightPurple'} flex w-full justify-center items-center text-darkestPurple py-2 border-b-2 border-lightPurple hover:bg-lightPurple`}
                 >
-                    <div className="text-mediumPurple w-1/12 flex justify-start items-center">
+                    <div className="text-mediumPurple grid grid-cols-3 gap-4 items-center">
                         <MdOutlineMessage />
+                        <span>{set.pr && <FaTrophy />}</span>
+                        <span className="w-3/12 flex justify-center text-center">{set.set_number}</span>
                     </div>
-                    <p className="w-3/12 flex justify-center text-center">{set.set_number}</p>
-                    <p className="w-3/12 flex justify-center text-center">{formatNumber(set.weight)} kgs</p>
-                    <p className="w-3/12 flex justify-end text-center">{set.reps} reps</p>
+                    <p className="w-1/3 flex justify-end text-center">{formatNumber(set.weight)} kgs</p>
+                    <p className="w-1/3 flex justify-end text-center">{set.reps} reps</p>
                 </button>
             ))}
         </div>
