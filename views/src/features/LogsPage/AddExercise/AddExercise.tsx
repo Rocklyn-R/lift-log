@@ -2,7 +2,6 @@ import { OverlayWindow } from "../../../components/OverlayWIndow";
 import { ExerciseCategories } from "../../ExerciseLibrary/ExerciseCategories/ExerciseCategories";
 import { Exercises } from "../../ExerciseLibrary/Exercises/Exercises";
 import { LogForm } from "./LogForm/LogForm";
-import { SetData } from "./LogForm/SetData/SetData";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setExercises } from "../../../redux-store/LibrarySlice";

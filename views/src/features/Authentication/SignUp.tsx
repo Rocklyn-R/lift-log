@@ -126,7 +126,7 @@ export const SignUp = () => {
                             />
                         </div>
                         {errorMessage && <p className="mt-6 text-red-800">{errorMessage}</p>}
-                        {/* Submit Button */}
+                 
                         <Button
 
                             type="submit"

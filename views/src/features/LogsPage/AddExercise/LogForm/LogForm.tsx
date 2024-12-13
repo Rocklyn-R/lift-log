@@ -1,4 +1,3 @@
-import e from "express";
 import { useEffect, useState } from "react";
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import { MdArrowBackIos } from "react-icons/md";
@@ -6,7 +5,17 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addSetToLog, deleteSet, editLog, updateSetNumber } from "../../../../api/logs";
 import { Button } from "../../../../components/Button";
-import { addExerciseToWorkout, addToSetList, deleteSetUpdateSetNumbers, editSet, selectSelectedDate, selectSelectedExercise, selectSelectedSet, selectSetList, selectWorkout, setSelectedExercise, setSelectedSet } from "../../../../redux-store/LogsSlice";
+import { 
+    addExerciseToWorkout, 
+    addToSetList, 
+    deleteSetUpdateSetNumbers, 
+    editSet, 
+    selectSelectedDate, 
+    selectSelectedExercise, 
+    selectSelectedSet, 
+    selectSetList, 
+    selectWorkout, 
+    setSelectedSet } from "../../../../redux-store/LogsSlice";
 import { formatNumber } from "../../../../utilities/utilities";
 import { SetData } from "./SetData/SetData";
 
@@ -42,7 +51,7 @@ export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack, source }) 
                 setWeightInput(formatNumber(weightToSet));
             }
         }
-    }, [selectedExercise, setWeightInput])
+    }, [selectedExercise, setWeightInput, workout])
 
     const handleDecrementWeight = () => {
         if (weightInputLength >= 7 && !weightInput?.includes('.')) {

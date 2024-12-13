@@ -71,7 +71,7 @@ export const SignIn = () => {
             />
           </div>
 
-          {/* Submit Button */}
+          {errorMessage && <p className="mt-6 text-red-800">{errorMessage}</p>}
           <Button
             type="submit"
             className="w-full text-lg font-semibold p-3 hover:bg-darkPurple focus:outline-none focus:ring-2 focus:ring-darkPurple"

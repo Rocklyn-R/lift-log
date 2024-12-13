@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { Header } from "../../components/Header";
 import { ExerciseCategories } from "./ExerciseCategories/ExerciseCategories"
 import { useParams } from "react-router-dom";

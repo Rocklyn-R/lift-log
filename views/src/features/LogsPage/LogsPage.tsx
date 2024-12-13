@@ -1,18 +1,11 @@
 import { useSelector } from "react-redux"
-import { selectSelectedCategory, selectSelectedDate, selectSelectedExercise, selectWorkout, setSelectedDate } from "../../redux-store/LogsSlice";
+import { selectSelectedDate, setSelectedDate } from "../../redux-store/LogsSlice";
 import { MdArrowBackIos } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
 import { adjustDate, formatDate } from "../../utilities/utilities";
 import { useDispatch } from "react-redux";
 import { FaPlus } from "react-icons/fa6";
 import { useState } from "react";
-import { OverlayWindow } from "../../components/OverlayWIndow";
-import { LogForm } from "./AddExercise/LogForm/LogForm";
-import { ExerciseCategories } from "../ExerciseLibrary/ExerciseCategories/ExerciseCategories";
-import { getExercises } from "../../api/exercises";
-import { setExercises } from "../../redux-store/LibrarySlice";
-import { Exercises } from "../ExerciseLibrary/Exercises/Exercises";
-import { SetData } from "./AddExercise/LogForm/SetData/SetData";
 import { AddExercise } from "./AddExercise/AddExercise";
 import { Log } from "./Log/Log";
 import { EditExercise } from "./EditExercise/EditExercise";
@@ -21,9 +14,6 @@ import { EditExercise } from "./EditExercise/EditExercise";
 export const LogsPage = () => {
     const selectedDate = useSelector(selectSelectedDate);
     const dispatch = useDispatch();
-    const selectedCategory = useSelector(selectSelectedCategory);
-    const selectedExercise = useSelector(selectSelectedExercise);
-    const workout = useSelector(selectWorkout);
 
     const handleAdjustDate = (direction: 'back' | 'forward') => {
         const newDate = adjustDate(direction, selectedDate);

@@ -4,14 +4,11 @@ import { Navigation } from './features/Navigation/Navigation';
 import { LogsPage } from './features/LogsPage/LogsPage';
 import { SignIn } from './features/Authentication/SignIn';
 import { ExerciseLibrary } from './features/ExerciseLibrary/ExerciseLibrary';
-import { Exercises } from './features/ExerciseLibrary/Exercises/Exercises';
 import { useSelector } from 'react-redux';
 import { selectIsAuthenticated, selectIsLoading } from './redux-store/UserSlice';
 import { SignUp } from './features/Authentication/SignUp';
 import { useUserFetch } from './hooks/useUserFetch';
-import { useState } from 'react';
 import { Loading } from './components/Loading';
-import { Header } from './components/Header';
 
 function App() {
   useUserFetch();

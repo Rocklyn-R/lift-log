@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
 import { getLog } from "../../../api/logs";
 import { setWorkout, selectSelectedDate, selectWorkout, setSelectedExercise } from "../../../redux-store/LogsSlice"
-import { Exercise, Workout } from "../../../types/types";
+import { Workout } from "../../../types/types";
 import { formatNumber } from "../../../utilities/utilities";
 import { FaTrophy } from "react-icons/fa";
 

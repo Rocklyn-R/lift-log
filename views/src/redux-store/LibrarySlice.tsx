@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Category, Exercise } from "../types/types";
-import { getTodayDate } from "../utilities/utilities";
 import { RootState } from "./store";
 
 export const LibrarySlice = createSlice({

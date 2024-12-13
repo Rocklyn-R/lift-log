@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { selectSelectedExercise, selectSelectedSet, selectSetList, selectWorkout, setSelectedSet } from "../../../../../redux-store/LogsSlice";
+import { selectSelectedExercise, selectSelectedSet, selectWorkout, setSelectedSet } from "../../../../../redux-store/LogsSlice";
 import { MdOutlineMessage } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { Set } from "../../../../../types/types";
@@ -12,7 +12,6 @@ interface SetDataProps {
 }
 
 export const SetData: React.FC<SetDataProps> = ({ setEditMode, setWeightInput, setRepsInput }) => {
-    const setList = useSelector(selectSetList);
     const dispatch = useDispatch();
     const selectedSet = useSelector(selectSelectedSet);
     const selectedExercise = useSelector(selectSelectedExercise);
@@ -49,6 +48,3 @@ export const SetData: React.FC<SetDataProps> = ({ setEditMode, setWeightInput, s
         </div>
     );
 }
-//get max reps for exercise. log the weight done.
-//If it's the highest weight ever done or the highest weight with most reps, PR.
-//Check if you've already done this weight. Check if you did that # of reps on a weight higher. If not, PR.

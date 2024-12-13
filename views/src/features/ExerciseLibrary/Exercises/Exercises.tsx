@@ -1,9 +1,8 @@
 import { useSelector } from "react-redux"
-import { Header } from "../../../components/Header";
 import { selectExercises, setExercises } from "../../../redux-store/LibrarySlice"
 import { MdArrowBackIos } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ViewExercise } from "../ViewExercise/ViewExercise";
 import { OverlayWindow } from "../../../components/OverlayWIndow";
 import { Exercise } from "../../../types/types";
@@ -54,7 +53,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
             }
         }
         fetchExercises();
-    }, [categoryId])
+    }, [categoryId, dispatch])
 
     return (
         <div className="flex flex-col relative">

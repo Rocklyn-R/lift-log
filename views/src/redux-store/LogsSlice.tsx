@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SelectedExercise, Set, Exercise, Workout, SelectedSet } from "../types/types";
+import { SelectedExercise, Set, Workout, SelectedSet } from "../types/types";
 import { getTodayDate } from "../utilities/utilities";
 import { RootState } from "./store";
 

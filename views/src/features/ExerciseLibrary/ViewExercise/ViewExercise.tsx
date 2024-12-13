@@ -1,4 +1,3 @@
-import { IoCloseSharp } from "react-icons/io5";
 import { Exercise } from "../../../types/types";
 import { Button } from "../../../components/Button";
 
