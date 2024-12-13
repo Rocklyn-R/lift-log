@@ -35,8 +35,8 @@ export const LogsPage = () => {
 
 
     return (
-        <div className="w-full flex justify-center overflow-y-auto min-h-screen">
-            <div className="w-full relative flex flex-col items-center min-h-screen">
+        <div className="w-full relative flex justify-center overflow-y-auto min-h-screen">
+            <div className="w-full flex flex-col items-center min-h-screen">
                 <div className="w-full py-5 px-52 bg-darkestPurple flex justify-between items-center">
                     <button
                         onClick={() => handleAdjustDate('back')}
@@ -65,13 +65,11 @@ export const LogsPage = () => {
                  
 
                 </div>
-                <div className="mb-10 bottom-2 sticky">
                     <button
                         onClick={() => setShowAddExercise(true)}
-                        className="bg-darkestPurple p-3 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
+                        className="bg-darkestPurple p-3 fixed bottom-14 right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
                         <FaPlus />
                     </button>
-                </div>
 
             </div>
             {showAddExercise && (
