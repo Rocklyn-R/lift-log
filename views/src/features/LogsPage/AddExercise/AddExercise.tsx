@@ -93,9 +93,6 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
             {showLogForm && (
                 <>
                     <ViewExercise
-                        action="add"
-                        source="logs"
-                        handleNavigateBack={handleShowExercises}
                     />
                 </>
             )}

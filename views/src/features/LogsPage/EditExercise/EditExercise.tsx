@@ -25,8 +25,6 @@ export const EditExercise: React.FC<EditExerciseProps> = ({setShowEditExercise})
         className="w-1/3"
         >
             <ViewExercise 
-                source="logs"
-                action="edit"
             />
         </OverlayWindow>
     )

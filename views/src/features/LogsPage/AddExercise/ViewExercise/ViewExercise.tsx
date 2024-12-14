@@ -4,13 +4,11 @@ import { MdArrowBackIos } from "react-icons/md";
 import { History } from "./History/History";
 
 interface ViewExerciseProps {
-    source: "logs" | "library";
-    handleNavigateBack?: () => void;
-    action: "add" | "edit"
+
 }
 
 
-export const ViewExercise: React.FC<ViewExerciseProps> = ({ source, handleNavigateBack, action }) => {
+export const ViewExercise: React.FC<ViewExerciseProps> = ({  }) => {
     const [activeTab, setActiveTab] = useState('track');
 
     const handleShowTrack = () => setActiveTab('track');
@@ -47,7 +45,6 @@ export const ViewExercise: React.FC<ViewExerciseProps> = ({ source, handleNaviga
             </div>
             {activeTab === "track" && (
                 <LogForm
-                    source="add"
                 />
             )}
             {activeTab === "history" && (

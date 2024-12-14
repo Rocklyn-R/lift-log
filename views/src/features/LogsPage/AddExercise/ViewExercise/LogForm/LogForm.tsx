@@ -19,11 +19,10 @@ import { formatNumber } from "../../../../../utilities/utilities";
 import { SetData } from "./SetData/SetData";
 
 interface LogFormProps {
-    handleNavigateBack?: () => void;
-    source: "edit" | "add";
+
 }
 
-export const LogForm: React.FC<LogFormProps> = ({ handleNavigateBack, source }) => {
+export const LogForm: React.FC<LogFormProps> = ({  }) => {
     const selectedExercise = useSelector(selectSelectedExercise);
     const [weightInput, setWeightInput] = useState<string | null>(null);
     const [repsInput, setRepsInput] = useState<number | null>(null);

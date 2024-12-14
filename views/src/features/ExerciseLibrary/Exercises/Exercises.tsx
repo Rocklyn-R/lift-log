@@ -81,8 +81,6 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
                     className="w-1/3"
                 >
                   <ViewExercise 
-                     action="add"
-                     source="library"
                   />
                 </OverlayWindow>
 
