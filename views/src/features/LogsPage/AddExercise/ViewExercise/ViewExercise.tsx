@@ -20,16 +20,6 @@ export const ViewExercise: React.FC<ViewExerciseProps> = ({ source, handleNaviga
         <div>
             <div className="relative flex bg-darkestPurple">
                 {/* Tabs */}
-                {source === "logs" && action === "add" && (
-                    <button
-                        onClick={handleNavigateBack}
-                        className="absolute top-14 left-6 hover:cursor-pointer z-50"
-                    >
-                        <MdArrowBackIos className="text-3xl text-darkestPurple hover:text-darkPurple" />
-                    </button>
-                )}
-
-
                 <button
                     onClick={handleShowTrack}
                     className={`p-2 flex w-1/2 justify-center text-sm font-semibold relative ${activeTab === 'track' ? 'text-lightestPurple' : 'text-lightPurple'

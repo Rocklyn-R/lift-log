@@ -17,6 +17,9 @@ module.exports = {
         mediumPurple: '#454399',
         whitePurple: '#DDDAF3'
       },
+      spacing: {
+        '3.5': '0.875rem', // This is halfway between 0.75rem (3) and 1rem (4)
+      },
     },
   },
   plugins: [],

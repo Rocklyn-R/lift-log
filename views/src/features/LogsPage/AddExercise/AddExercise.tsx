@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setExercises } from "../../../redux-store/LibrarySlice";
 import { selectSelectedCategory, selectSelectedExercise, setExerciseHistory, setSelectedCategory, setSelectedExercise, setSelectedSet } from "../../../redux-store/LogsSlice";
 import { ViewExercise } from "./ViewExercise/ViewExercise";
+import { MdArrowBackIos } from "react-icons/md";
 
 interface AddExerciseProps {
     setShowAddExercise: (arg1: boolean) => void;
@@ -48,6 +49,14 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
         dispatch(setSelectedSet(null));
         dispatch(setExerciseHistory([]));
     }
+
+    const handleNavigateBack = () => {
+        if (showExercises) {
+            handleShowCategories();
+        } else {
+            handleShowExercises()
+        }
+    }
     return (
         <OverlayWindow
             onClose={handleCloseOverlay}
@@ -57,8 +66,17 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
                     ? `${selectedExercise?.exercise_name}`
                     : "All Exercises"
                 }`}
-            className="w-1/3"
+            className="w-1/3 relative"
         >
+            {(showExercises || showLogForm )&& (
+                <button
+                    onClick={handleNavigateBack}
+                    className="absolute top-4 left-4 hover:cursor-pointer z-50"
+                >
+                    <MdArrowBackIos className="text-xl text-lightestPurple" />
+                </button>
+            )}
+
             {showCategories && (
                 <ExerciseCategories
                     handleShowExercises={handleShowExercises}

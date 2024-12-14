@@ -56,14 +56,9 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
     }, [categoryId, dispatch])
 
     return (
-        <div className="flex flex-col relative">
+        <div className="flex flex-col">
             {/* Header */}
 
-            <button
-                onClick={() => handleNavigateBack()}
-                style={{ height: '0' }}
-                className="top-6 sticky ml-6"
-            ><MdArrowBackIos className="text-3xl text-darkestPurple hover:text-darkPurple" /></button>
             {/* Main Content with Flex for center alignment */}
             <div className="flex-grow flex justify-center my-4">
 
