@@ -36,7 +36,7 @@ export const LogsSlice = createSlice({
                 exercise_order,
                 weight,
                 reps,
-                set_id,
+                id,
                 PR
             } = action.payload;
             const index = state.workout.findIndex(exercise => exercise.exercise_id === action.payload.exercise_id);
@@ -50,7 +50,7 @@ export const LogsSlice = createSlice({
                         weight: weight,
                         reps: reps,
                         set_number: set_number,
-                        set_id: set_id,
+                        set_id: id,
                         pr: PR
                     }]
                 });
@@ -59,7 +59,7 @@ export const LogsSlice = createSlice({
                     weight: weight,
                     reps: reps,
                     set_number: set_number,
-                    set_id: set_id,
+                    set_id: id,
                     pr: PR
                 })
             }
@@ -107,6 +107,13 @@ export const LogsSlice = createSlice({
                     state.workout[foundExerciseIndex].sets[foundSetIndex].pr = PR;
                 }
             }
+        },
+        updateExerciseOrder: (state, action) => {
+            const { exercise_id, exercise_order } = action.payload;
+            const foundIndex = state.workout.findIndex(exercise => exercise.exercise_id === exercise_id);
+            if (foundIndex !== -1) {
+                state.workout[foundIndex].exercise_order = exercise_order
+            }
         }
 
     }
@@ -117,14 +124,14 @@ export const {
     setSelectedDate,
     setSelectedCategory,
     setSelectedExercise,
-
     setSelectedSet,
     addExerciseToWorkout,
     setWorkout,
     editSet,
     deleteSetUpdateSetNumbers,
     setExerciseHistory,
-    updatePr
+    updatePr,
+    updateExerciseOrder
 } = LogsSlice.actions;
 
 export const selectSelectedDate = (state: RootState) => state.logs.selectedDate;

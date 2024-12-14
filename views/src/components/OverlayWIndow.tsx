@@ -5,13 +5,15 @@ interface OverlayWindowProps {
     headerText: string;
     children: React.ReactNode;
     className?: string;
+    className2?: string;
 }
 
 export const OverlayWindow: React.FC<OverlayWindowProps> = ({
     onClose,
     headerText,
     children,
-    className
+    className,
+    className2
 }) => {
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50 w-full">
@@ -29,7 +31,7 @@ export const OverlayWindow: React.FC<OverlayWindowProps> = ({
                         <IoCloseSharp className="absolute top-3.5 right-3 text-2xl" />
                     </button>
                 </div>
-                <div className="flex flex-col max-h-[55vh] min-h-[55vh] overflow-y-auto z-20">{children}</div>
+                <div className={`${className2} flex flex-col z-20`}>{children}</div>
             </div>
         </div>
     );

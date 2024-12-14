@@ -8,15 +8,15 @@ interface ViewExerciseProps {
 }
 
 
-export const ViewExercise: React.FC<ViewExerciseProps> = ({  }) => {
+export const ViewExercise: React.FC<ViewExerciseProps> = () => {
     const [activeTab, setActiveTab] = useState('track');
 
     const handleShowTrack = () => setActiveTab('track');
     const handleShowHistory = () => setActiveTab('history');
 
     return (
-        <div>
-            <div className="relative flex bg-darkestPurple">
+        <div className="h-fit">
+            <div className="relative flex bg-darkestPurple h-fit">
                 {/* Tabs */}
                 <button
                     onClick={handleShowTrack}

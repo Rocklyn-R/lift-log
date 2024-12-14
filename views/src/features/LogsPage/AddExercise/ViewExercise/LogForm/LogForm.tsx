@@ -18,11 +18,8 @@ import {
 import { formatNumber } from "../../../../../utilities/utilities";
 import { SetData } from "./SetData/SetData";
 
-interface LogFormProps {
 
-}
-
-export const LogForm: React.FC<LogFormProps> = ({  }) => {
+export const LogForm = () => {
     const selectedExercise = useSelector(selectSelectedExercise);
     const [weightInput, setWeightInput] = useState<string | null>(null);
     const [repsInput, setRepsInput] = useState<number | null>(null);
@@ -50,7 +47,7 @@ export const LogForm: React.FC<LogFormProps> = ({  }) => {
     useEffect(() => {
         if (selectedExercise) {
             const foundIndex = workout.findIndex(exercise => exercise.exercise_id === selectedExercise.exercise_id);
-            if (foundIndex !== -1) {
+            if (foundIndex !== -1 && (workout[foundIndex].sets.length > 0)) {
                 const setIndex = workout[foundIndex].sets.length - 1;
                 const weightToSet = workout[foundIndex].sets[setIndex].weight;
                 setWeightInput(formatNumber(weightToSet));
@@ -108,7 +105,6 @@ export const LogForm: React.FC<LogFormProps> = ({  }) => {
     }
 
     const handleSaveSet = async () => {
-        console.log(weightInput, repsInput);
         if (!weightInput && !repsInput) {
             setErrorMessage('Please enter a value for this set');
             return;
@@ -144,7 +140,6 @@ export const LogForm: React.FC<LogFormProps> = ({  }) => {
             if (selectedSet) {
                 const updateResult = await editLog(weightInputToAdd, repsInputToAdd, selectedSet?.set_id);
                 if (updateResult) {
-                    console.log(updateResult);
                     const newPRData = await getUpdatedPrs(selectedExercise.exercise_id, selectedDate);
                     newPRData.forEach((set: any) => {
                         dispatch(updatePr(set))
@@ -161,15 +156,17 @@ export const LogForm: React.FC<LogFormProps> = ({  }) => {
     const handleDeleteSet = async () => {
         if (selectedSet && selectedExercise) {
             const foundIndex = workout.findIndex(exercise => exercise.exercise_id === selectedSet.exercise_id);
-            const setIds = workout[foundIndex].sets
-                .filter(set => set.set_number > selectedSet.set_number) // Filter sets with set_number greater than selectedSet.set_number
-                .map(set => set.set_id);
-            console.log(setIds);
+            if (foundIndex !== -1) {
+                const sets = workout[foundIndex].sets
+                const filteredSets = sets.filter(set => set.set_number > selectedSet.set_number)
+                const setIds = filteredSets.map(set => set.set_id);
 
-            setIds.forEach(async (set_id) => {
-                await updateSetNumber(set_id);
+                setIds.forEach(async (set_id) => {
+                    await updateSetNumber(set_id);
 
-            })
+                })
+            }
+
             const setDeletion = await deleteSet(selectedSet.set_id);
 
             if (setDeletion) {
@@ -185,7 +182,7 @@ export const LogForm: React.FC<LogFormProps> = ({  }) => {
     }
 
     return (
-        <div className="w-full flex justify-center items-center relative pt-4 flex-col overflow-y-auto z-40">
+        <div className="w-full flex justify-center items-center relative pt-4 flex-col z-40">
             {errorMessage && <p className="absolute top-0 z-50 bg-lightPurple px-2 rounded-md text-darkestPurple text-sm">{errorMessage}</p>}
 
 

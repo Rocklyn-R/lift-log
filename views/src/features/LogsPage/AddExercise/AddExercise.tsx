@@ -67,6 +67,7 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
                     : "All Exercises"
                 }`}
             className="w-1/3 relative"
+            className2="max-h-[65vh] min-h-[65vh] overflow-y-auto "
         >
             {(showExercises || showLogForm )&& (
                 <button

@@ -31,7 +31,7 @@ export const SetData: React.FC<SetDataProps> = ({ setEditMode, setWeightInput, s
 
 
     return (
-        <div className="flex w-full overflow-y-auto flex-col mt-4 mb-2 px-2">
+        <div className="max-h-[200px] min-h-[200px] flex w-full flex-col mt-4 overflow-y-auto mb-2 px-2 ">
             {setArray.map((set, index) => (
                 <button 
                     onClick={() => handleSelectSet(set)} 
