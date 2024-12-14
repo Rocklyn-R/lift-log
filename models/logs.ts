@@ -186,3 +186,24 @@ WHERE
         throw error;
     }
 }
+
+export const orderChange = async (
+    exercise_order: number,
+    user_id: number,
+    date: string,
+    exercise_id: number,
+) => {
+    const query = `
+    UPDATE sets 
+    SET exercise_order = $1
+    WHERE user_id = $2 AND date = $3 AND exercise_id = $4;`
+    try {
+        const result = await db.query(query, [
+            exercise_order, user_id, date, exercise_id,
+        ]);
+        return result;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}

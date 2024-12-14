@@ -1,11 +1,14 @@
 import { useEffect } from "react"
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
-import { getLog } from "../../../api/logs";
+import { getLog, reorderExercises } from "../../../api/logs";
 import { setWorkout, selectSelectedDate, selectWorkout, setSelectedExercise } from "../../../redux-store/LogsSlice"
 import { Workout } from "../../../types/types";
 import { formatNumber } from "../../../utilities/utilities";
 import { FaTrophy } from "react-icons/fa";
+import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import { arrayMove, SortableContext, useSortable } from "@dnd-kit/sortable";
+import { SortableLog } from "./SortableLog/SortableLog";
 
 
 interface LogProps {
@@ -18,33 +21,49 @@ export const Log: React.FC<LogProps> = ({ setShowEditExercise }) => {
     const workout = useSelector(selectWorkout);
 
 
-
-    const handleSelectExercise = (exercise: Workout) => {
-        dispatch(setSelectedExercise(exercise));
-        setShowEditExercise(true);
+    const handleDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event;
+       if (over && active.id !== over.id) {
+         const oldIndex = workout.findIndex(item => item.exercise_id === active.id);
+         const newIndex = workout.findIndex(item => item.exercise_id === over.id);
+         const newArray = arrayMove(workout, oldIndex, newIndex);
+         console.log(newArray)
+           newArray.forEach( async (exercise, index) => {
+            const newOrder = index + 1;
+            const orderChange = await reorderExercises(newOrder, selectedDate, exercise.exercise_id);
+            console.log(orderChange);
+            if (orderChange) {
+               /* const newExercise = {
+                    exercise_id: exercise.exercise_id,
+                    exercise_order: newOrder
+                }*/
+                //dispatch(changeOrder(newExercise))
+            }
+        })
+         dispatch(setWorkout(newArray));
+       } else {
+         const foundExercise = workout.find(exercise => exercise.exercise_id === active.id);
+         dispatch(setSelectedExercise(foundExercise));
+         setShowEditExercise(true);
+       }
     }
 
     return (
         <div className="space-y-4 text-darkPurple">
-            {workout.map((exercise, index) => (
-                <div key={index} onClick={() => handleSelectExercise(exercise)} className="bg-gray-100 rounded-md shadow-xl hover:cursor-pointer hover:outline hover:outline-mediumPurple">
-                    {exercise.sets.length > 0 && (
-                        <>
-                            <h3 className="p-2 border-b-2 border-lightPurple font-semibold text-lg">{exercise.exercise_name}</h3>
-                            <div className="p-3">
-                                {exercise.sets.map((set, index) => (
-                                    <div key={index} className="p-2 grid grid-cols-3 text-center items-center">
-                                        <span>{set.pr && <span className="text-mediumPurple flex justify-end"><FaTrophy /></span>}</span>
-                                        <span className="flex justify-end">{formatNumber(set.weight)} kgs</span>
-                                        <span className="flex justify-end">{set.reps} reps</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </>
-                    )}
+            <DndContext
+                onDragEnd={handleDragEnd}
+            >
+                <SortableContext items={workout.map((exercise) => exercise.exercise_id)}>
+                     {workout.map((exercise, index) => (
+                    <SortableLog 
+                    key={exercise.exercise_id} 
+                        exercise={exercise}
+                    />
+                ))}
+                </SortableContext>
+               
+            </DndContext>
 
-                </div>
-            ))}
         </div>
     );
-}
+} 

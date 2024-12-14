@@ -7,9 +7,8 @@ import { useDispatch } from "react-redux";
 import { FaPlus } from "react-icons/fa6";
 import { useState } from "react";
 import { AddExercise } from "./AddExercise/AddExercise";
-import { Log } from "./Log/Log";
 import { EditExercise } from "./EditExercise/EditExercise";
-
+import { Log } from "./Log/Log";
 
 export const LogsPage = () => {
     const selectedDate = useSelector(selectSelectedDate);

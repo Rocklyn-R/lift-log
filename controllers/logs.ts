@@ -1,5 +1,5 @@
 import e, { Request, Response } from 'express';
-import { historyGet, logEdit, logGet, prsGet, setDelete, setNumberUpdate, toLogAdd } from '../models/logs';
+import { historyGet, logEdit, logGet, orderChange, prsGet, setDelete, setNumberUpdate, toLogAdd } from '../models/logs';
 
 interface User {
     id: number
@@ -102,4 +102,19 @@ export const getPrs = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' })
     }
+}
+
+
+export const changeOrder = async (req: Request, res: Response) => {
+    const user_id = (req.user as User).id;
+    const {exercise_order, date, exercise_id} = req.body;
+    try {
+        const result = await orderChange(exercise_order, user_id, date, exercise_id);
+        if (result) {
+            res.status(201).json({ message: 'Exercise order successfully updated' })
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' })
+    }
+    
 }

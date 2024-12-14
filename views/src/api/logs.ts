@@ -1,3 +1,5 @@
+import { DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS } from "react";
+
 export const BASE_URL = process.env.NODE_ENV === 'production'
     ? ''
     : 'http://localhost:4000/logs';
@@ -124,6 +126,26 @@ export const getUpdatedPrs = async (exercise_id: number, date: string) => {
         })
         const data = await response.json();
         return data.prData;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const reorderExercises = async (
+    exercise_order: number,
+    date: string,
+    exercise_id: number
+) => {
+    try {
+        const response = await fetch(`${BASE_URL}/reorder`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({ exercise_order, date, exercise_id })
+        })
+        return response.ok;
     } catch (error) {
         console.log(error);
     }
