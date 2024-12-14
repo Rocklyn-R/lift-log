@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
 import { getLog, reorderExercises } from "../../../api/logs";
-import { setWorkout, selectSelectedDate, selectWorkout, setSelectedExercise } from "../../../redux-store/LogsSlice"
+import { setWorkout, selectSelectedDate, selectWorkout, setSelectedExercise, updateExerciseOrder } from "../../../redux-store/LogsSlice"
 import { Workout } from "../../../types/types";
 import { formatNumber } from "../../../utilities/utilities";
 import { FaTrophy } from "react-icons/fa";
@@ -27,17 +27,15 @@ export const Log: React.FC<LogProps> = ({ setShowEditExercise }) => {
          const oldIndex = workout.findIndex(item => item.exercise_id === active.id);
          const newIndex = workout.findIndex(item => item.exercise_id === over.id);
          const newArray = arrayMove(workout, oldIndex, newIndex);
-         console.log(newArray)
            newArray.forEach( async (exercise, index) => {
             const newOrder = index + 1;
             const orderChange = await reorderExercises(newOrder, selectedDate, exercise.exercise_id);
-            console.log(orderChange);
             if (orderChange) {
-               /* const newExercise = {
+                const newExercise = {
                     exercise_id: exercise.exercise_id,
                     exercise_order: newOrder
-                }*/
-                //dispatch(changeOrder(newExercise))
+                }
+                dispatch(updateExerciseOrder(newExercise))
             }
         })
          dispatch(setWorkout(newArray));
