@@ -15,7 +15,7 @@ export const ViewExercise: React.FC<ViewExerciseProps> = () => {
     const handleShowHistory = () => setActiveTab('history');
 
     return (
-        <div className="h-fit">
+        <div className="min-h-[55vh]">
             <div className="relative flex bg-darkestPurple h-fit">
                 {/* Tabs */}
                 <button

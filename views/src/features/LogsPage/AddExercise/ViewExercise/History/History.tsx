@@ -70,7 +70,7 @@ export const History = () => {
     }, [selectedExercise, dispatch]);
 
     return (
-        <div className="p-4">
+        <div className="p-4 max-h-[60vh] min-h-[55vh] overflow-y-auto">
             {exerciseHistory.map((exercise, index) => (
                 <div key={index}>
                     <h3 className="border-b-2 border-lightPurple">{formatDateForHistory(exercise.date)}</h3>
