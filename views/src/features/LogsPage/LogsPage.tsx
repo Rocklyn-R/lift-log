@@ -9,6 +9,10 @@ import { useState } from "react";
 import { AddExercise } from "./AddExercise/AddExercise";
 import { EditExercise } from "./EditExercise/EditExercise";
 import { Log } from "./Log/Log";
+import { FaCalendarAlt } from "react-icons/fa";
+import { Calendar } from "./Calendar/Calendar";
+import { IoIosCopy } from "react-icons/io";
+
 
 export const LogsPage = () => {
     const selectedDate = useSelector(selectSelectedDate);
@@ -21,7 +25,8 @@ export const LogsPage = () => {
 
     const [showAddExercise, setShowAddExercise] = useState(false);
     const [showEditExercise, setShowEditExercise] = useState(false);
-
+    const [showCalendarNav, setShowCalendarNav] = useState(false);
+    const [showCalendarCopy, setShowCalendarCopy] = useState(false);
 
     return (
         <div className="w-full relative flex justify-center overflow-y-auto min-h-screen">
@@ -47,20 +52,44 @@ export const LogsPage = () => {
                 </div>
 
                 <div className="flex flex-col w-1/3 space-y-4 mt-4">
-               
-                 <Log 
-                    setShowEditExercise={setShowEditExercise}
-                 />
-                 
 
+                    <Log
+                        setShowEditExercise={setShowEditExercise}
+                    />
+
+                    <div>
+                        <button
+                        onClick={() => setShowCalendarNav(true)}
+                        className="bg-darkestPurple p-3 fixed top-2 right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple"
+                        >
+                            <FaCalendarAlt />
+                            </button>
+                    </div>
                 </div>
-                    <button
-                        onClick={() => setShowAddExercise(true)}
-                        className="bg-darkestPurple p-3 fixed bottom-14 right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
-                        <FaPlus />
-                    </button>
+                <button
+                    onClick={() => setShowAddExercise(true)}
+                    className="bg-darkestPurple p-3 fixed bottom-14 right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
+                    <FaPlus />
+                </button>
+                <button
+                    onClick={() => setShowCalendarCopy(true)}
+                    className="bg-darkestPurple p-3 fixed bottom-1/6 right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
+                    <IoIosCopy />
+                </button>
 
             </div>
+            {showCalendarCopy && (
+                <Calendar
+                    action="copy"
+                    setShowCalendar={setShowCalendarCopy}
+                />
+            )}
+            {showCalendarNav && (
+                <Calendar 
+                    action="navigate"
+                    setShowCalendar={setShowCalendarNav}
+                />
+            )}
             {showAddExercise && (
                 <AddExercise
                     setShowAddExercise={setShowAddExercise}
@@ -68,7 +97,7 @@ export const LogsPage = () => {
             )}
 
             {showEditExercise && (
-                <EditExercise 
+                <EditExercise
                     setShowEditExercise={setShowEditExercise}
                 />
             )}

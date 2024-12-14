@@ -1,5 +1,5 @@
 import e, { Request, Response } from 'express';
-import { historyGet, logEdit, logGet, orderChange, prsGet, setDelete, setNumberUpdate, toLogAdd } from '../models/logs';
+import { datesGetAll, historyGet, logEdit, logGet, orderChange, prsGet, setDelete, setNumberUpdate, toLogAdd } from '../models/logs';
 
 interface User {
     id: number
@@ -116,5 +116,17 @@ export const changeOrder = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' })
     }
-    
+}
+
+export const getAllDates = async (req: Request, res: Response) => {
+    const user_id = (req.user as User).id;
+    const month = req.query.month as string;
+    try {
+        const result = await datesGetAll(month, user_id);
+        if (result) {
+            res.status(201).json({ dates: result })
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' })
+    }
 }

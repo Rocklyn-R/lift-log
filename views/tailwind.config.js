@@ -18,8 +18,10 @@ module.exports = {
         whitePurple: '#DDDAF3'
       },
       spacing: {
-        '3.5': '0.875rem', // This is halfway between 0.75rem (3) and 1rem (4)
-      },
+        '3.5': '0.875rem',
+          '1/5': '20%', // 1/5 of the container height or width
+          '1/6': '16.666667%', // 1/6 of the container height or width
+        }, // This is halfway between 0.75rem (3) and 1rem (4)
     },
   },
   plugins: [],

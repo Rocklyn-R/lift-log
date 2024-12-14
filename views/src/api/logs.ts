@@ -150,3 +150,19 @@ export const reorderExercises = async (
         console.log(error);
     }
 }
+
+export const getAllDates = async (month: string) => {
+    try {
+        const response = await fetch(`${BASE_URL}/dates?month=${month}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include"
+        })
+        const data = await response.json();
+        return data.dates;
+    } catch (error) {
+        console.log(error);
+    }
+}

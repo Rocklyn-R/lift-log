@@ -90,3 +90,17 @@ export const adjustDate = (direction: 'back' | 'forward', dateString: string): s
 
     return formattedDate;
 }
+
+// Helper function to get the days of a month
+export const getDaysInMonth = (year: number, month: number) => {
+  const date = new Date(year, month, 0);
+  const totalDays = date.getDate();
+  const firstDayOfMonth = new Date(year, month - 1, 1).getDay(); // getDay() returns 0 for Sunday, 1 for Monday, etc.
+  return { totalDays, firstDayOfMonth };
+};
+
+export const getYearMonth = (date: Date) => {
+  const year = date.getFullYear(); // Extracts the year (e.g., 2025)
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Extracts the month (0-11, so add 1) and pads with leading zero if needed
+  return `${year}-${month}`; // Format as 'YYYY-MM'
+}
