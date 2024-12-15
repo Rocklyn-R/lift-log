@@ -12,7 +12,11 @@ export const LogsSlice = createSlice({
         selectedExercise: null as SelectedExercise | null,
         selectedSet: null as SelectedSet | null,
         totalExercises: 0,
-        exerciseHistory: [] as Workout[]
+        exerciseHistory: [] as Workout[],
+        dateToView: "",
+        dateToCopy: "",
+        workoutOnDate: [] as Workout[],
+        workoutToCopy: [] as Workout[]
     },
     reducers: {
         setSelectedDate: (state, action) => {
@@ -114,8 +118,19 @@ export const LogsSlice = createSlice({
             if (foundIndex !== -1) {
                 state.workout[foundIndex].exercise_order = exercise_order
             }
+        },
+        setDateToView: (state, action) => {
+            state.dateToView = action.payload;
+        },
+        setDateToCopy: (state, action) => {
+            state.dateToCopy = action.payload;
+        },
+        setWorkoutOnDate: (state, action) => {
+            state.workoutOnDate = action.payload;
+        },
+        setWorkoutToCopy: (state, action) => {
+            state.workoutToCopy = action.payload
         }
-
     }
 })
 
@@ -131,7 +146,11 @@ export const {
     deleteSetUpdateSetNumbers,
     setExerciseHistory,
     updatePr,
-    updateExerciseOrder
+    updateExerciseOrder,
+    setDateToView,
+    setDateToCopy,
+    setWorkoutOnDate,
+    setWorkoutToCopy
 } = LogsSlice.actions;
 
 export const selectSelectedDate = (state: RootState) => state.logs.selectedDate;
@@ -140,5 +159,9 @@ export const selectSelectedExercise = (state: RootState) => state.logs.selectedE
 export const selectSelectedSet = (state: RootState) => state.logs.selectedSet;
 export const selectWorkout = (state: RootState) => state.logs.workout;
 export const selectHistory = (state: RootState) => state.logs.exerciseHistory;
+export const selectDateToView = (state: RootState) => state.logs.dateToView;
+export const selectDateToCopy = (state: RootState) => state.logs.dateToCopy;
+export const selectWorkoutOnDate = (state: RootState) => state.logs.workoutOnDate;
+export const selectWorkoutToCopy = (state: RootState) => state.logs.workoutToCopy;
 
 export default LogsSlice.reducer;

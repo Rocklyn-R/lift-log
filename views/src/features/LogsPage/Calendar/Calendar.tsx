@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
+import { useDispatch } from "react-redux";
 import { getAllDates } from "../../../api/logs";
 import { OverlayWindow } from "../../../components/OverlayWIndow";
+import { setDateToView } from "../../../redux-store/LogsSlice";
 import { getDaysInMonth, getYearMonth } from "../../../utilities/utilities";
 
 interface CalendarProps {
     setShowCalendar: (arg0: boolean) => void;
-    action: "copy" | "navigate"
+    action: "copy" | "navigate";
+    setShowDay: (arg0: boolean) => void;
 }
 
 
-export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action }) => {
+export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action, setShowDay }) => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [highlightedDates, setHighlightedDates] = useState<string[]>([]);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const monthString = getYearMonth(currentDate)
@@ -42,7 +46,11 @@ export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action }) =
         days.push(dayString);
     }
 
-    
+    const handleSelectDateToView = (date: string) => {
+        dispatch(setDateToView(date));
+        setShowDay(true);
+        setShowCalendar(false);
+    };
 
     return (
         <OverlayWindow
@@ -79,14 +87,20 @@ export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action }) =
                         const dayString = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}-${String(dayIndex).padStart(2, "0")}`;
 
                         return (
-                            <div
+                            <button
+                                onClick={() => {
+                                    if (dayIndex > 0 && dayIndex <= totalDays) {
+                                        handleSelectDateToView(dayString);
+                                        console.log(dayString);
+                                    }
+                                }}
                                 key={index}
                                 className={`flex justify-center items-center w-10 h-10 ${dayIndex > 0 && dayIndex <= totalDays ? "cursor-pointer" : "text-transparent"
                                     } p-2 rounded-full transition ${highlightedDates.includes(dayString) ? "border-2 rounded-full border-darkestPurple" : ""
                                     }`}
                             >
                                 {dayIndex > 0 && dayIndex <= totalDays ? dayIndex : ""}
-                            </div>
+                            </button>
                         );
                     })}
             </div>

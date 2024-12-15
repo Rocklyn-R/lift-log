@@ -12,6 +12,9 @@ import { Log } from "./Log/Log";
 import { FaCalendarAlt } from "react-icons/fa";
 import { Calendar } from "./Calendar/Calendar";
 import { IoIosCopy } from "react-icons/io";
+import { ShowWorkout } from "./Calendar/ShowWorkout/ShowWorkout";
+import { CopyWorkout } from "./Calendar/CopyWorkout/CopyWorkout";
+import { CopyMessage } from "./Calendar/CopyWorkout/CopyMessage/CopyMessage";
 
 
 export const LogsPage = () => {
@@ -27,6 +30,9 @@ export const LogsPage = () => {
     const [showEditExercise, setShowEditExercise] = useState(false);
     const [showCalendarNav, setShowCalendarNav] = useState(false);
     const [showCalendarCopy, setShowCalendarCopy] = useState(false);
+    const [showViewDay, setShowViewDay] = useState(false);
+    const [showCopyDay, setShowCopyDay] = useState(false);
+    const [showCopyMessage, setShowCopyMessage] = useState(false);
 
     return (
         <div className="w-full relative flex justify-center overflow-y-auto min-h-screen">
@@ -59,11 +65,11 @@ export const LogsPage = () => {
 
                     <div>
                         <button
-                        onClick={() => setShowCalendarNav(true)}
-                        className="bg-darkestPurple p-3 fixed top-2 right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple"
+                            onClick={() => setShowCalendarNav(true)}
+                            className="bg-darkestPurple p-3 fixed top-2 right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple"
                         >
                             <FaCalendarAlt />
-                            </button>
+                        </button>
                     </div>
                 </div>
                 <button
@@ -82,12 +88,14 @@ export const LogsPage = () => {
                 <Calendar
                     action="copy"
                     setShowCalendar={setShowCalendarCopy}
+                    setShowDay={setShowCopyDay}
                 />
             )}
             {showCalendarNav && (
-                <Calendar 
+                <Calendar
                     action="navigate"
                     setShowCalendar={setShowCalendarNav}
+                    setShowDay={setShowViewDay}
                 />
             )}
             {showAddExercise && (
@@ -101,6 +109,20 @@ export const LogsPage = () => {
                     setShowEditExercise={setShowEditExercise}
                 />
             )}
+            {showViewDay && (
+                <ShowWorkout 
+                    setShowViewDay={setShowViewDay}
+                    setShowCalendar={setShowCalendarNav}
+                />
+            )}
+            {showCopyDay && (
+                <CopyWorkout 
+                    setShowCalendar={setShowCalendarCopy}
+                    setShowCopyDay={setShowCopyDay}
+                    //setShowCopyMessage={setShowCopyMessage}
+                />
+            )}
+          
         </div>
     )
 }
