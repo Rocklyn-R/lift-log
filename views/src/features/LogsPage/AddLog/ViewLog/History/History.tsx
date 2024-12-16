@@ -12,12 +12,6 @@ export const History = () => {
     const dispatch = useDispatch();
     const exerciseHistory = useSelector(selectHistory);
 
-    const set = {
-        pr: true,
-        weight: '50.0kg',
-        reps: 12
-    }
-
     useEffect(() => {
         const fetchExerciseHistory = async () => {
             if (!selectedExercise) return;

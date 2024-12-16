@@ -14,7 +14,6 @@ import { Calendar } from "./Calendar/Calendar";
 import { IoIosCopy } from "react-icons/io";
 import { ShowWorkout } from "./Calendar/ShowWorkout/ShowWorkout";
 import { CopyWorkout } from "./Calendar/CopyWorkout/CopyWorkout";
-import { CopyMessage } from "./Calendar/CopyWorkout/CopyMessage/CopyMessage";
 
 
 export const LogsPage = () => {
@@ -32,7 +31,6 @@ export const LogsPage = () => {
     const [showCalendarCopy, setShowCalendarCopy] = useState(false);
     const [showViewDay, setShowViewDay] = useState(false);
     const [showCopyDay, setShowCopyDay] = useState(false);
-    const [showCopyMessage, setShowCopyMessage] = useState(false);
 
     return (
         <div className="w-full relative flex justify-center overflow-y-auto min-h-screen">

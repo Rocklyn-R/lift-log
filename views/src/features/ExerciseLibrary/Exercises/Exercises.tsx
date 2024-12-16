@@ -1,14 +1,13 @@
 import { useSelector } from "react-redux"
 import { selectExercises, setExercises } from "../../../redux-store/LibrarySlice"
-import { MdArrowBackIos } from "react-icons/md";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { OverlayWindow } from "../../../components/OverlayWIndow";
 import { Exercise } from "../../../types/types";
 import { getExercises } from "../../../api/exercises";
 import { useDispatch } from "react-redux";
 import { selectSelectedExercise, setSelectedExercise } from "../../../redux-store/LogsSlice";
-import { ViewExercise } from "../../LogsPage/AddLog/ViewLog/ViewLog";
+import { ViewLog } from "../../LogsPage/AddLog/ViewLog/ViewLog";
 
 interface ExercisesProps {
     source: "logs" | "library",
@@ -18,19 +17,10 @@ interface ExercisesProps {
 
 export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategories, handleSelectExercise }) => {
     const exercises = useSelector(selectExercises);
-    const navigate = useNavigate();
     const selectedExercise = useSelector(selectSelectedExercise);
-    //const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
     const { categoryId } = useParams<{ categoryId: string }>();
     const dispatch = useDispatch();
 
-    const handleNavigateBack = () => {
-        if (source === "library") {
-           navigate('/exercise-library') 
-        } else if (source === 'logs' && handleShowCategories){
-            handleShowCategories();
-        }
-    }
 
     const handleOpenExercise = (exercise: Exercise) => {
         if (source === "library") {
@@ -80,7 +70,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
                     onClose={handleCloseExervise}
                     className="w-1/3"
                 >
-                  <ViewExercise 
+                  <ViewLog 
                   />
                 </OverlayWindow>
 

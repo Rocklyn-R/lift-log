@@ -1,11 +1,7 @@
 import { useState } from "react"
 import { LogForm } from "./LogForm/LogForm";
-import { MdArrowBackIos } from "react-icons/md";
 import { History } from "./History/History";
 
-interface ViewExerciseProps {
-
-}
 
 
 export const ViewLog = () => {
