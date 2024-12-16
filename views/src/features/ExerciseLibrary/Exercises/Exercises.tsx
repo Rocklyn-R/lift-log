@@ -8,7 +8,7 @@ import { Exercise } from "../../../types/types";
 import { getExercises } from "../../../api/exercises";
 import { useDispatch } from "react-redux";
 import { selectSelectedExercise, setSelectedExercise } from "../../../redux-store/LogsSlice";
-import { ViewExercise } from "../../LogsPage/AddExercise/ViewExercise/ViewExercise";
+import { ViewExercise } from "../../LogsPage/AddLog/ViewLog/ViewLog";
 
 interface ExercisesProps {
     source: "logs" | "library",

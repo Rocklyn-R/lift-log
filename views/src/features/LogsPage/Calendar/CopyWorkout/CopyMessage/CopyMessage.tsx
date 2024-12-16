@@ -4,7 +4,9 @@ import { selectSelectedDate, selectWorkout, selectWorkoutToCopy, setDateToCopy, 
 import { formatDateForHistory } from "../../../../../utilities/utilities";
 import { Button } from "../../../../../components/Button";
 import { useDispatch } from "react-redux";
-import { addSetToLog } from "../../../../../api/logs";
+import { addSetToLog, getUpdatedPrs } from "../../../../../api/logs";
+import { addExerciseToWorkout, updatePr } from "../../../../../redux-store/LogsSlice";
+
 
 interface CopyMessageProps {
     setShowCopyMessage: (arg0: boolean) => void;
@@ -25,7 +27,7 @@ export const CopyMessage: React.FC<CopyMessageProps> = ({ setShowCopyMessage, se
     const handleSelectCopy = async () => {
         console.log(workoutToCopy);
         for (const exercise of workoutToCopy) {
-           
+
             const exerciseOrder = (() => {
                 const foundExercise = workout.find(item => item.exercise_id === exercise.exercise_id);
                 if (foundExercise) {
@@ -36,8 +38,8 @@ export const CopyMessage: React.FC<CopyMessageProps> = ({ setShowCopyMessage, se
                     return workoutToCopy.indexOf(exercise) + 1; // Fallback when workout is empty
                 }
             })();
-        
-            
+
+
             for (const set of exercise.sets) {
                 const setNumber = (() => {
                     const foundExerciseIndex = workout.findIndex(item => item.exercise_id === exercise.exercise_id);
@@ -51,7 +53,7 @@ export const CopyMessage: React.FC<CopyMessageProps> = ({ setShowCopyMessage, se
                 //const setNumber = exercise.sets.indexOf(set) + 1; // Set number (1-based index)
                 const setWeight = Number(set.weight);
                 // Await the API call
-                await addSetToLog(
+                const addSetResult = await addSetToLog(
                     selectedDate,           // date
                     exercise.exercise_id,    // exercise_id
                     setNumber,               // set_number
@@ -59,6 +61,11 @@ export const CopyMessage: React.FC<CopyMessageProps> = ({ setShowCopyMessage, se
                     set.reps,                // reps
                     exerciseOrder            // exercise_order
                 );
+                dispatch(addExerciseToWorkout(addSetResult));
+              /*  const newPRData = await getUpdatedPrs(exercise.exercise_id, selectedDate);
+                newPRData.forEach((set: any) => {
+                    dispatch(updatePr(set))
+                })*/
             }
         }
         setShowCopyMessage(false);
@@ -67,7 +74,7 @@ export const CopyMessage: React.FC<CopyMessageProps> = ({ setShowCopyMessage, se
         dispatch(setWorkoutToCopy([]));
         setShowCopyDay(false)
     };
-    
+
     return (
         <OverlayWindow
             headerText="Copy Workout"

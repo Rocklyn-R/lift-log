@@ -42,8 +42,8 @@ app.use(express.static(__dirname));
      saveUninitialized: false,
      cookie: {
          httpOnly: true,
-         maxAge: 1000 * 60 * 60 * 24, // Example: 1 day
-         secure: false, // Set to false in development
+         maxAge: 1000 * 60 * 60 * 24, 
+         secure: false, 
      },
  }));
 

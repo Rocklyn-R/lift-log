@@ -8,7 +8,7 @@ interface ViewExerciseProps {
 }
 
 
-export const ViewExercise: React.FC<ViewExerciseProps> = () => {
+export const ViewLog = () => {
     const [activeTab, setActiveTab] = useState('track');
 
     const handleShowTrack = () => setActiveTab('track');

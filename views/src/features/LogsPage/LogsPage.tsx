@@ -6,8 +6,8 @@ import { adjustDate, formatDate } from "../../utilities/utilities";
 import { useDispatch } from "react-redux";
 import { FaPlus } from "react-icons/fa6";
 import { useState } from "react";
-import { AddExercise } from "./AddExercise/AddExercise";
-import { EditExercise } from "./EditExercise/EditExercise";
+import { AddLog } from "./AddLog/AddLog";
+import { EditLog } from "./EditLog/EditLog";
 import { Log } from "./Log/Log";
 import { FaCalendarAlt } from "react-icons/fa";
 import { Calendar } from "./Calendar/Calendar";
@@ -99,13 +99,13 @@ export const LogsPage = () => {
                 />
             )}
             {showAddExercise && (
-                <AddExercise
+                <AddLog
                     setShowAddExercise={setShowAddExercise}
                 />
             )}
 
             {showEditExercise && (
-                <EditExercise
+                <EditLog
                     setShowEditExercise={setShowEditExercise}
                 />
             )}
