@@ -8,11 +8,11 @@ import { selectSelectedCategory, selectSelectedExercise, setExerciseHistory, set
 import { ViewLog } from "./ViewLog/ViewLog";
 import { MdArrowBackIos } from "react-icons/md";
 
-interface AddExerciseProps {
+interface AddLogProps {
     setShowAddExercise: (arg1: boolean) => void;
 }
 
-export const AddLog: React.FC<AddExerciseProps> = ({ setShowAddExercise }) => {
+export const AddLog: React.FC<AddLogProps> = ({ setShowAddExercise }) => {
     const [showCategories, setShowCategories] = useState(true);
     const [showExercises, setShowExercises] = useState(false);
     const [showLogForm, setShowLogForm] = useState(false);

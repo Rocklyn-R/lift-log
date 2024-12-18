@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Exercises } from "./Exercises/Exercises";
 import { MdArrowBackIos } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
+import { useState } from "react";
+import { AddExercise } from "./AddExercise/AddExercise";
 
 
 export const ExerciseLibrary = () => {
@@ -14,6 +16,7 @@ export const ExerciseLibrary = () => {
             navigate('/exercise-library')
         }
     }
+    const [showAddExercise, setShowAddExercise] = useState(false);
 
 
     return (
@@ -28,7 +31,7 @@ export const ExerciseLibrary = () => {
             {/* Sticky Header */}
             <Header text="Exercise Library" />
             <button
-                //onClick={() => setShowAddExercise(true)}
+                onClick={() => setShowAddExercise(true)}
                 className="bg-darkestPurple p-3 fixed bottom-14 right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
                 <FaPlus />
             </button>
@@ -45,6 +48,11 @@ export const ExerciseLibrary = () => {
                     />
                 )}
             </div>
+            {showAddExercise && (
+                <AddExercise 
+                    setShowAddExercise={setShowAddExercise}
+                />
+            )}
         </div>
     );
 }
