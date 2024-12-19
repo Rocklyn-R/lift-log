@@ -34,7 +34,7 @@ export const LogsPage = () => {
     const dateStringLong = formatDate(selectedDate).length > 8;
 
     return (
-        <div className="w-full relative flex justify-center min-h-screen">
+        <div className="w-full xl:pl-0 pl-16 relative flex justify-center min-h-screen">
             <div className="w-full flex flex-col items-center min-h-screen">
                 <div className="sticky top-0 w-full py-5 bg-darkestPurple flex justify-center ">
                     <button
@@ -56,7 +56,7 @@ export const LogsPage = () => {
                     </button>
                 </div>
 
-                <div className="flex flex-col xl:ml-0 ml-16 items-center w-full space-y-4 mt-4">
+                <div className="flex flex-col items-center w-full space-y-4 mt-4">
 
                     <Log
                         setShowEditExercise={setShowEditExercise}

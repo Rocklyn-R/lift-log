@@ -52,7 +52,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
             {/* Main Content with Flex for center alignment */}
             <div className="flex-grow flex justify-center my-4">
 
-                <div className="flex flex-col items-center w-1/2 space-y-2">
+                <div className="flex flex-col items-center md:w-1/2 sm:w-2/3 w-full space-y-2">
                     {exercises.map((exercise, index) => (
                         <button
                             onClick={() => handleOpenExercise(exercise)}

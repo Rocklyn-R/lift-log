@@ -20,12 +20,12 @@ export const ExerciseLibrary = () => {
 
 
     return (
-        <div className="flex flex-col relative h-screen w-full justify-center">
+        <div className="flex flex-col xl:pl-0 pl-16 relative h-screen w-full justify-center">
             {categoryId && (
                 <button
                     onClick={() => handleNavigateBack()}
                     style={{ height: '0' }}
-                    className="absolute top-6 left-12 z-50"
+                    className="absolute top-6 left-24 xl:left-12 z-50"
                 ><MdArrowBackIos className="text-2xl text-lightestPurple" /></button>
             )}
             {/* Sticky Header */}
@@ -36,7 +36,7 @@ export const ExerciseLibrary = () => {
                 <FaPlus />
             </button>
             {/* Scrollable content area */}
-            <div className="flex-grow overflow-y-auto p-4">
+            <div className="flex-grow overflow-y-auto p-4 ">
                 {/* Conditionally render ExerciseCategories or Exercises based on categoryId */}
                 {categoryId ? (
                     <Exercises
