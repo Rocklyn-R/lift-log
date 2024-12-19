@@ -47,7 +47,7 @@ export const Log: React.FC<LogProps> = ({ setShowEditExercise }) => {
     }
 
     return (
-        <div className="space-y-4 text-darkPurple">
+        <div className="space-y-4 text-darkPurple xs:w-3/4 sm:w-1/2 md:w-2/5 lg:w-1/3">
             <DndContext
                 onDragEnd={handleDragEnd}
             >

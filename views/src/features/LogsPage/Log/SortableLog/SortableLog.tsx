@@ -30,17 +30,17 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exercise }) => {
         {...attributes}
         {...listeners}
         style={style}
-        className="bg-gray-100 rounded-md shadow-xl hover:cursor-pointer hover:outline hover:outline-mediumPurple">
+        className="bg-gray-100 rounded-md shadow-xl hover:cursor-pointer hover:outline hover:outline-mediumPurple w-full">
             {exercise.sets.length > 0 && (
 
                 <>
                     <h3 className="p-2 border-b-2 border-lightPurple font-semibold text-lg">{exercise.exercise_name}</h3>
-                    <div className="p-3">
+                    <div className="p-3 w-full">
                         {exercise.sets.map((set, index) => (
-                            <div key={index} className="p-2 grid grid-cols-3 text-center items-center">
-                                <span>{set.pr && <span className="text-mediumPurple flex justify-end"><FaTrophy /></span>}</span>
-                                <span className="flex justify-end">{formatNumber(set.weight)} kgs</span>
-                                <span className="flex justify-end">{set.reps} reps</span>
+                            <div key={index} className="p-2 grid grid-cols-[0.5fr_1fr_1fr] text-center items-center w-full">
+                                <span>{set.pr && <span className="text-mediumPurple flex xs:justify-end justify-center"><FaTrophy /></span>}</span>
+                                <span className="flex justify-end w-full">{formatNumber(set.weight)} kgs</span>
+                                <span className="flex justify-end w-full">{set.reps} reps</span>
                             </div>
                         ))}
                     </div>

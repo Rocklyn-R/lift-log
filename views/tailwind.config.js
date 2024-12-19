@@ -17,11 +17,17 @@ module.exports = {
         mediumPurple: '#454399',
         whitePurple: '#DDDAF3'
       },
+      screens: {
+        xs: {'min': '400px', 'max': '639px'}, // Custom xs breakpoint
+        'h-sm': { raw: '(max-height: 640px)' }, // Small height screens
+        'h-md': { raw: '(min-height: 641px)' }, // Medium height screens
+        'h-lg': { raw: '(min-height: 769px)' }, // Large height screens // Add your desired breakpoint value here
+      },
       spacing: {
         '3.5': '0.875rem',
-          '1/5': '20%', // 1/5 of the container height or width
-          '1/6': '16.666667%', // 1/6 of the container height or width
-        }, // This is halfway between 0.75rem (3) and 1rem (4)
+        '1/5': '20%', // 1/5 of the container height or width
+        '1/6': '16.666667%', // 1/6 of the container height or width
+      }, // This is halfway between 0.75rem (3) and 1rem (4)
     },
   },
   plugins: [],

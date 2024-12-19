@@ -31,31 +31,32 @@ export const LogsPage = () => {
     const [showCalendarCopy, setShowCalendarCopy] = useState(false);
     const [showViewDay, setShowViewDay] = useState(false);
     const [showCopyDay, setShowCopyDay] = useState(false);
+    const dateStringLong = formatDate(selectedDate).length > 8;
 
     return (
         <div className="w-full relative flex justify-center min-h-screen">
             <div className="w-full flex flex-col items-center min-h-screen">
-                <div className="sticky top-0 w-full py-5 px-52 bg-darkestPurple flex justify-between items-center">
+                <div className="sticky top-0 w-full py-5 bg-darkestPurple flex justify-center ">
                     <button
                         onClick={() => handleAdjustDate('back')}
-                        className="text-lightestPurple text-2xl"
+                        className={`${dateStringLong ? "top-8" : "top-5"} absolute xs:top-5 left-20 xs:left-24 sm:left-44 md:left-52 lg:left-72 md:top-6 text-lightestPurple text-2xl`}
                     >
                         <MdArrowBackIos />
                     </button>
 
-                    <h1 className="text-lightestPurple text-xl font-semibold flex-grow text-center">
+                    <h1 className="text-lightestPurple xs:w-fit w-28 md:text-xl font-semibold text-center">
                         {formatDate(selectedDate)}
                     </h1>
 
                     <button
                         onClick={() => handleAdjustDate('forward')}
-                        className="text-lightestPurple text-2xl"
+                        className={`${dateStringLong ? "top-8" : "top-5"} absolute xs:top-5 right-20 xs:right-24 sm:right-44 md:right-52 lg:right-72 md:top-6 text-lightestPurple text-2xl`}
                     >
                         <MdArrowForwardIos />
                     </button>
                 </div>
 
-                <div className="flex flex-col w-1/3 space-y-4 mt-4">
+                <div className="flex flex-col xl:ml-0 ml-16 items-center w-full space-y-4 mt-4">
 
                     <Log
                         setShowEditExercise={setShowEditExercise}
@@ -64,7 +65,7 @@ export const LogsPage = () => {
                     <div>
                         <button
                             onClick={() => setShowCalendarNav(true)}
-                            className="bg-darkestPurple p-3 fixed top-2 right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple"
+                            className={`${dateStringLong ? 'top-5' : 'top-2'} bg-darkestPurple p-3 fixed xs:top-2 right-0 xs:right-6 md:right-8 xl:right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple`}
                         >
                             <FaCalendarAlt />
                         </button>
@@ -72,12 +73,12 @@ export const LogsPage = () => {
                 </div>
                 <button
                     onClick={() => setShowAddExercise(true)}
-                    className="bg-darkestPurple p-3 fixed bottom-14 right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
+                    className="bg-darkestPurple p-3 fixed bottom-14 right-6 sm:right-10 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
                     <FaPlus />
                 </button>
                 <button
                     onClick={() => setShowCalendarCopy(true)}
-                    className="bg-darkestPurple p-3 fixed bottom-1/6 right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
+                    className="bg-darkestPurple p-3 fixed bottom-1/5 h-md:bottom-1/6 right-6 sm:right-10  rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
                     <IoIosCopy />
                 </button>
 
