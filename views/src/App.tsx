@@ -10,12 +10,14 @@ import { SignUp } from './features/Authentication/SignUp';
 import { useUserFetch } from './hooks/useUserFetch';
 import { Loading } from './components/Loading';
 import { useLogsFetch } from './hooks/useLogsFetch';
+import { useState } from 'react';
 
 function App() {
   useUserFetch();
   useLogsFetch();
   const isLoading = useSelector(selectIsLoading);
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const [isOpen, setIsOpen] = useState(true);
 
   if (isLoading) {
     return (
@@ -27,10 +29,17 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="flex w-full h-screen bg-lightestPurple overflow-y-auto">
+      <div className="flex w-full h-screen bg-lightestPurple">
 
-        {isAuthenticated && <Navigation />}
-        <div className="w-full h-screen overflow-y-auto">
+        {isAuthenticated && <Navigation isOpen={isOpen} setIsOpen={setIsOpen} />}
+          {/* Overlay */}
+      {isOpen && (
+        <div
+          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-30 z-40"
+          onClick={() => setIsOpen(false)} // Close the menu on clicking the overlay
+        ></div>
+      )}
+        <div className={`w-full h-screen overflow-y-auto`}>
           <Routes>
             <Route
               path="/"

@@ -9,10 +9,14 @@ import { setSelectedDate } from '../../redux-store/LogsSlice';
 import { getTodayDate } from '../../utilities/utilities';
 import { FaBars } from "react-icons/fa6";
 
+interface NavigationProps {
+  isOpen: boolean;
+  setIsOpen: (arg0: boolean) => void;
+}
 
-export const Navigation = () => {
+export const Navigation: React.FC<NavigationProps> = ({isOpen, setIsOpen}) => {
   const [selectedTab, setSelectedTab] = useState('');
-  const [isOpen, setIsOpen] = useState(true);
+  //const [isOpen, setIsOpen] = useState(true);
   const location = useLocation();  // Hook to get the current location (pathname)
   const userFirstName = useSelector(selectFirstName);
   const dispatch = useDispatch();
@@ -35,12 +39,16 @@ export const Navigation = () => {
   }, [location]);
 
 
-
+  /*<nav
+  className={`fixed top-0 left-0 h-screen transition-transform duration-300 transform ${
+    isOpen ? 'translate-x-0' : '-translate-x-full'
+  } w-64 bg-darkestPurple text-lightestPurple z-50`}
+>*/
   return (
     <div className="flex relative">
       {/* Sidebar */}
       <nav
-        className={`flex flex-col justify-between h-screen transition-width duration-300 ${isOpen ? 'w-64' : 'xl:w-64 w-16'
+        className={`z-50 fixed top-0 left-0 xl:static flex flex-col justify-between h-screen transition-width duration-300 ${isOpen ? 'w-64' : 'xl:w-64 w-16'
           } bg-darkestPurple text-lightestPurple`}
       >
         <button

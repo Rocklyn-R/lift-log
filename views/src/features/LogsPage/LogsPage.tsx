@@ -33,9 +33,9 @@ export const LogsPage = () => {
     const [showCopyDay, setShowCopyDay] = useState(false);
 
     return (
-        <div className="w-full relative flex justify-center overflow-y-auto min-h-screen">
+        <div className="w-full relative flex justify-center min-h-screen">
             <div className="w-full flex flex-col items-center min-h-screen">
-                <div className="w-full py-5 px-52 bg-darkestPurple flex justify-between items-center">
+                <div className="sticky top-0 w-full py-5 px-52 bg-darkestPurple flex justify-between items-center">
                     <button
                         onClick={() => handleAdjustDate('back')}
                         className="text-lightestPurple text-2xl"
