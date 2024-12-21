@@ -1,13 +1,9 @@
-import { useEffect } from "react"
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
-import { getLog, reorderExercises } from "../../../api/logs";
+import { reorderExercises } from "../../../api/logs";
 import { setWorkout, selectSelectedDate, selectWorkout, setSelectedExercise, updateExerciseOrder } from "../../../redux-store/LogsSlice"
-import { Workout } from "../../../types/types";
-import { formatNumber } from "../../../utilities/utilities";
-import { FaTrophy } from "react-icons/fa";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
-import { arrayMove, SortableContext, useSortable } from "@dnd-kit/sortable";
+import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { SortableLog } from "./SortableLog/SortableLog";
 
 

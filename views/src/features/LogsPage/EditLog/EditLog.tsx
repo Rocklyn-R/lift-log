@@ -8,7 +8,7 @@ interface EditLogProps {
     setShowEditExercise: (arg0: boolean) => void;
 }
 
-export const EditLog: React.FC<EditLogProps> = ({setShowEditExercise}) => {
+export const EditLog: React.FC<EditLogProps> = ({ setShowEditExercise }) => {
     const selectedExercise = useSelector(selectSelectedExercise)
     const dispatch = useDispatch();
 
@@ -20,11 +20,12 @@ export const EditLog: React.FC<EditLogProps> = ({setShowEditExercise}) => {
 
     return (
         <OverlayWindow
-        onClose={handleCloseEditExercise}
-        headerText={`${selectedExercise?.exercise_name}`}
-        className="w-1/3"
+            onClose={handleCloseEditExercise}
+            headerText={`${selectedExercise?.exercise_name}`}
+            className="phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3"
+            className2="min-h-[65vh] max-h-[70vh]"
         >
-            <ViewLog 
+            <ViewLog
             />
         </OverlayWindow>
     )

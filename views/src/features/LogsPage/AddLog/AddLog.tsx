@@ -66,31 +66,33 @@ export const AddLog: React.FC<AddLogProps> = ({ setShowAddExercise }) => {
                     ? `${selectedExercise?.exercise_name}`
                     : "All Exercises"
                 }`}
-            className="w-1/3 relative"
-            className2="max-h-[65vh] min-h-[65vh] overflow-y-auto "
+            className="phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3 relative"
+            className2={`${showExercises ? 'max-h-[70vh]' : "max-h-[75vh]"}  min-h-[65vh]`}
         >
-            {(showExercises || showLogForm )&& (
+            {(showExercises || showLogForm) && (
                 <button
                     onClick={handleNavigateBack}
-                    className="absolute top-4 left-4 hover:cursor-pointer z-50"
+                    className="absolute top-4 left-2 sm:left-4 hover:cursor-pointer z-50"
                 >
-                    <MdArrowBackIos className="text-xl text-lightestPurple" />
+                    <MdArrowBackIos className="sm:text-xl text-lightestPurple" />
                 </button>
             )}
+            <div className="px-6 overflow-y-auto">
+                {showCategories && (
+                    <ExerciseCategories
+                        handleShowExercises={handleShowExercises}
+                        source="logs"
+                    />
+                )}
+                {showExercises && (
+                    <Exercises
+                        source="logs"
+                        handleShowCategories={handleShowCategories}
+                        handleSelectExercise={handleSelectExercise}
+                    />
+                )}
+            </div>
 
-            {showCategories && (
-                <ExerciseCategories
-                    handleShowExercises={handleShowExercises}
-                    source="logs"
-                />
-            )}
-            {showExercises && (
-                <Exercises
-                    source="logs"
-                    handleShowCategories={handleShowCategories}
-                    handleSelectExercise={handleSelectExercise}
-                />
-            )}
             {showLogForm && (
                 <>
                     <ViewLog

@@ -182,7 +182,7 @@ export const LogForm = () => {
     }
 
     return (
-        <div className="min-h-[55vh] w-full flex justify-start items-center relative pt-4 flex-col z-40">
+        <div className="min-h-[55vh] max-h-[65vh] w-full flex justify-start items-center relative pt-4 flex-col z-40">
             {errorMessage && <p className="absolute top-0 z-50 bg-lightPurple px-2 rounded-md text-darkestPurple text-sm">{errorMessage}</p>}
 
 

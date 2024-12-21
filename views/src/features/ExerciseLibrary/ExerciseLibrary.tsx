@@ -28,16 +28,16 @@ export const ExerciseLibrary = () => {
                     className="absolute top-6 left-24 xl:left-12 z-50"
                 ><MdArrowBackIos className="text-2xl text-lightestPurple" /></button>
             )}
-            {/* Sticky Header */}
+           
             <Header text="Exercise Library" />
             <button
                 onClick={() => setShowAddExercise(true)}
-                className="bg-darkestPurple p-3 fixed bottom-14 right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
+                className="bg-darkestPurple p-3 fixed bottom-12 right-6 sm:right-10 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
                 <FaPlus />
             </button>
-            {/* Scrollable content area */}
+           
             <div className="flex-grow overflow-y-auto p-4 ">
-                {/* Conditionally render ExerciseCategories or Exercises based on categoryId */}
+                
                 {categoryId ? (
                     <Exercises
                         source="library"

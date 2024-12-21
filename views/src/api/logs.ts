@@ -1,5 +1,3 @@
-import { DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS } from "react";
-
 export const BASE_URL = process.env.NODE_ENV === 'production'
     ? ''
     : 'http://localhost:4000/logs';

@@ -191,14 +191,14 @@ export const CopyWorkout: React.FC<CopyWorkoutProps> = ({ setShowCalendar, setSh
         <OverlayWindow
             headerText={`Copy Workout - ${formattedDate}`}
             onClose={handleCloseOverlay}
-            className="w-1/3 min-h-[55vh]"
-            className2={`${workoutOnDate.length === 0 ? "flex h-[45vh] items-center justify-center" : "flex flex-col justify-between"}`}
+            className="phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3 min-h-[45vh] max-h-[75vh]"
+            className2={`${workoutOnDate.length === 0 ? "flex items-center justify-center" : "flex flex-col min-h-[45vh] justify-between"}`}
         >
             <button
                 onClick={() => handleNavigateBack()}
                 style={{ height: '0' }}
-                className="absolute top-4 left-4 z-50"
-            ><MdArrowBackIos className="text-2xl text-lightestPurple" /></button>
+                className="absolute top-4 left-2 sm:left-4 z-50"
+            ><MdArrowBackIos className="sm:text-2xl text-lightestPurple" /></button>
 
             {workoutOnDate.length > 0 ? (
                 <div className="max-h-[50vh] overflow-y-auto">

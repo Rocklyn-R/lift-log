@@ -56,7 +56,9 @@ export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action, set
         <OverlayWindow
             headerText="Calendar"
             onClose={() => setShowCalendar(false)}
-            className2="max-h-[50vh]">
+            className2=""
+            className="phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-2/5 xl:w-1/3 2xl:w-1/4">
+
             <div className="flex justify-between items-center my-4 text-darkestPurple">
                 <button
                     onClick={handlePrevMonth}
@@ -75,7 +77,7 @@ export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action, set
                 </button>
             </div>
 
-            <div className="grid grid-cols-7 gap-2 text-center p-4 text-darkestPurple">
+            <div className="grid grid-cols-7 gap-2 text-center p-4 text-darkestPurple place-items-center">
                 {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, idx) => (
                     <div key={idx} className="font-semibold">{day}</div>
                 ))}
@@ -95,7 +97,7 @@ export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action, set
                                     }
                                 }}
                                 key={index}
-                                className={`flex justify-center items-center w-10 h-10 ${dayIndex > 0 && dayIndex <= totalDays ? "cursor-pointer" : "text-transparent"
+                                className={`flex justify-center items-center w-9 h-9 sm:w-10 sm:h-10 ${dayIndex > 0 && dayIndex <= totalDays ? "cursor-pointer" : "text-transparent"
                                     } p-2 rounded-full transition ${highlightedDates.includes(dayString) ? "border-2 rounded-full border-darkestPurple" : ""
                                     }`}
                             >

@@ -4,8 +4,8 @@ import { selectSelectedDate, selectWorkout, selectWorkoutToCopy, setDateToCopy, 
 import { formatDateForHistory } from "../../../../../utilities/utilities";
 import { Button } from "../../../../../components/Button";
 import { useDispatch } from "react-redux";
-import { addSetToLog, getUpdatedPrs } from "../../../../../api/logs";
-import { addExerciseToWorkout, updatePr } from "../../../../../redux-store/LogsSlice";
+import { addSetToLog } from "../../../../../api/logs";
+import { addExerciseToWorkout } from "../../../../../redux-store/LogsSlice";
 
 
 interface CopyMessageProps {
@@ -79,7 +79,7 @@ export const CopyMessage: React.FC<CopyMessageProps> = ({ setShowCopyMessage, se
         <OverlayWindow
             headerText="Copy Workout"
             onClose={() => setShowCopyMessage(false)}
-            className="w-1/4"
+            className="phones:w-4/5 xs:w-3/5 sm:w-2/5 md:w-1/3 lg:w-1/4"
             className2="flex justify-center p-4 z-50"
         >
             <span>Are you sure you want to copy the selected sets to <span className="font-semibold">{formatDateForHistory(selectedDate)}</span>?</span>

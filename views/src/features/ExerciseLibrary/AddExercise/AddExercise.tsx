@@ -74,7 +74,7 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
         <OverlayWindow
             headerText="New Exercise"
             onClose={() => setShowAddExercise(false)}
-            className="w-1/4"
+            className="phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3"
             className2="p-4"
         > 
         {showSuccessMessage ? (

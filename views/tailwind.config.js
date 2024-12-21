@@ -18,7 +18,8 @@ module.exports = {
         whitePurple: '#DDDAF3'
       },
       screens: {
-        xs: {'min': '400px', 'max': '639px'}, // Custom xs breakpoint
+        'phones': {'min': '0px', max: '449px'},
+        xs: {'min': '450px', 'max': '639px'}, // Custom xs breakpoint
         'h-sm': { raw: '(max-height: 640px)' }, // Small height screens
         'h-md': { raw: '(min-height: 641px)' }, // Medium height screens
         'h-lg': { raw: '(min-height: 769px)' }, // Large height screens // Add your desired breakpoint value here

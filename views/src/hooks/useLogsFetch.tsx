@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getLog } from "../api/logs";
-import { selectSelectedDate, selectWorkout, setWorkout } from "../redux-store/LogsSlice";
+import { selectSelectedDate, setWorkout } from "../redux-store/LogsSlice";
 import { selectIsAuthenticated } from "../redux-store/UserSlice";
 import { Workout } from "../types/types";
 

@@ -52,7 +52,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
             {/* Main Content with Flex for center alignment */}
             <div className="flex-grow flex justify-center my-4">
 
-                <div className="flex flex-col items-center md:w-1/2 sm:w-2/3 w-full space-y-2">
+                <div className={`${source === "library" ? "md:w-1/2" : "md:w-2/3"} flex flex-col items-center sm:w-2/3 xs:w-3/4 w-full space-y-2`}>
                     {exercises.map((exercise, index) => (
                         <button
                             onClick={() => handleOpenExercise(exercise)}
@@ -68,8 +68,9 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
                 <OverlayWindow
                     headerText={selectedExercise.exercise_name}
                     onClose={handleCloseExervise}
-                    className="w-1/3"
-                >
+                    className="phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3"
+                    className2="max-h-[75vh] min-h-[65vh]"
+               >
                   <ViewLog 
                   />
                 </OverlayWindow>
