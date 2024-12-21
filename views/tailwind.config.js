@@ -25,6 +25,7 @@ module.exports = {
         'h-lg': { raw: '(min-height: 769px)' }, // Large height screens // Add your desired breakpoint value here
       },
       spacing: {
+        '028': '0.31rem',
         '3.5': '0.875rem',
         '1/5': '20%', // 1/5 of the container height or width
         '1/6': '16.666667%', // 1/6 of the container height or width

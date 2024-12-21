@@ -11,6 +11,7 @@ import { useUserFetch } from './hooks/useUserFetch';
 import { Loading } from './components/Loading';
 import { useLogsFetch } from './hooks/useLogsFetch';
 import { useState } from 'react';
+import { TimeTools } from './features/TimeTools/TimeTools';
 
 function App() {
   useUserFetch();
@@ -60,6 +61,10 @@ function App() {
                 <Route
                   path="/exercise-library/:categoryId"
                   element={<ExerciseLibrary />}
+                />
+                <Route 
+                  path="/time"
+                  element={<TimeTools />}
                 />
               </>
             )}

@@ -206,7 +206,7 @@ export const LogForm = () => {
                             }
                             type="number"
                             step="0.1"
-                            className="border-b-2 border-darkPurple focus:outline-none appearance-none bg-transparent text-2xl text-center"
+                            className="weight-reps-input border-b-2 border-darkPurple focus:outline-none appearance-none bg-transparent text-2xl text-center"
                             style={{ width: `${calculatedWeightWidth}rem` }}
                             placeholder=""
                             onChange={(e) => {
@@ -239,7 +239,7 @@ export const LogForm = () => {
                             value={repsInput !== null ? repsInput : ""}
                             type="number"
                             step="0.1"
-                            className="border-b-2 border-darkPurple focus:outline-none appearance-none bg-transparent text-2xl text-center"
+                            className="weight-reps-input border-b-2 border-darkPurple focus:outline-none appearance-none bg-transparent text-2xl text-center"
                             style={{ width: `${calculatedRepsWidth}rem` }}
                             placeholder=""
                             onChange={(e) => {

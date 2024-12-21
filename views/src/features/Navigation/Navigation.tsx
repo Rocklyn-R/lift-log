@@ -32,8 +32,8 @@ export const Navigation: React.FC<NavigationProps> = ({isOpen, setIsOpen}) => {
       setSelectedTab('Logs');
     } else if (pathname.includes('/settings')) {
       setSelectedTab('Settings');
-    } else if (pathname.includes('/rest-timer')) {
-      setSelectedTab("Timer")
+    } else if (pathname.includes('/clock')) {
+      setSelectedTab("Time")
     }
     // Add more conditions as per your routes
   }, [location]);
@@ -71,7 +71,10 @@ export const Navigation: React.FC<NavigationProps> = ({isOpen, setIsOpen}) => {
             <Link
               to="/logs"
               className={`${selectedTab === 'Logs' ? 'bg-darkPurple' : ''} block py-4 px-4 hover:bg-darkPurple rounded`}
-              onClick={() => setSelectedTab('Logs')}
+              onClick={() => {
+                setSelectedTab('Logs');
+                setIsOpen(false);
+              }}
             >
               Logs
             </Link>
@@ -83,6 +86,7 @@ export const Navigation: React.FC<NavigationProps> = ({isOpen, setIsOpen}) => {
               onClick={() => {
                 setSelectedTab('Exercises')
                 dispatch(setSelectedDate(getTodayDate()))
+                setIsOpen(false);
               }}
             >
               Exercise Library
@@ -90,14 +94,15 @@ export const Navigation: React.FC<NavigationProps> = ({isOpen, setIsOpen}) => {
           </li>
           <li>
             <Link
-              to="/rest-timer"
-              className={`${selectedTab === 'Timer' ? 'bg-darkPurple' : ''} block py-4 px-4 hover:bg-darkPurple rounded`}
+              to="/time"
+              className={`${selectedTab === 'Time' ? 'bg-darkPurple' : ''} block py-4 px-4 hover:bg-darkPurple rounded`}
               onClick={() => {
-                setSelectedTab('Timer')
-                dispatch(setSelectedDate(getTodayDate()))
+                setSelectedTab('Time')
+                dispatch(setSelectedDate(getTodayDate()));
+                setIsOpen(false);
               }}
             >
-              Rest Timer
+              Time Tools
             </Link>
           </li>
           <li>
@@ -106,7 +111,8 @@ export const Navigation: React.FC<NavigationProps> = ({isOpen, setIsOpen}) => {
               className={`${selectedTab === 'Settings' ? 'bg-darkPurple' : ''} block py-4 px-4 hover:bg-darkPurple rounded`}
               onClick={() => {
                 setSelectedTab('Settings');
-                dispatch(setSelectedDate(getTodayDate()))
+                dispatch(setSelectedDate(getTodayDate()));
+                setIsOpen(false);
               }}
             >
               Settings
