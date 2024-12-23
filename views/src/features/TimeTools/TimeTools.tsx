@@ -1,13 +1,26 @@
 import { Header } from "../../components/Header";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Timer } from "./Timer/Timer";
+import { getTimer } from "../../api/timers";
+import { selectTimerLoading, setTimerTime } from "../../redux-store/TimeSlice";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { Loading } from "../../components/Loading";
 
 export const TimeTools = () => {
     const [activeTab, setActiveTab] = useState<"Timer" | "Stopwatch">("Timer");
+    const dispatch = useDispatch();
+    const isLoading = useSelector(selectTimerLoading);
 
-
+    if (isLoading) {
+        return (
+          <div className="flex flex-col items-center justify-center h-screen bg-lightestPurple">
+            <Loading />
+          </div>
+        );
+      }
     return (
-        <div>
+        <div className="xl:pl-0 pl-16">
             <Header text="Time Tools" />
 
             <div className="">

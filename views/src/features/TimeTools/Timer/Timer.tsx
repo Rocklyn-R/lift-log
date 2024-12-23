@@ -120,7 +120,7 @@ export const Timer = () => {
                         <LuTimer className="text-2xl text-darkestPurple" />
                     </button>
 
-                    <div className="flex space-between mt-4 text-darkestPurple">
+                    <div className="flex space-between mt-4 text-darkPurple">
                         <button
                             onClick={reset}
                             className=""

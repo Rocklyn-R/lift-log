@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
     /* Projects */
@@ -109,7 +110,13 @@
   },
   "include": [
     "types.d.ts",          // Add types.d.ts to the include section
-    "controllers/**/*",    // Include all TypeScript files inside the controllers folder
-    "lift-log/**/*"        // Include all TypeScript files in the lift-log folder
+    "controllers/**/*",
+    "models/**/*",
+    "routes/**/*",
+    "config/**/*"   // Include all TypeScript files in the lift-log folder
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
   ]
 }

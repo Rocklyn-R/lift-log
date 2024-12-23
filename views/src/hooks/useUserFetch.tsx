@@ -16,7 +16,6 @@ export const useUserFetch = () => {
                 dispatch(setUserEmail(response.user.email));
             }
             else if (response.error) {
-                //dispatch(setIsLoadingAuth(false));
                 dispatch(setIsAuthenticated(false))
             } 
         }

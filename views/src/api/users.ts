@@ -1,3 +1,6 @@
+
+
+
 export const createNewUser = async (name: string, lastName: string, email: string, password: string) => {
     try {
         const response = await fetch('http://localhost:4000/user/signup', {

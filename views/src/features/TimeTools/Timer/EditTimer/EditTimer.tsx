@@ -5,6 +5,7 @@ import { CustomNumberInput } from "../../../../components/CustomNumberInput";
 import { useSelector } from "react-redux";
 import { selectHours, selectMinutes, selectSeconds, setTimerTime } from "../../../../redux-store/TimeSlice";
 import { useDispatch } from "react-redux";
+import { addTimer } from "../../../../api/timers";
 
 interface EditTimerProps {
     setShowEditTimer: (arg0: boolean) => void;
@@ -23,16 +24,28 @@ export const EditTimer: React.FC<EditTimerProps> = ({ setShowEditTimer, play }) 
 
     const isButtonDisabled = hours === 0 && minutes === 0 && seconds === 0;
 
-    const handleSetTimer = () => {
+    const handleSetTimer = async () => {
         if (!isButtonDisabled) {
+            const seconds_left = (hours * 3600) + (minutes * 60) + seconds
             dispatch(setTimerTime({
                 hours,
                 minutes,
-                seconds
+                seconds,
+                seconds_left
             }))
         }
-        setShowEditTimer(false);
-        play();
+        if (hoursSet === 0 && minutesSet === 0 && secondsSet === 0) {
+            const secondsLeft = (hours * 3600) + (minutes * 60) + seconds;
+            const timerCreation = await addTimer(hours, minutes, seconds, secondsLeft);
+            if (timerCreation) {
+                setShowEditTimer(false);
+                play();
+            }
+        } else {
+            setShowEditTimer(false);
+            play();
+        }
+
     }
     return (
         <div className="flex flex-col items-center justify-between h-full space-y-4 w-full p-10">

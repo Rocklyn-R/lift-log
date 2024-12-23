@@ -12,10 +12,13 @@ import { Loading } from './components/Loading';
 import { useLogsFetch } from './hooks/useLogsFetch';
 import { useState } from 'react';
 import { TimeTools } from './features/TimeTools/TimeTools';
+import { useTimerFetch } from './hooks/useTimerFetch';
 
 function App() {
   useUserFetch();
   useLogsFetch();
+  useTimerFetch();
+  
   const isLoading = useSelector(selectIsLoading);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [isOpen, setIsOpen] = useState(false);
