@@ -6,6 +6,7 @@ import { selectTimerLoading, setTimerTime } from "../../redux-store/TimeSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Loading } from "../../components/Loading";
+import { Stopwatch } from "./Stopwatch/Stopwatch";
 
 export const TimeTools = () => {
     const [activeTab, setActiveTab] = useState<"Timer" | "Stopwatch">("Timer");
@@ -23,11 +24,11 @@ export const TimeTools = () => {
         <div className="xl:pl-0 pl-16">
             <Header text="Time Tools" />
 
-            <div className="">
+            <div className="flex flex-col items-center w-full">
                 {activeTab === "Timer" ? (
                     <Timer />
                 ) : (
-                    <div className="p-4 bg-lightPurple rounded shadow">Stopwatch Component Here</div>
+                    <Stopwatch />
                 )}
             </div>
             <div className="flex justify-center mt-4 space-x-4">
