@@ -5,7 +5,7 @@ import { CustomNumberInput } from "../../../../components/CustomNumberInput";
 import { useSelector } from "react-redux";
 import { selectHours, selectMinutes, selectSeconds, setTimerTime } from "../../../../redux-store/TimeSlice";
 import { useDispatch } from "react-redux";
-import { addTimer } from "../../../../api/timers";
+import { addTimer, updateTimer } from "../../../../api/timers";
 
 interface EditTimerProps {
     setShowEditTimer: (arg0: boolean) => void;
@@ -42,8 +42,13 @@ export const EditTimer: React.FC<EditTimerProps> = ({ setShowEditTimer, play }) 
                 play();
             }
         } else {
-            setShowEditTimer(false);
-            play();
+            const secondsLeft = (hours * 3600) + (minutes * 60) + seconds;
+            const timerUpdateResult = await updateTimer(hours, minutes, seconds, secondsLeft);
+            if (timerUpdateResult) {
+                setShowEditTimer(false);
+                play();
+            }
+
         }
 
     }

@@ -17,7 +17,7 @@ export const addTimer = async (
             credentials: "include",
             body: JSON.stringify({ hours, minutes, seconds, seconds_left })
         })
-      
+
         return response.ok
     } catch (error) {
         console.log(error);
@@ -25,7 +25,7 @@ export const addTimer = async (
 }
 
 
-export const getTimer = async () =>  {
+export const getTimer = async () => {
     try {
         const response = await fetch(`${BASE_URL}/`, {
             method: 'GET',
@@ -34,10 +34,31 @@ export const getTimer = async () =>  {
             },
             credentials: "include",
         })
-      
+
         const data = await response.json();
         console.log(data.timer);
         return data.timer;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updateTimer = async (
+    hours: number,
+    minutes: number,
+    seconds: number,
+    seconds_left: number
+) => {
+    try {
+        const response = await fetch(`${BASE_URL}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({ hours, minutes, seconds, seconds_left })
+        })
+        return response.ok
     } catch (error) {
         console.log(error);
     }

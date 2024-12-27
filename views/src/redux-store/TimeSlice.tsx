@@ -9,7 +9,10 @@ export const TimeSlice = createSlice({
         seconds: 0,
         secondsLeft: 0,
         timerPaused: true,
-        timerLoading: true
+        timerLoading: true,
+        stopwatchRunning: false,
+        stopwatchStartTime: 0,
+        elapsedStopwatchTime: 0
     },
     reducers: {
         setTimerTime: (state, action) => {
@@ -43,6 +46,16 @@ export const TimeSlice = createSlice({
         },
         setTimerLoaded: (state) => {
             state.timerLoading = false;
+        },
+        startStopwatch: (state) => {
+            state.stopwatchRunning = true;
+            state.stopwatchStartTime = Date.now() - state.elapsedStopwatchTime;
+        },
+        pauseStopwatch: (state) => {
+            state.stopwatchRunning = false;
+        },
+        setElapsedStopwatchTime: (state, action) => {
+            state.elapsedStopwatchTime = action.payload;
         }
     }
 })
@@ -53,7 +66,10 @@ export const {
     playTimer,
     pauseTimer,
     resetTimer,
-    setTimerLoaded
+    setTimerLoaded,
+    startStopwatch,
+    pauseStopwatch,
+    setElapsedStopwatchTime
 } = TimeSlice.actions;
 
 export const selectHours = (state: RootState) => state.time.hours;
@@ -61,6 +77,9 @@ export const selectMinutes = (state: RootState) => state.time.minutes;
 export const selectSeconds = (state: RootState) => state.time.seconds;
 export const selectSecondsLeft = (state: RootState) => state.time.secondsLeft;
 export const selectTimerPaused = (state: RootState) => state.time.timerPaused;
-export const selectTimerLoading = (state: RootState) => state.time. timerLoading;
+export const selectTimerLoading = (state: RootState) => state.time.timerLoading;
+export const selectStopwatchRunning = (state: RootState) => state.time.stopwatchRunning;
+export const selectElapsedTime = (state: RootState) => state.time.elapsedStopwatchTime;
+export const selectStopwatchStartTime = (state: RootState) => state.time.stopwatchStartTime;
 
 export default TimeSlice.reducer;

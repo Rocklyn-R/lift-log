@@ -1,16 +1,21 @@
 import { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Button } from "../../../components/Button";
+import { pauseStopwatch, selectElapsedTime, selectStopwatchRunning, selectStopwatchStartTime, setElapsedStopwatchTime, startStopwatch } from "../../../redux-store/TimeSlice";
 
 export const Stopwatch = () => {
-    const [isRunning, setIsRunning] = useState(false);
-    const [elapsedTime, setElapsedTime] = useState(0);
+    const isRunning = useSelector(selectStopwatchRunning);
+    const elapsedTime = useSelector(selectElapsedTime);
+    const dispatch = useDispatch();
     const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
-    const startTimeRef = useRef(0);
+    //const startTimeRef = useRef(0);
+    const startTime = useSelector(selectStopwatchStartTime);
 
     useEffect(() => {
         if (isRunning) {
             intervalIdRef.current = setInterval(() => {
-                setElapsedTime(Date.now() - startTimeRef.current)
+                dispatch(setElapsedStopwatchTime(Date.now() - startTime))
             }, 10)
         }
 
@@ -21,18 +26,40 @@ export const Stopwatch = () => {
         };
     }, [isRunning]);
 
+    /**    const startTimer = useCallback(() => {
+        let iterations = 0;
+        const maxIterations = secondsLeft;
+        const id = setInterval(() => {
+            if (iterations <= maxIterations) {
+                dispatch(tick());
+                iterations++;
+            } else {
+                intervalId = id;
+            }
+        }, 1000);
+        intervalId = id;
+        // eslint-disable-next-line
+    }, [dispatch, secondsLeft]);
+
+    useEffect(() => {
+
+        if (isPaused) {
+            clearInterval(intervalId);
+        }
+    }, [isPaused]); */
+
     const start = () => {
-        setIsRunning(true);
-        startTimeRef.current = Date.now() - elapsedTime;
+        dispatch(startStopwatch());
+        //startTimeRef.current = Date.now() - elapsedTime;
     }
 
     const stop = () => {
-        setIsRunning(false);
+        dispatch(pauseStopwatch());
     }
 
     const reset = () => {
-        setElapsedTime(0);
-        setIsRunning(false);
+        dispatch(setElapsedStopwatchTime(0));
+        dispatch(pauseStopwatch());
     }
 
     const formatTime = () => {
@@ -53,7 +80,7 @@ export const Stopwatch = () => {
         <div className="h-[70vh] flex flex-col justify-center items-center text-darkestPurple w-full">
             {/* Centered Circle */}
             <div className="flex items-center justify-center h-fit w-full">
-                <div className="flex flex-col items-center justify-center bg-lightPurple border-8 border-darkPurple rounded-full w-[70vh] h-[70vh] max-w-[400px] max-h-[400px]">
+                <div className="flex flex-col items-center justify-center   w-[70vh] h-[70vh] max-w-[400px] max-h-[400px]">
                     {/* Timer */}
                     <div className="text-7xl font-bold mb-8 p-2 font-mono">
                         {formatTime()}

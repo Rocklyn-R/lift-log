@@ -28,3 +28,24 @@ export const timerGet = async (user_id: number) => {
         throw error;
     }
 }
+
+
+export const timerEdit = async (
+    hours: number, 
+    minutes: number, 
+    seconds: number, 
+    seconds_left: number, 
+    user_id: number) => {
+    const query = `
+    UPDATE timers SET hours = $1, minutes = $2, seconds = $3, seconds_left = $4 
+    WHERE user_id = $5`;
+    try {
+        const result = await db.query(query, [
+            hours, minutes, seconds, seconds_left, user_id
+        ]);
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
