@@ -9,6 +9,7 @@ import { MdArrowBackIos } from "react-icons/md";
 import { Button } from "../../../../components/Button";
 import { useState, useEffect } from "react";
 import { CopyMessage } from "./CopyMessage/CopyMessage";
+import { selectUnitSystem } from "../../../../redux-store/SettingsSlice";
 
 interface CopyWorkoutProps {
     setShowCalendar: (arg0: boolean) => void;
@@ -24,7 +25,7 @@ export const CopyWorkout: React.FC<CopyWorkoutProps> = ({ setShowCalendar, setSh
     const dispatch = useDispatch();
     const workoutOnDate = useSelector(selectWorkoutOnDate);
     const [showCopyMessage, setShowCopyMessage] = useState(false);
-
+    const unit_system = useSelector(selectUnitSystem);
 
     const handleCloseOverlay = () => {
         if (showCopyMessage) {
@@ -230,7 +231,11 @@ export const CopyWorkout: React.FC<CopyWorkoutProps> = ({ setShowCalendar, setSh
                                     <div className="p-3">
                                         {exercise.sets.map((set, index) => (
                                             <div key={index} className="p-2 flex justify-end space-x-6 text-center items-center">
+                                               {unit_system === "metric" ? (
                                                 <span className="flex justify-end">{formatNumber(set.weight)} kgs</span>
+                                               ) : (
+                                                <span className="flex justify-end">{formatNumber(set.weight_lbs)} lbs</span>
+                                               )} 
                                                 <div className="flex justify-end items-center space-x-4">
                                                     <span>{set.reps} reps</span>
                                                     <input

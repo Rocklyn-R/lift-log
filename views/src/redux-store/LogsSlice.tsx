@@ -41,7 +41,8 @@ export const LogsSlice = createSlice({
                 weight,
                 reps,
                 id,
-                PR
+                PR,
+                weight_lbs
             } = action.payload;
             const index = state.workout.findIndex(exercise => exercise.exercise_id === action.payload.exercise_id);
             if (index === -1) {
@@ -55,7 +56,8 @@ export const LogsSlice = createSlice({
                         reps: reps,
                         set_number: set_number,
                         set_id: id,
-                        pr: PR
+                        pr: PR,
+                        weight_lbs: weight_lbs
                     }]
                 });
             } else {
@@ -64,7 +66,8 @@ export const LogsSlice = createSlice({
                     reps: reps,
                     set_number: set_number,
                     set_id: id,
-                    pr: PR
+                    pr: PR,
+                    weight_lbs: weight_lbs
                 })
             }
         },

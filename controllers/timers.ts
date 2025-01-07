@@ -1,5 +1,5 @@
 import e, { Request, Response } from 'express';
-import { timerAdd, timerEdit, timerGet } from '../models/timers';
+import { timerAdd, timerEdit, timerGet, timerPlayPause } from '../models/timers';
 
 interface User {
     id: number
@@ -46,4 +46,15 @@ export const editTimer = async (req: Request, res: Response) => {
 }
 
 
-
+export const playPauseTimer = async (req: Request, res: Response) => {
+    const user_id = (req.user as User).id;
+    const { runningBoolean } = req.body;
+    try {
+        const result = await timerPlayPause(runningBoolean, user_id);
+        if (result) {
+            res.status(201).json({ message: "Timer successfully updated" })
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' })
+    }
+}

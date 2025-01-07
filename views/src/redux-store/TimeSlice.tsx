@@ -8,7 +8,7 @@ export const TimeSlice = createSlice({
         minutes: 0,
         seconds: 0,
         secondsLeft: 0,
-        timerPaused: true,
+        timerRunning: false,
         timerLoading: true,
         stopwatchRunning: false,
         stopwatchStartTime: 0,
@@ -24,25 +24,25 @@ export const TimeSlice = createSlice({
             state.timerLoading = false;
         },
         tick: (state) => {
-            if (state.timerPaused) {
+            if (!state.timerRunning) {
                 return;
             }
             if (state.secondsLeft === 0) {
-                state.timerPaused = true;
+                state.timerRunning = false;
                 state.secondsLeft = (state.hours * 3600) + (state.minutes * 60) + state.seconds;
             } else {
                 state.secondsLeft = state.secondsLeft - 1;
             }
         },
         playTimer: (state) => {
-            state.timerPaused = false;
+            state.timerRunning = true;
         },
         pauseTimer: (state) => {
-            state.timerPaused = true;
+            state.timerRunning = false;
         },
         resetTimer: (state) => {
             state.secondsLeft = (state.hours * 3600) + (state.minutes * 60) + state.seconds;
-            state.timerPaused = true;
+            state.timerRunning = false;
         },
         setTimerLoaded: (state) => {
             state.timerLoading = false;
@@ -76,7 +76,7 @@ export const selectHours = (state: RootState) => state.time.hours;
 export const selectMinutes = (state: RootState) => state.time.minutes;
 export const selectSeconds = (state: RootState) => state.time.seconds;
 export const selectSecondsLeft = (state: RootState) => state.time.secondsLeft;
-export const selectTimerPaused = (state: RootState) => state.time.timerPaused;
+export const selectTimerRunning = (state: RootState) => state.time.timerRunning;
 export const selectTimerLoading = (state: RootState) => state.time.timerLoading;
 export const selectStopwatchRunning = (state: RootState) => state.time.stopwatchRunning;
 export const selectElapsedTime = (state: RootState) => state.time.elapsedStopwatchTime;

@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getExerciseHistory } from "../../../../../api/logs";
 import { selectHistory, selectSelectedExercise, setExerciseHistory } from "../../../../../redux-store/LogsSlice";
+import { selectUnitSystem } from "../../../../../redux-store/SettingsSlice";
 import { Workout } from "../../../../../types/types";
 import { formatDateForHistory, formatNumber } from "../../../../../utilities/utilities";
 
@@ -11,6 +12,7 @@ export const History = () => {
     const selectedExercise = useSelector(selectSelectedExercise);
     const dispatch = useDispatch();
     const exerciseHistory = useSelector(selectHistory);
+    const unit_system = useSelector(selectUnitSystem);
 
     useEffect(() => {
         const fetchExerciseHistory = async () => {
@@ -32,6 +34,7 @@ export const History = () => {
                             set_number: set.set_number,
                             set_id: set.id,
                             pr: set.PR,
+                            weight_lbs: set.weight_lbs
                         });
                     } else {
                         // Create a new exercise object
@@ -47,6 +50,7 @@ export const History = () => {
                                     set_number: set.set_number,
                                     set_id: set.id,
                                     pr: set.PR,
+                                    weight_lbs: set.weight_lbs
                                 },
                             ],
                         });
@@ -71,7 +75,9 @@ export const History = () => {
                     {exercise.sets.map((set, index) => (
                         <div key={index} className="p-2 grid grid-cols-3 text-center items-center">
                             <span>{set.pr && <span className="text-mediumPurple flex justify-end"><FaTrophy /></span>}</span>
+                           {unit_system === "metric" ? (
                             <span className="flex justify-end">{formatNumber(set.weight)} kgs</span>
+                           ) :  <span className="flex justify-end">{formatNumber(set.weight_lbs)} lbs</span>}
                             <span className="flex justify-end">{set.reps} reps</span>
                         </div>
                     ))}

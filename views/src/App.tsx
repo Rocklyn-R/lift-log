@@ -13,6 +13,7 @@ import { useLogsFetch } from './hooks/useLogsFetch';
 import { useState } from 'react';
 import { TimeTools } from './features/TimeTools/TimeTools';
 import { useTimerFetch } from './hooks/useTimerFetch';
+import { Settings } from './features/Settings/Settings';
 
 function App() {
   useUserFetch();
@@ -68,6 +69,10 @@ function App() {
                 <Route 
                   path="/time"
                   element={<TimeTools />}
+                />
+                <Route 
+                  path="/settings"
+                  element={<Settings />}
                 />
               </>
             )}

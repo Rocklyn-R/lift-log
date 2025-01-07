@@ -46,7 +46,8 @@ export const getLog = async (date: string) => {
 export const editLog = async (
     weight: number,
     reps: number,
-    set_id: number
+    set_id: number,
+    weight_lbs: number
 ) => {
     try {
         console.log(weight, reps, set_id);
@@ -56,7 +57,7 @@ export const editLog = async (
                 'Content-Type': 'application/json'
             },
             credentials: "include",
-            body: JSON.stringify({ weight, reps, set_id})
+            body: JSON.stringify({ weight, reps, set_id, weight_lbs})
         })
         const data = await response.json();
         return data.updatedSet;

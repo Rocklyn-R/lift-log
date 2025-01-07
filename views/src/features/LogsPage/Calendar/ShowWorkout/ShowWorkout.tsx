@@ -7,6 +7,7 @@ import { FaTrophy } from "react-icons/fa6";
 import { Button } from "../../../../components/Button";
 import { MdArrowBackIos } from "react-icons/md";
 import { useWorkoutOnDayFetch } from "../../../../hooks/useWorkoutOnDayFetch";
+import { selectUnitSystem } from "../../../../redux-store/SettingsSlice";
 
 interface ShowWorkoutProps {
     setShowViewDay: (arg0: boolean) => void;
@@ -17,6 +18,7 @@ export const ShowWorkout: React.FC<ShowWorkoutProps> = ({ setShowViewDay, setSho
     useWorkoutOnDayFetch();
     
     const dispatch = useDispatch();
+    const unit_system = useSelector(selectUnitSystem);
 
     const handleCloseShowWorkout = () => {
         setShowViewDay(false);
@@ -65,7 +67,11 @@ export const ShowWorkout: React.FC<ShowWorkoutProps> = ({ setShowViewDay, setSho
                                 {exercise.sets.map((set, index) => (
                                     <div key={index} className="p-2 grid grid-cols-3 text-center items-center">
                                         <span>{set.pr && <span className="text-mediumPurple flex justify-end"><FaTrophy /></span>}</span>
+                                       {unit_system === "metric" ? (
                                         <span className="flex justify-end">{formatNumber(set.weight)} kgs</span>
+                                       ) : (
+                                        <span className="flex justify-end">{formatNumber(set.weight_lbs)} lbs</span>
+                                       )} 
                                         <span className="flex justify-end">{set.reps} reps</span>
                                     </div>
                                 ))}

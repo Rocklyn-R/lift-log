@@ -15,6 +15,7 @@ import {
     setSelectedSet,
     updatePr
 } from "../../../../../redux-store/LogsSlice";
+import { selectUnitSystem } from "../../../../../redux-store/SettingsSlice";
 import { formatNumber } from "../../../../../utilities/utilities";
 import { SetData } from "./SetData/SetData";
 
@@ -35,6 +36,7 @@ export const LogForm = () => {
     const selectedDate = useSelector(selectSelectedDate);
     const workout = useSelector(selectWorkout);
     const selectedSet = useSelector(selectSelectedSet);
+    const unit_system = useSelector(selectUnitSystem);
 
     useEffect(() => {
         if (errorMessage) {
@@ -49,11 +51,11 @@ export const LogForm = () => {
             const foundIndex = workout.findIndex(exercise => exercise.exercise_id === selectedExercise.exercise_id);
             if (foundIndex !== -1 && (workout[foundIndex].sets.length > 0)) {
                 const setIndex = workout[foundIndex].sets.length - 1;
-                const weightToSet = workout[foundIndex].sets[setIndex].weight;
+                const weightToSet = unit_system === "metric" ? workout[foundIndex].sets[setIndex].weight : workout[foundIndex].sets[setIndex].weight_lbs;
                 setWeightInput(formatNumber(weightToSet));
             }
         }
-    }, [selectedExercise, setWeightInput, workout])
+    }, [selectedExercise, setWeightInput, workout, unit_system])
 
     const handleDecrementWeight = () => {
         if (weightInputLength >= 7 && !weightInput?.includes('.')) {
@@ -138,7 +140,15 @@ export const LogForm = () => {
             const weightInputToAdd = weightInput ? Number(weightInput) : 0;
             const repsInputToAdd = repsInput ? repsInput : 0;
             if (selectedSet) {
-                const updateResult = await editLog(weightInputToAdd, repsInputToAdd, selectedSet?.set_id);
+                let updateResult;
+                if (unit_system === 'metric') {
+                    const weight_lbs = parseFloat((weightInputToAdd * 2.20462).toFixed(3));
+                    updateResult = await editLog(weightInputToAdd, repsInputToAdd, selectedSet?.set_id, weight_lbs);
+                }
+            /*    if (unit_system === "imperial") {
+                    const weight = 
+                    updateResult = await editLog(weightInputToAdd, repsInputToAdd, selectedSet?.set_id, weight_lbs);
+                }*/
                 if (updateResult) {
                     const newPRData = await getUpdatedPrs(selectedExercise.exercise_id, selectedDate);
                     newPRData.forEach((set: any) => {
@@ -188,7 +198,7 @@ export const LogForm = () => {
 
             <form className="flex flex-col w-2/3 space-y-6">
                 <div className="px-2 space-y-2 flex flex-col">
-                    <h4 className="border-b-2 border-darkPurple">Weight (kgs)</h4>
+                    <h4 className="border-b-2 border-darkPurple">Weight {unit_system === "metric" ? '(kgs)' : '(lbs)'}</h4>
                     <div className="flex space-x-2 justify-center w-1/2 self-center">
                         <Button
                             onClick={handleDecrementWeight}

@@ -9,16 +9,15 @@ import { MdOutlineEdit } from "react-icons/md";
 import { LuTimer } from "react-icons/lu";
 import { EditTimer } from "./EditTimer/EditTimer";
 import { useDispatch, useSelector } from "react-redux";
-import { selectHours, playTimer, pauseTimer, resetTimer, tick, selectMinutes, selectSeconds, selectSecondsLeft, selectTimerPaused } from "../../../redux-store/TimeSlice";
+import { selectHours, playTimer, pauseTimer, resetTimer, tick, selectMinutes, selectSeconds, selectSecondsLeft, selectTimerRunning } from "../../../redux-store/TimeSlice";
+import { playPauseTimer } from "../../../api/timers";
 
 let intervalId: any = null;
 
 
 
 export const Timer = () => {
-    const isPaused = useSelector(selectTimerPaused);
-
-
+    const isRunning = useSelector(selectTimerRunning);
     const hours = useSelector(selectHours);
     const minutes = useSelector(selectMinutes);
     const seconds = useSelector(selectSeconds);
@@ -27,6 +26,22 @@ export const Timer = () => {
     );
     const secondsLeft = useSelector(selectSecondsLeft);
     const dispatch = useDispatch();
+
+  /*  useEffect(() => {
+        // Save the remaining time to localStorage when the tab is about to unload
+        const handleBeforeUnload = () => {
+          if (secondsLeft > 0) {
+            const endTime = Math.floor(Date.now() / 1000) + secondsLeft;
+            localStorage.setItem('endTime', endTime.toString());
+          }
+        };
+    
+        window.addEventListener('beforeunload', handleBeforeUnload);
+    
+        return () => {
+          window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+      }, [secondsLeft]);*/
 
 
     const startTimer = useCallback(() => {
@@ -46,33 +61,36 @@ export const Timer = () => {
 
     useEffect(() => {
 
-        if (isPaused) {
+        if (!isRunning) {
             clearInterval(intervalId);
         }
-    }, [isPaused]);
+    }, [isRunning]);
 
     useEffect(() => {
-        if (!isPaused) {
+        if (isRunning) {
             clearInterval(intervalId);
             startTimer();
             console.log("this")
         }
-    }, [isPaused, startTimer])
+    }, [isRunning, startTimer])
 
 
     const pause = async () => {
         dispatch(pauseTimer());
+        await playPauseTimer(false);
     };
 
 
 
-    const play = () => {
+    const play = async () => {
         dispatch(playTimer());
         startTimer();
+        await playPauseTimer(true)
     }
 
     const reset = async () => {
         dispatch(resetTimer());
+        await playPauseTimer(false);
     }
 
     const totalTimeInSeconds = (hours * 3600) + (minutes * 60) + seconds;
@@ -139,12 +157,12 @@ export const Timer = () => {
                         >
                             <IoStop className="text-5xl" />
                         </button>
-                        {isPaused && (
+                        {!isRunning && (
                             <button onClick={play} className="">
                                 <IoPlay className="text-5xl" />
                             </button>
                         )}
-                        {!isPaused && (
+                        {isRunning && (
                             <button onClick={pause} className="">
                                 <IoPause className="text-4xl" />
                             </button>

@@ -39,11 +39,11 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
 
 
     return (
-        <div ref={selectRef} className={`relative ${className}`}>
+        <div ref={selectRef} className={`relative ${className} mt-2`}>
             <div
                 className={`${isOpen ? "ring-2 ring-darkPurple" : ""} ${
                     value ? "text-darkestPurple" : "text-gray-400"
-                } min-h-12 mt-2 p-3 w-full border border-gray-300 rounded-md bg-white cursor-pointer`}
+                } min-h-12 p-3 w-full border border-gray-300 rounded-md bg-white cursor-pointer`}
                 onClick={() => setIsOpen(!isOpen)}
             >
                 {value || placeholder}

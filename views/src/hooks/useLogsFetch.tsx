@@ -26,7 +26,8 @@ export const useLogsFetch = () => {
                             reps: set.reps,
                             set_number: set.set_number,
                             set_id: set.id,
-                            pr: set.PR
+                            pr: set.PR,
+                            weight_lbs: set.weight_lbs
                         });
                     } else {
                         // If the exercise is not found, create a new Workout object
@@ -40,7 +41,8 @@ export const useLogsFetch = () => {
                                 reps: set.reps,
                                 set_number: set.set_number,
                                 set_id: set.id,
-                                pr: set.PR
+                                pr: set.PR,
+                                weight_lbs: set.weight_lbs
                             }]
                         });
                     }

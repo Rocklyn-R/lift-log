@@ -37,9 +37,9 @@ export const getLog = async (req: Request, res: Response) => {
 
 export const editLog = async (req: Request, res: Response) => {
     const user_id = (req.user as User).id;
-    const {weight, reps, set_id} = req.body
+    const {weight, reps, set_id, weight_lbs} = req.body
     try {
-        const result = await logEdit(weight, reps, set_id, user_id);
+        const result = await logEdit(weight, reps, set_id, user_id, weight_lbs);
         if (result) {
             res.status(201).json({ updatedSet: result })
         }

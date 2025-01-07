@@ -63,3 +63,21 @@ export const updateTimer = async (
         console.log(error);
     }
 }
+
+export const playPauseTimer = async (
+    runningBoolean: boolean
+) => {
+    try {
+        const response = await fetch(`${BASE_URL}/play-pause`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({ runningBoolean })
+        })
+        return response.ok
+    } catch (error) {
+        console.log(error);
+    }
+}

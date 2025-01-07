@@ -72,14 +72,15 @@ export const logEdit = async (
     weight: number,
     reps: number,
     set_id: number,
-    user_id: number
+    user_id: number,
+    weight_lbs: number
 ) => {
-    const query = `UPDATE sets SET weight = $1, reps = $2
-    WHERE id = $3 AND user_id = $4 RETURNING *`;
+    const query = `UPDATE sets SET weight = $1, reps = $2, weight_lbs = $3
+    WHERE id = $4 AND user_id = $5 RETURNING *`;
     try {
         console.log(weight);
         const result = await db.query(query, [
-            weight, reps, set_id, user_id
+            weight, reps, weight_lbs, set_id, user_id
         ]);
         console.log(result.rows[0]);
         return result.rows[0];

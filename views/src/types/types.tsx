@@ -33,8 +33,9 @@ export interface Set {
     weight: string,
     reps: number,
     set_number: number,
-    set_id: number
-    pr: boolean
+    set_id: number,
+    pr: boolean,
+    weight_lbs: string
 }
 
 

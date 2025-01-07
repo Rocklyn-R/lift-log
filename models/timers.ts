@@ -49,3 +49,17 @@ export const timerEdit = async (
     }
 }
 
+export const timerPlayPause = async (runningBoolean: boolean, user_id: number) => {
+    const query = `
+    UPDATE timers SET timer_running = $1
+    WHERE user_id = $2`;
+    try {
+        const result = await db.query(query, [
+           runningBoolean, user_id
+        ]);
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+

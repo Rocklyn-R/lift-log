@@ -1,4 +1,4 @@
-import { addTimer, editTimer, getTimer } from 'controllers/timers';
+import { addTimer, editTimer, getTimer, playPauseTimer } from 'controllers/timers';
 import express from 'express';
 
 
@@ -9,5 +9,7 @@ timerRouter.post('/', addTimer);
 timerRouter.get('/', getTimer);
 
 timerRouter.put('/', editTimer);
+
+timerRouter.put('/play-pause', playPauseTimer);
 
 export default timerRouter;

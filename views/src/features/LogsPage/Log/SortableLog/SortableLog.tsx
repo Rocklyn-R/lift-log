@@ -3,6 +3,8 @@ import { formatNumber } from "../../../../utilities/utilities";
 import { FaTrophy } from "react-icons/fa6";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useSelector } from "react-redux";
+import { selectUnitSystem } from "../../../../redux-store/SettingsSlice";
 
 interface SortableLogProps {
     exercise: Workout
@@ -10,6 +12,7 @@ interface SortableLogProps {
 
 
 export const SortableLog: React.FC<SortableLogProps> = ({ exercise }) => {
+    const unit_system = useSelector(selectUnitSystem);
 
     const {
         attributes,
@@ -39,7 +42,9 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exercise }) => {
                         {exercise.sets.map((set, index) => (
                             <div key={index} className="p-2 grid grid-cols-[0.5fr_1fr_1fr] text-center items-center w-full">
                                 <span>{set.pr && <span className="text-mediumPurple flex xs:justify-end justify-center"><FaTrophy /></span>}</span>
-                                <span className="flex justify-end w-full">{formatNumber(set.weight)} kgs</span>
+                                {unit_system === "metric" ? <span className="flex justify-end w-full">{formatNumber(set.weight)} kgs</span> : (
+                                    <span className="flex justify-end w-full">{formatNumber(set.weight_lbs)} lbs</span> 
+                                ) }
                                 <span className="flex justify-end w-full">{set.reps} reps</span>
                             </div>
                         ))}
