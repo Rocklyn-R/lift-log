@@ -8,6 +8,7 @@ import usersRouter from './routes/users';
 import { initializePassport } from './config/passport';
 import logsRouter from './routes/logs';
 import timerRouter from "./routes/timers";
+import settingsRouter from "./routes/settings";
 
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
@@ -56,6 +57,7 @@ app.use(express.static(__dirname));
  app.use('/user', usersRouter);
  app.use('/logs', logsRouter);
  app.use('/timer', timerRouter);
+ app.use('/settings', settingsRouter);
 
  app.listen(PORT, () => {
     console.log(`Server running on port: ${PORT}`)

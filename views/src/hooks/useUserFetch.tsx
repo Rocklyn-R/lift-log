@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux"
+import { getSettings } from "../api/settings";
 import { checkAuthentication } from "../api/users";
 import { setUserFirstName, setUserLastName, setUserEmail, setIsAuthenticated } from "../redux-store/UserSlice";
 

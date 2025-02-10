@@ -1,18 +1,45 @@
 import { Header } from "../../components/Header"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdOutlineEdit } from "react-icons/md";
 import { CustomSelect } from "../../components/CustomSelect";
 import { FaCheck } from "react-icons/fa6";
-
+import { updateUnitSystem } from "../../api/settings";
+import { useDispatch } from "react-redux";
+import { changeUnitSystem, selectSettingsLoading, selectUnitSystem } from "../../redux-store/SettingsSlice";
+import { useSelector } from "react-redux";
+import { Loading } from "../../components/Loading";
+import { UserSettings } from "./UserSettings/UserSettings";
 
 
 export const Settings = () => {
     const [theme, setTheme] = useState('Light'); // Default theme is Light
     const [showTheme, setShowTheme] = useState(false);
-    const [unitSystem, setUnitSystem] = useState('Metric');
+    const unitSystem = useSelector(selectUnitSystem);
+    const [unitSystemValue, setUnitSystemValue] = useState(unitSystem);
     const [showUnitSystem, setShowUnitSystem] = useState(false);
-    const [username, setUsername] = useState(''); // Placeholder for username
-    const [password, setPassword] = useState(''); // Placeholder for password
+    const dispatch = useDispatch();
+    const isLoading = useSelector(selectSettingsLoading);
+
+    const handleChangeUnitSystem = async () => {
+        const unitSystemResult = await updateUnitSystem(unitSystemValue.toLocaleLowerCase());
+        if (unitSystemResult) {
+            dispatch(changeUnitSystem(unitSystemValue.toLocaleLowerCase()))
+        }
+        setShowUnitSystem(false);
+    }
+
+    useEffect(() => {
+        const unit_system_formated = (unitSystem.charAt(0).toUpperCase() + unitSystem.slice(1).toLowerCase());
+        setUnitSystemValue(unit_system_formated)
+    }, [unitSystem]);
+
+    if (isLoading) {
+        return (
+          <div className="flex flex-col items-center justify-center h-screen bg-lightestPurple">
+            <Loading />
+          </div>
+        );
+      }
 
     return (
         <div className="flex flex-col items-center h-full">
@@ -45,7 +72,6 @@ export const Settings = () => {
                             )}
 
                         </div>
-
                     </div>
 
                     {/* Unit System Settings */}
@@ -56,15 +82,15 @@ export const Settings = () => {
                                 <>
                                     <CustomSelect
                                         options={[{ id: 1, name: "Metric" }, { id: 2, name: "Imperial" }]}
-                                        onChange={(system) => setUnitSystem(system)}
-                                        value={unitSystem}
+                                        onChange={(system) => setUnitSystemValue(system)}
+                                        value={unitSystemValue}
                                         className="w-full"
                                     />
-                                    <button onClick={() => setShowUnitSystem(false)} className="mt-2 flex items-center justify-center"><FaCheck className="text-xl" /></button>
+                                    <button onClick={handleChangeUnitSystem} className="mt-2 flex items-center justify-center"><FaCheck className="text-xl" /></button>
                                 </>
                             ) : (
                                 <>
-                                    <span className="mt-2 min-h-12 p-3 w-full bg-white">{unitSystem}</span>
+                                    <span className="mt-2 min-h-12 p-3 w-full bg-white">{unitSystemValue}</span>
                                     <button onClick={() => setShowUnitSystem(true)} className="mt-2 flex items-center justify-center"><MdOutlineEdit className="text-xl" /></button>
                                 </>
                             )}
@@ -74,37 +100,11 @@ export const Settings = () => {
 
                     {/* User Settings */}
                     <div className="mb-6">
-                        <h2 className="text-lg font-bold mb-2">User Settings</h2>
-                        <div className="mb-4">
-                            <label className="block mb-1 font-medium">Username</label>
-                            <input
-                                type="text"
-                                className="border border-gray-300 rounded p-2 w-full"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                placeholder="Enter your username"
-                            />
-                        </div>
-                        <div>
-                            <label className="block mb-1 font-medium">Password</label>
-                            <input
-                                type="password"
-                                className="border border-gray-300 rounded p-2 w-full"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Enter your password"
-                            />
-                        </div>
+                        
+                        <UserSettings />
                     </div>
 
-                    <button
-                        className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-                        onClick={() => {
-                            alert(`Settings Updated:\nTheme: ${theme}\nUnit System: ${unitSystem}\nUsername: ${username}`);
-                        }}
-                    >
-                        Save Settings
-                    </button>
+           
                 </div>
             </div>
 

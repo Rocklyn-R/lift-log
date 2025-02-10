@@ -2,6 +2,8 @@ import express, { Request, Response } from 'express';
 import { createUser } from '../controllers/users';
 import passport from 'passport';
 import { checkAuthenticated } from '../controllers/users';
+import { checkForUserEmail, sendResetEmail, checkToken, resetPassword } from '../controllers/users';
+
 
 const usersRouter = express.Router();
 
@@ -28,6 +30,15 @@ usersRouter.get('/logout', checkAuthenticated, (req, res) => {
         return res.status(200).json({ message: 'Logout successful' });
     });
 });
+
+usersRouter.get('/reset-password/email-check', checkForUserEmail)
+
+usersRouter.post('/send-reset-email', sendResetEmail);
+
+usersRouter.get('/reset-password/check-token', checkToken);
+
+usersRouter.post('/reset-password', resetPassword)
+
 
 
 

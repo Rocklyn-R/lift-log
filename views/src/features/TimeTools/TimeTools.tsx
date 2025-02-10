@@ -10,7 +10,6 @@ import { Stopwatch } from "./Stopwatch/Stopwatch";
 
 export const TimeTools = () => {
     const [activeTab, setActiveTab] = useState<"Timer" | "Stopwatch">("Timer");
-    const dispatch = useDispatch();
     const isLoading = useSelector(selectTimerLoading);
 
     if (isLoading) {

@@ -5,19 +5,22 @@ export const SettingsSlice = createSlice({
     name: "settings",
     initialState: {
         theme: "light",
-        unit_system: "imperial"
+        unit_system: "Metric",
+        settingsLoading: true
     },
     reducers: {
-        setUnitSystem: (state, action) => {
-            state.unit_system = action.payload
+        changeUnitSystem: (state, action) => {
+            state.unit_system = action.payload;
+            state.settingsLoading = false;
         }
     }
 })
 
 export const {
-    setUnitSystem
+    changeUnitSystem
 } = SettingsSlice.actions;
 
 export const selectUnitSystem = (state: RootState) => state.settings.unit_system;
+export const selectSettingsLoading = (state: RootState) => state.settings.settingsLoading;
 
 export default SettingsSlice.reducer;

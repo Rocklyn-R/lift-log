@@ -14,12 +14,17 @@ import { useState } from 'react';
 import { TimeTools } from './features/TimeTools/TimeTools';
 import { useTimerFetch } from './hooks/useTimerFetch';
 import { Settings } from './features/Settings/Settings';
+import { useSettingsFetch } from './hooks/useSettingsFetch';
+import { Header } from './components/Header';
+import { ForgotPassword } from './features/Authentication/ForgotPassword/ForgotPassword';
+import { ResetPassword } from './features/Authentication/ResetPassword/ResetPassword';
 
 function App() {
   useUserFetch();
   useLogsFetch();
   useTimerFetch();
-  
+  useSettingsFetch();
+
   const isLoading = useSelector(selectIsLoading);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [isOpen, setIsOpen] = useState(false);
@@ -37,13 +42,13 @@ function App() {
       <div className="flex w-full h-screen bg-lightestPurple">
 
         {isAuthenticated && <Navigation isOpen={isOpen} setIsOpen={setIsOpen} />}
-          {/* Overlay */}
-      {isOpen && (
-        <div
-          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-30 z-40"
-          onClick={() => setIsOpen(false)} // Close the menu on clicking the overlay
-        ></div>
-      )}
+        {/* Overlay */}
+        {isOpen && (
+          <div
+            className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-30 z-40"
+            onClick={() => setIsOpen(false)} // Close the menu on clicking the overlay
+          ></div>
+        )}
         <div className={`w-full h-screen overflow-y-auto`}>
           <Routes>
             <Route
@@ -56,6 +61,10 @@ function App() {
               <>
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path={'/reset-password/:token'} element={<ResetPassword />}
+                />
+
               </>
             )}
             {isAuthenticated && (
@@ -66,11 +75,11 @@ function App() {
                   path="/exercise-library/:categoryId"
                   element={<ExerciseLibrary />}
                 />
-                <Route 
+                <Route
                   path="/time"
                   element={<TimeTools />}
                 />
-                <Route 
+                <Route
                   path="/settings"
                   element={<Settings />}
                 />

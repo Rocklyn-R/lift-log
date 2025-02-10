@@ -5,6 +5,9 @@ import { setIsAuthenticated, setUserFirstName, setUserLastName, setUserEmail } f
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button";
+import { createSettings } from "../../api/settings";
+import { Link } from "react-router-dom";
+import { CustomPasswordInput } from "../../components/CustomPasswordInput";
 
 export const SignUp = () => {
     const [firstName, setFirstName] = useState("");
@@ -31,6 +34,7 @@ export const SignUp = () => {
                     setErrorMessage('Failed to sign up');
                 }
             } else if (response.user) {
+                await createSettings();
                 dispatch(setIsAuthenticated(true));
                 setErrorMessage("");
                 dispatch(setUserFirstName(response.user.first_name));
@@ -49,7 +53,7 @@ export const SignUp = () => {
         <div className="flex flex-col w-full h-screen">
             <Header text="Welcome to LogLift" />
             <div className="flex-grow flex items-center justify-center">
-                <div className="bg-white h-fit p-8 rounded-lg shadow-lg w-96 flex flex-col justify-center">
+                <div className="bg-white h-fit p-8 rounded-lg shadow-lg w-96 flex flex-col">
                     <h2 className="text-2xl font-semibold text-center mb-6 text-darkestPurple">Sign Up</h2>
                     <form onSubmit={handleSignUp}>
                         <div className="mb-4">
@@ -99,10 +103,8 @@ export const SignUp = () => {
                         {/* Password Field */}
                         <div className="mb-4">
                             <label htmlFor="password"></label>
-                            <input
+                            <CustomPasswordInput
                                 value={password}
-                                type="password"
-                                id="password"
                                 name="password"
                                 className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
                                 placeholder="Password"
@@ -113,10 +115,8 @@ export const SignUp = () => {
                         </div>
                         <div className="mb-6">
                             <label htmlFor="repeat-password"></label>
-                            <input
+                            <CustomPasswordInput
                                 value={repeatPassword}
-                                type="password"
-                                id="repeat-password"
                                 name="repeat-password"
                                 className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
                                 placeholder="Repeat password"
@@ -128,7 +128,6 @@ export const SignUp = () => {
                         {errorMessage && <p className="mt-6 text-red-800">{errorMessage}</p>}
                  
                         <Button
-
                             type="submit"
                             className="w-full text-lg font-semibold p-3 hover:bg-darkPurple focus:outline-none focus:ring-2 focus:ring-darkPurple"
                         >
@@ -138,7 +137,10 @@ export const SignUp = () => {
 
                 </div>
             </div>
-
+            <div className="flex flex-col items-center pb-4">
+          <span>or</span>
+          <Link className="hover:underline text-xl p-4" to="/signin">Sign In</Link>
+        </div>
         </div>
     )
 }
