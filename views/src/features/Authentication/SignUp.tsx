@@ -101,30 +101,28 @@ export const SignUp = () => {
 
 
                         {/* Password Field */}
-                        <div className="mb-4">
-                            <label htmlFor="password"></label>
+                
                             <CustomPasswordInput
                                 value={password}
                                 name="password"
-                                className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
+                                className="mb-4"
                                 placeholder="Password"
                                 onChange={(e) => {
                                     setPassword(e.target.value)
                                 }}
                             />
-                        </div>
-                        <div className="mb-6">
-                            <label htmlFor="repeat-password"></label>
+               
+                  
                             <CustomPasswordInput
                                 value={repeatPassword}
                                 name="repeat-password"
-                                className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
+                                className="mb-4"
                                 placeholder="Repeat password"
                                 onChange={(e) => {
                                     setRepeatPassword(e.target.value)
                                 }}
                             />
-                        </div>
+                      
                         {errorMessage && <p className="mt-6 text-red-800">{errorMessage}</p>}
                  
                         <Button

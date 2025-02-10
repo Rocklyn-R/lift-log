@@ -29,7 +29,7 @@ export const CustomPasswordInput: React.FC<CustomPasswordInputProps> = ({ classN
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute top-6 right-3 flex items-center text-gray-600 hover:text-gray-900"
             >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                {showPassword ? <EyeOff size={20} color="#b3b3b3" /> : <Eye color="#b3b3b3" size={20} />}
             </button>
         </div>
     );
