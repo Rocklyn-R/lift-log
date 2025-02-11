@@ -15,7 +15,6 @@ import { TimeTools } from './features/TimeTools/TimeTools';
 import { useTimerFetch } from './hooks/useTimerFetch';
 import { Settings } from './features/Settings/Settings';
 import { useSettingsFetch } from './hooks/useSettingsFetch';
-import { Header } from './components/Header';
 import { ForgotPassword } from './features/Authentication/ForgotPassword/ForgotPassword';
 import { ResetPassword } from './features/Authentication/ResetPassword/ResetPassword';
 

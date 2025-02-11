@@ -51,7 +51,7 @@ export const LogForm = () => {
             const foundIndex = workout.findIndex(exercise => exercise.exercise_id === selectedExercise.exercise_id);
             if (foundIndex !== -1 && (workout[foundIndex].sets.length > 0)) {
                 const setIndex = workout[foundIndex].sets.length - 1;
-                const weightToSet = unit_system === "metric" ? workout[foundIndex].sets[setIndex].weight : workout[foundIndex].sets[setIndex].weight_lbs;
+                const weightToSet = unit_system === "Metric" ? workout[foundIndex].sets[setIndex].weight : workout[foundIndex].sets[setIndex].weight_lbs;
                 setWeightInput(formatNumber(weightToSet));
             }
         }
@@ -141,7 +141,7 @@ export const LogForm = () => {
             const repsInputToAdd = repsInput ? repsInput : 0;
             if (selectedSet) {
                 let updateResult;
-                if (unit_system === 'metric') {
+                if (unit_system === 'Metric') {
                     const weight_lbs = parseFloat((weightInputToAdd * 2.20462).toFixed(3));
                     updateResult = await editLog(weightInputToAdd, repsInputToAdd, selectedSet?.set_id, weight_lbs);
                 }
@@ -198,7 +198,7 @@ export const LogForm = () => {
 
             <form className="flex flex-col w-2/3 space-y-6">
                 <div className="px-2 space-y-2 flex flex-col">
-                    <h4 className="border-b-2 border-darkPurple">Weight {unit_system === "metric" ? '(kgs)' : '(lbs)'}</h4>
+                    <h4 className="border-b-2 border-darkPurple">Weight {unit_system === "Metric" ? '(kgs)' : '(lbs)'}</h4>
                     <div className="flex space-x-2 justify-center w-1/2 self-center">
                         <Button
                             onClick={handleDecrementWeight}

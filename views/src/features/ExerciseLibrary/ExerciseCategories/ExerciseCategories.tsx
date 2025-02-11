@@ -43,12 +43,12 @@ export const ExerciseCategories: React.FC<ExerciseCategoriesProps> = ({ source, 
     return (
         
         <div className="flex items-center my-4 w-full justify-center">
-            <div className={`${source === "library" ? "md:w-1/2" : "md:w-2/3"} flex flex-col items-center justify-around rounded-md md:w-1/2 sm:w-2/3 xs:w-3/4 w-full space-y-2`}>
+            <div className={`${source === "library" ? "md:w-1/2" : "md:w-2/3"} flex flex-col items-center justify-around rounded-md md:w-1/3 sm:w-2/3 xs:w-3/4 w-full space-y-2`}>
                {categories.map((category, index) => (
                 <button
                     onClick={() => handleGetExercises(category)}
                     key={index}
-                    className="bg-gray-100 border-2 text-darkestPurple border-darkestPurple rounded-md hover:text-xl hover:font-semibold shadow-lg hover:bg-lightPurple text-lg p-2 w-full"
+                    className="bg-gray-100 border-2 border-darkPurple text-darkestPurple rounded-md hover:text-xl hover:font-semibold  hover:bg-lightPurple text-lg p-2 w-full"
                 >{category.name}
                 </button>
             ))}

@@ -21,16 +21,15 @@ export const Settings = () => {
     const isLoading = useSelector(selectSettingsLoading);
 
     const handleChangeUnitSystem = async () => {
-        const unitSystemResult = await updateUnitSystem(unitSystemValue.toLocaleLowerCase());
+        const unitSystemResult = await updateUnitSystem(unitSystemValue);
         if (unitSystemResult) {
-            dispatch(changeUnitSystem(unitSystemValue.toLocaleLowerCase()))
+            dispatch(changeUnitSystem(unitSystemValue))
         }
         setShowUnitSystem(false);
     }
 
     useEffect(() => {
-        const unit_system_formated = (unitSystem.charAt(0).toUpperCase() + unitSystem.slice(1).toLowerCase());
-        setUnitSystemValue(unit_system_formated)
+        setUnitSystemValue(unitSystem)
     }, [unitSystem]);
 
     if (isLoading) {
@@ -42,10 +41,10 @@ export const Settings = () => {
       }
 
     return (
-        <div className="flex flex-col items-center h-full">
+        <div className="flex flex-col items-center h-full xl:pl-0 pl-16 ">
             <Header text="Settings" />
             <div className="w-full flex justify-center h-full items-center">
-                <div className="bg-white w-1/2 p-6 shadow-md rounded-lg h-fit">
+                <div className="bg-white md:w-1/2 p-6 shadow-md rounded-lg h-fit">
                     {/* Theme Settings */}
                     <div className="mb-6 flex flex-col items-start w-full">
 

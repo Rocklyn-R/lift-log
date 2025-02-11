@@ -23,7 +23,7 @@ export const settingsGet = async (user_id: number) => {
 }
 
 
-export const unitSystemSet = async (unit_system: "metric" | "imperial", user_id: number) => {
+export const unitSystemSet = async (unit_system: "Metric" | "Imperial", user_id: number) => {
     const query = `UPDATE settings SET unit_system = $1
     WHERE user_id = $2`;
     try {

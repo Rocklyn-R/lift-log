@@ -16,7 +16,7 @@ export const CustomPasswordInput: React.FC<CustomPasswordInputProps> = ({ classN
         <div className={`relative ${className}`}>
             <input
                 value={value}
-                type={showPassword ? "text" : "password"} // Toggle password visibility
+                type={showPassword ? "password" : "text"} // Toggle password visibility
                 id={name}
                 name={name}
                 className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple pr-10"

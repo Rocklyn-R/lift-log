@@ -75,7 +75,7 @@ export const History = () => {
                     {exercise.sets.map((set, index) => (
                         <div key={index} className="p-2 grid grid-cols-3 text-center items-center">
                             <span>{set.pr && <span className="text-mediumPurple flex justify-end"><FaTrophy /></span>}</span>
-                           {unit_system === "metric" ? (
+                           {unit_system === "Metric" ? (
                             <span className="flex justify-end">{formatNumber(set.weight)} kgs</span>
                            ) :  <span className="flex justify-end">{formatNumber(set.weight_lbs)} lbs</span>}
                             <span className="flex justify-end">{set.reps} reps</span>

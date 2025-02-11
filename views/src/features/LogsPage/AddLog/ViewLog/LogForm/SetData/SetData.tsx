@@ -45,7 +45,7 @@ export const SetData: React.FC<SetDataProps> = ({ setEditMode, setWeightInput, s
                         <span>{set.pr && <FaTrophy />}</span>
                         <span className="w-3/12 flex justify-center text-center">{set.set_number}</span>
                     </div>
-                    {unit_system === "metric" ? (
+                    {unit_system === "Metric" ? (
                         <p className="w-1/3 flex justify-end text-center">{formatNumber(set.weight)} kgs</p>
                     ) : (
                         <p className="w-1/3 flex justify-end text-center">{formatNumber(set.weight_lbs)} lbs</p>

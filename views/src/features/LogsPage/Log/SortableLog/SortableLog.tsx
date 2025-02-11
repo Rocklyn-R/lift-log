@@ -25,6 +25,7 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exercise }) => {
       const style = {
         transform: CSS.Transform.toString(transform),
         transition,
+        height: 'auto'
       };
     
     return (
@@ -33,7 +34,7 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exercise }) => {
         {...attributes}
         {...listeners}
         style={style}
-        className="bg-gray-100 rounded-md shadow-xl hover:cursor-pointer hover:outline hover:outline-mediumPurple w-full">
+        className="bg-gray-100 rounded-md shadow-xl hover:cursor-pointer hover:outline-2 hover:outline-mediumPurple w-full">
             {exercise.sets.length > 0 && (
 
                 <>
@@ -42,7 +43,7 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exercise }) => {
                         {exercise.sets.map((set, index) => (
                             <div key={index} className="p-2 grid grid-cols-[0.5fr_1fr_1fr] text-center items-center w-full">
                                 <span>{set.pr && <span className="text-mediumPurple flex xs:justify-end justify-center"><FaTrophy /></span>}</span>
-                                {unit_system === "metric" ? <span className="flex justify-end w-full">{formatNumber(set.weight)} kgs</span> : (
+                                {unit_system === "Metric" ? <span className="flex justify-end w-full">{formatNumber(set.weight)} kgs</span> : (
                                     <span className="flex justify-end w-full">{formatNumber(set.weight_lbs)} lbs</span> 
                                 ) }
                                 <span className="flex justify-end w-full">{set.reps} reps</span>
