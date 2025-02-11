@@ -1,9 +1,11 @@
-
+export const BASE_URL = process.env.NODE_ENV === 'production'
+    ? 'https://lift-log-backend-1s77.onrender.com'
+    : 'http://localhost:4000/timer';
 
 
 export const createNewUser = async (name: string, lastName: string, email: string, password: string) => {
     try {
-        const response = await fetch('http://localhost:4000/user/signup', {
+        const response = await fetch(`${BASE_URL}/user/signup`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -33,7 +35,7 @@ export const createNewUser = async (name: string, lastName: string, email: strin
 
 export const signInUser = async (email: string, password: string) => {
     try {
-        const response = await fetch('http://localhost:4000/user/login', {
+        const response = await fetch(`${BASE_URL}/user/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -57,7 +59,7 @@ export const signInUser = async (email: string, password: string) => {
 
 export const checkAuthentication = async () => {
     try {
-        const response = await fetch('http://localhost:4000/user/auth', {
+        const response = await fetch(`${BASE_URL}/user/auth`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -78,7 +80,7 @@ export const checkAuthentication = async () => {
 
 export const logoutUser = async () => {
     try {
-        const response = await fetch('http://localhost:4000/user/logout', {
+        const response = await fetch(`${BASE_URL}/user/logout`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -94,7 +96,7 @@ export const logoutUser = async () => {
 
 export const checkForUserEmail = async (email: string) => {
     try {
-        const response = await fetch(`http://localhost:4000/user/reset-password/email-check?email=${email}`, {
+        const response = await fetch(`${BASE_URL}/user/reset-password/email-check?email=${email}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -110,7 +112,7 @@ export const checkForUserEmail = async (email: string) => {
 
 export const sendResetEmail = async (email: string) => {
     try {
-    const response = await fetch(`http://localhost:4000/user/send-reset-email`, {
+    const response = await fetch(`${BASE_URL}/user/send-reset-email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -126,7 +128,7 @@ export const sendResetEmail = async (email: string) => {
 export const checkToken = async (token: string) => {
     try {
         console.log(token);
-        const response = await fetch(`http://localhost:4000/user/reset-password/check-token?token=${token}`);
+        const response = await fetch(`${BASE_URL}/user/reset-password/check-token?token=${token}`);
         const data = await response.json();
         console.log(data);
         return data;
@@ -137,7 +139,7 @@ export const checkToken = async (token: string) => {
 
 export const createNewPasswordWithToken = async (password: string, user_id: string) => {
     try {
-        const response = await fetch(`http://localhost:4000/user/reset-password`, {
+        const response = await fetch(`${BASE_URL}/user/reset-password`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ password, user_id }),
