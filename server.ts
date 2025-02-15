@@ -24,6 +24,8 @@ const corsOptions = {
     origin: [
         '*',
         'http://localhost:3000',
+        'https://lift-log.onrender.com',
+        'https://lift-log-backend-1s77.onrender.com'
     ],
     credentials: true, 
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -37,6 +39,9 @@ app.use(cors(corsOptions));
 
 app.set('trust proxy', 1);
 app.use(express.static(__dirname));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 const redisUrl = process.env.NODE_ENV === 'development' ? 'rediss://red-csb5ltogph6c73aaak60:0SR0RXoGw6haTyYewERfjKB0p1LfTPPJ@virginia-redis.render.com:6379' : 'redis://red-csb5ltogph6c73aaak60:6379'; // Use external Redis URL in developmentn
 // Create a Redis client
