@@ -1,5 +1,5 @@
 export const BASE_URL = process.env.NODE_ENV === 'production'
-    ? 'https://lift-log-backend-1s77.onrender.com' : 'http://localhost:4000/settings';
+    ? 'https://lift-log-backend-1s77.onrender.com/settings' : 'http://localhost:4000/settings';
 
 
 

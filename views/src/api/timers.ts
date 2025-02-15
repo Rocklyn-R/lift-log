@@ -1,5 +1,5 @@
 export const BASE_URL = process.env.NODE_ENV === 'production'
-    ? 'https://lift-log-backend-1s77.onrender.com'
+    ? 'https://lift-log-backend-1s77.onrender.com/timer'
     : 'http://localhost:4000/timer';
 
 export const addTimer = async (
