@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { settingsCreate, settingsGet, unitSystemSet } from 'models/settings';
+import { settingsCreate, settingsGet, unitSystemSet } from '../models/settings';
 
 interface User {
     id: number
