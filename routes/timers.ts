@@ -1,4 +1,4 @@
-import { addTimer, editTimer, getTimer, playPauseTimer } from 'controllers/timers';
+import { addTimer, editTimer, getTimer, playPauseTimer } from "../controllers/timers";
 import express from 'express';
 
 
