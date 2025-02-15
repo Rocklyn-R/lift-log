@@ -110,6 +110,7 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
   "include": [
+    "server.ts",
     "types.d.ts",          // Add types.d.ts to the include section
     "controllers/**/*",
     "models/**/*",
