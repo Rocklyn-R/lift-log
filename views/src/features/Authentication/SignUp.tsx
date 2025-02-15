@@ -51,7 +51,7 @@ export const SignUp = () => {
 
     return (
         <div className="flex flex-col w-full h-screen">
-            <Header text="Welcome to LogLift" />
+            <Header text="Welcome to LiftLog" />
             <div className="flex-grow flex items-center justify-center">
                 <div className="bg-white h-fit p-8 rounded-lg shadow-lg w-96 flex flex-col">
                     <h2 className="text-2xl font-semibold text-center mb-6 text-darkestPurple">Sign Up</h2>
