@@ -2,7 +2,7 @@ import { Header } from "../../components/Header"
 import React, { useEffect, useState } from 'react';
 import { MdOutlineEdit } from "react-icons/md";
 import { CustomSelect } from "../../components/CustomSelect";
-import { FaCheck } from "react-icons/fa6";
+import { FaCheck, FaX } from "react-icons/fa6";
 import { updateUnitSystem } from "../../api/settings";
 import { useDispatch } from "react-redux";
 import { changeUnitSystem, selectSettingsLoading, selectUnitSystem } from "../../redux-store/SettingsSlice";
@@ -50,8 +50,6 @@ export const Settings = () => {
 
                         <h2 className="text-lg font-bold">Theme</h2>
 
-
-
                         <div className="flex text-darkestPurple w-32 space-x-4">
                             {showTheme ? (
                                 <>
@@ -76,7 +74,7 @@ export const Settings = () => {
                     {/* Unit System Settings */}
                     <div className="mb-6">
                         <h2 className="text-lg font-bold mb-2">Unit System</h2>
-                        <div className="flex text-darkestPurple w-36 space-x-4">
+                        <div className="flex text-darkestPurple w-44 space-x-4">
                             {showUnitSystem ? (
                                 <>
                                     <CustomSelect
@@ -86,6 +84,7 @@ export const Settings = () => {
                                         className="w-full"
                                     />
                                     <button onClick={handleChangeUnitSystem} className="mt-2 flex items-center justify-center"><FaCheck className="text-xl" /></button>
+                                    <button onClick={() => setShowUnitSystem(false)} className="mt-2 flex items-center justify-center"><FaX className="text-lg" /></button>
                                 </>
                             ) : (
                                 <>

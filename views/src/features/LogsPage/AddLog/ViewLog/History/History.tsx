@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FaTrophy } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -13,6 +13,7 @@ export const History = () => {
     const dispatch = useDispatch();
     const exerciseHistory = useSelector(selectHistory);
     const unit_system = useSelector(selectUnitSystem);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchExerciseHistory = async () => {
@@ -61,14 +62,19 @@ export const History = () => {
 
                 // Dispatch the organized history to Redux
                 dispatch(setExerciseHistory(organizedExercises));
+                setLoading(false);
             }
         };
-
         fetchExerciseHistory();
+        return () => {
+            dispatch(setExerciseHistory([]))
+        }
+
     }, [selectedExercise, dispatch]);
 
     return (
-        <div className="p-4 max-h-[65vh] min-h-[65vh] overflow-y-auto">
+        <div className="p-4 min-h-[55vh] max-h-[65vh] overflow-y-auto">
+            
             {exerciseHistory.map((exercise, index) => (
                 <div key={index}>
                     <h3 className="border-b-2 border-lightPurple">{formatDateForHistory(exercise.date)}</h3>

@@ -10,6 +10,7 @@ import { Button } from "../../../../components/Button";
 import { useState, useEffect } from "react";
 import { CopyMessage } from "./CopyMessage/CopyMessage";
 import { selectUnitSystem } from "../../../../redux-store/SettingsSlice";
+import { Loading } from "../../../../components/Loading";
 
 interface CopyWorkoutProps {
     setShowCalendar: (arg0: boolean) => void;
@@ -18,7 +19,8 @@ interface CopyWorkoutProps {
 }
 
 export const CopyWorkout: React.FC<CopyWorkoutProps> = ({ setShowCalendar, setShowCopyDay }) => {
-    useWorkoutOnDayFetch();
+    const [loading, setLoading] = useState(true);
+    useWorkoutOnDayFetch(setLoading);
 
     const dateToCopy = useSelector(selectDateToView);
     const formattedDate = formatDateForHistory(dateToCopy);
@@ -193,94 +195,97 @@ export const CopyWorkout: React.FC<CopyWorkoutProps> = ({ setShowCalendar, setSh
             headerText={`Copy Workout - ${formattedDate}`}
             onClose={handleCloseOverlay}
             className="phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3 min-h-[45vh] max-h-[75vh]"
-            className2={`${workoutOnDate.length === 0 ? "flex items-center justify-center" : "flex flex-col min-h-[45vh] justify-between"}`}
+            className2={`min-h-[45vh] max-h-[65vh] ${workoutOnDate.length === 0 ? "flex items-center justify-center" : "flex flex-col justify-between"}`}
         >
             <button
                 onClick={() => handleNavigateBack()}
                 style={{ height: '0' }}
                 className="absolute top-4 left-2 sm:left-4 z-50"
             ><MdArrowBackIos className="sm:text-2xl text-lightestPurple" /></button>
-
-            {workoutOnDate.length > 0 ? (
-                <div className="max-h-[50vh] overflow-y-auto">
-                    <div className="p-2 flex justify-between">
-                        <span>Select All</span>
-                        <input
-                            onChange={() => handleCheckSelectAll()}
-                            checked={checkForAllChecked()}
-                            type="checkbox"
-                            id="custom-checkbox1"
-                            className="styled-checkbox mx-3"
-                        />
-                    </div>
-                    {workoutOnDate.map((exercise, index) => (
-                        <div key={index} className="w-full">
-                            {exercise.sets.length > 0 && (
-                                <>
-                                    <div className="bg-lightPurple p-2 flex items-center w-full justify-between border-b-2 border-lightPurple">
-                                        <h3 className="font-semibold text-lg">{exercise.exercise_name}</h3>
-                                        <input
-                                            checked={checkForAllSetsChecked(exercise)}
-                                            onChange={() => handleCheckExercise(exercise)}
-                                            type="checkbox"
-                                            id="custom-checkbox2"
-                                            className="styled-checkbox mx-3"
-                                        />
-                                    </div>
-
-                                    <div className="p-3">
-                                        {exercise.sets.map((set, index) => (
-                                            <div key={index} className="p-2 flex justify-end space-x-6 text-center items-center">
-                                               {unit_system === "metric" ? (
-                                                <span className="flex justify-end">{formatNumber(set.weight)} kgs</span>
-                                               ) : (
-                                                <span className="flex justify-end">{formatNumber(set.weight_lbs)} lbs</span>
-                                               )} 
-                                                <div className="flex justify-end items-center space-x-4">
-                                                    <span>{set.reps} reps</span>
-                                                    <input
-                                                        onChange={() => handleCheckSet(exercise, set)}
-                                                        checked={checkForSet(exercise, set)}
-                                                        type="checkbox"
-                                                        id="custom-checkbox3"
-                                                        className="styled-checkbox"
-                                                    />
-                                                </div>
-
+            {loading ? <div className="h-auto w-full flex flex-grow justify-center items-center"><Loading /> </div> : (
+                <>
+                    {workoutOnDate.length > 0 ? (
+                        <div className="max-h-[50vh] overflow-y-auto">
+                            <div className="p-2 flex justify-between">
+                                <span>Select All</span>
+                                <input
+                                    onChange={() => handleCheckSelectAll()}
+                                    checked={checkForAllChecked()}
+                                    type="checkbox"
+                                    id="custom-checkbox1"
+                                    className="styled-checkbox mx-3"
+                                />
+                            </div>
+                            {workoutOnDate.map((exercise, index) => (
+                                <div key={index} className="w-full">
+                                    {exercise.sets.length > 0 && (
+                                        <>
+                                            <div className="bg-lightPurple p-2 flex items-center w-full justify-between border-b-2 border-lightPurple">
+                                                <h3 className="font-semibold text-lg">{exercise.exercise_name}</h3>
+                                                <input
+                                                    checked={checkForAllSetsChecked(exercise)}
+                                                    onChange={() => handleCheckExercise(exercise)}
+                                                    type="checkbox"
+                                                    id="custom-checkbox2"
+                                                    className="styled-checkbox mx-3"
+                                                />
                                             </div>
-                                        ))}
-                                    </div>
-                                </>
-                            )}
+
+                                            <div className="p-3">
+                                                {exercise.sets.map((set, index) => (
+                                                    <div key={index} className="p-2 flex justify-end space-x-6 text-center items-center">
+                                                        {unit_system === "metric" ? (
+                                                            <span className="flex justify-end">{formatNumber(set.weight)} kgs</span>
+                                                        ) : (
+                                                            <span className="flex justify-end">{formatNumber(set.weight_lbs)} lbs</span>
+                                                        )}
+                                                        <div className="flex justify-end items-center space-x-4">
+                                                            <span>{set.reps} reps</span>
+                                                            <input
+                                                                onChange={() => handleCheckSet(exercise, set)}
+                                                                checked={checkForSet(exercise, set)}
+                                                                type="checkbox"
+                                                                id="custom-checkbox3"
+                                                                className="styled-checkbox"
+                                                            />
+                                                        </div>
+
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
 
-            )
-                : <span>You haven't created a workout log for this day.</span>}
+                    )
+                        : <span>You haven't created a workout log for this day.</span>}
 
-            <div className="w-full flex justify-center space-x-4 p-4">
-                <Button
-                    type="button"
-                    onClick={handleCloseOverlay}
+                    <div className="w-full flex justify-center space-x-4 p-4">
+                        <Button
+                            type="button"
+                            onClick={handleCloseOverlay}
 
-                >
-                    Cancel
-                </Button>
-                <Button
-                    type="button"
-                    onClick={() => selectCopy()}
-                >
-                    Copy
-                </Button>
-            </div>
-            {showCopyMessage && (
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            type="button"
+                            onClick={() => selectCopy()}
+                        >
+                            Copy
+                        </Button>
+                    </div>
+                    {showCopyMessage && (
 
-                <CopyMessage
-                    setShowCopyMessage={setShowCopyMessage}
-                    setShowCopyDay={setShowCopyDay}
-                />
-            )}
+                        <CopyMessage
+                            setShowCopyMessage={setShowCopyMessage}
+                            setShowCopyDay={setShowCopyDay}
+                        />
+                    )}
+                </>)}
+
         </OverlayWindow>
     )
 }

@@ -16,7 +16,7 @@ export const CustomPasswordInput: React.FC<CustomPasswordInputProps> = ({ classN
         <div className={`relative ${className}`}>
             <input
                 value={value}
-                type={showPassword ? "password" : "text"} // Toggle password visibility
+                type={showPassword ? "text" : "password"} // Toggle password visibility
                 id={name}
                 name={name}
                 className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple pr-10"
@@ -29,7 +29,7 @@ export const CustomPasswordInput: React.FC<CustomPasswordInputProps> = ({ classN
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute top-6 right-3 flex items-center text-gray-600 hover:text-gray-900"
             >
-                {showPassword ? <EyeOff size={20} color="#b3b3b3" /> : <Eye color="#b3b3b3" size={20} />}
+                {showPassword ? <Eye size={20} color="#b3b3b3" /> : <EyeOff color="#b3b3b3" size={20} />}
             </button>
         </div>
     );

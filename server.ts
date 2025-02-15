@@ -84,7 +84,7 @@ app.use(session({
     }
   }));
 
-/*
+/*\
  // Development session setup
  app.use(session({
      secret: process.env.COOKIE_SECRET as string,

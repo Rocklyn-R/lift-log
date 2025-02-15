@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaCheck } from "react-icons/fa6";
+import { FaCheck, FaX } from "react-icons/fa6";
 import { MdOutlineEdit } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { selectEmail } from "../../../redux-store/UserSlice";
@@ -39,17 +39,18 @@ export const UserSettings = () => {
     return (
         <div>
             <h2 className="text-lg font-bold mb-2">User Settings</h2>
-            <div className="flex text-darkestPurple space-x-4 w-fit">
+            <div className="flex text-darkestPurple space-x-4 w-48">
                 {showUsername ? (
                     <>
                         <input
                             type="text"
-                            className="mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
+                            className=" mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             placeholder="Enter your username"
                         />
                         <button onClick={() => setShowUserName(false)} className="mt-2 flex items-center justify-center"><FaCheck className="text-xl" /></button>
+                        <button onClick={() => setShowUserName(false)} className="mt-2 flex items-center justify-center"><FaX className="text-lg" /></button>
                     </>
                 ) : (
                     <>
@@ -97,11 +98,13 @@ export const UserSettings = () => {
                             </button>
                         </div>
                         <button onClick={handleUpdatePassword} className="mt-2 flex items-center justify-center"><FaCheck className="text-xl" /></button>
+                        <button onClick={() => setShowEditPassword(false)} className="mt-2 flex items-center justify-center"><FaX className="text-lg" /></button>
                     </div>
                 ) : (
                     <>
                         <span className="mt-2 min-h-12 p-3 w-full bg-white">{password}</span>
                         <button onClick={() => setShowEditPassword(true)} className="mt-2 flex items-center justify-center"><MdOutlineEdit className="text-xl" /></button>
+                       
                     </>
                 )}
 

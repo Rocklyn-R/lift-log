@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { getAllDates } from "../../../api/logs";
+import { Loading } from "../../../components/Loading";
 import { OverlayWindow } from "../../../components/OverlayWIndow";
 import { setDateToView } from "../../../redux-store/LogsSlice";
 import { getDaysInMonth, getYearMonth } from "../../../utilities/utilities";
@@ -17,14 +18,17 @@ export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action, set
     const [currentDate, setCurrentDate] = useState(new Date());
     const [highlightedDates, setHighlightedDates] = useState<string[]>([]);
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        setLoading(true);
         const monthString = getYearMonth(currentDate)
         const fetchDates = async () => {
             const datesResult = await getAllDates(monthString);
             if (datesResult) {
                 const dateStrings = datesResult.map((item: any) => item.date);
                 setHighlightedDates(dateStrings);
+                setLoading(false);
             }
         }
         fetchDates();
@@ -47,9 +51,9 @@ export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action, set
     }
 
     const handleSelectDateToView = (date: string) => {
-        dispatch(setDateToView(date));
         setShowDay(true);
         setShowCalendar(false);
+        dispatch(setDateToView(date));
     };
 
     return (
@@ -76,8 +80,9 @@ export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action, set
                     <MdArrowForwardIos />
                 </button>
             </div>
-
-            <div className="grid grid-cols-7 gap-2 text-center p-4 text-darkestPurple place-items-center">
+            <div className="w-full min-h-[300px] h-auto sm:min-h-[350px] flex flex-col">
+                 {loading ? <div className="flex flex-grow justify-center items-center pb-6"><Loading /></div> : (
+            <div className="grid grid-cols-7 gap-2 text-center px-4 text-darkestPurple place-items-center">
                 {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, idx) => (
                     <div key={idx} className="font-semibold">{day}</div>
                 ))}
@@ -93,7 +98,6 @@ export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action, set
                                 onClick={() => {
                                     if (dayIndex > 0 && dayIndex <= totalDays) {
                                         handleSelectDateToView(dayString);
-                                        console.log(dayString);
                                     }
                                 }}
                                 key={index}
@@ -106,6 +110,9 @@ export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action, set
                         );
                     })}
             </div>
+            )}
+            </div>
+           
         </OverlayWindow>
     );
 };

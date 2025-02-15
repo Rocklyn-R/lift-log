@@ -67,7 +67,7 @@ export const AddLog: React.FC<AddLogProps> = ({ setShowAddExercise }) => {
                     : "All Exercises"
                 }`}
             className="phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3 relative"
-            className2={`${showExercises ? 'max-h-[70vh]' : "max-h-[75vh]"}  min-h-[65vh]`}
+            className2={`${showExercises ? 'max-h-[65vh]' : "max-h-[75vh]"}  min-h-[65vh]`}
         >
             {(showExercises || showLogForm) && (
                 <button

@@ -5,7 +5,7 @@ import { selectDateToView, setWorkoutOnDate } from "../redux-store/LogsSlice";
 import { getLog } from "../api/logs";
 import { Workout } from "../types/types";
 
-export const useWorkoutOnDayFetch = () => {
+export const useWorkoutOnDayFetch = (setLoading: (loading: boolean) => void) => {
     const dispatch = useDispatch();
     const dateToView = useSelector(selectDateToView);
     useEffect(() => {
@@ -47,7 +47,8 @@ export const useWorkoutOnDayFetch = () => {
                     return acc; // Return the updated accumulator (workout array)
                 }, [] as Workout[]); // Initialize the accumulator as an empty array of Workout objects
 
-                dispatch(setWorkoutOnDate(workoutArray)); // Update the workout state
+                dispatch(setWorkoutOnDate(workoutArray));
+                setLoading(false) // Update the workout state
             }
         };
 
