@@ -31,10 +31,7 @@ export const ExerciseCategories: React.FC<ExerciseCategoriesProps> = ({ source, 
     }, [dispatch]);
 
     const handleGetExercises = async (category: Category) => {
-      /*  const exercisesFetch = await getExercises(category.id);
-        if (exercisesFetch) {
-            dispatch(setExercises(exercisesFetch));
-        }*/
+     
         if (source === "library") {
             navigate(`/exercise-library/${category.id}`)
         } else if (source === 'logs' && handleShowExercises) {

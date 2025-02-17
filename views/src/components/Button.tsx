@@ -4,15 +4,16 @@ interface ButtonProps {
     className?: string; // Optional className for styling
     type: "submit" | "reset" | "button" | undefined;
     disabled?: boolean
+    width?: string;
 }
 
-export const Button: React.FC<ButtonProps> = ({ onClick, children, className, type, disabled }) => {
+export const Button: React.FC<ButtonProps> = ({ width = "w-fit", onClick, children, className, type, disabled }) => {
     return (
         <button
             disabled={disabled}
             type={type}
             onClick={onClick}
-            className={`hover:shadow-lg transition py-2 px-4 w-fit rounded-lg bg-darkestPurple hover:bg-darkPurple text-lightestPurple ${className || ""}`}
+            className={`${width} hover:shadow-lg transition py-2 px-4 rounded-lg bg-darkestPurple hover:bg-darkPurple text-lightestPurple ${className || ""}`}
         >
             {children}
         </button>

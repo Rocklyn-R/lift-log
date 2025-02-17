@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux"
-import { selectExercises, setExercises } from "../../../redux-store/LibrarySlice"
+import { selectCategories, selectExercises, setExercises } from "../../../redux-store/LibrarySlice"
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { OverlayWindow } from "../../../components/OverlayWIndow";
 import { Exercise } from "../../../types/types";
 import { getExercises } from "../../../api/exercises";
 import { useDispatch } from "react-redux";
-import { selectSelectedExercise, setSelectedExercise } from "../../../redux-store/LogsSlice";
+import { selectSelectedCategory, selectSelectedExercise, setSelectedExercise } from "../../../redux-store/LogsSlice";
 import { ViewLog } from "../../LogsPage/AddLog/ViewLog/ViewLog";
 import { Loading } from "../../../components/Loading";
 
@@ -22,6 +22,8 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
     const { categoryId } = useParams<{ categoryId: string }>();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
+    const selectedCategory = useSelector(selectSelectedCategory);
+    const categories = useSelector(selectCategories);
 
 
     const handleOpenExercise = (exercise: Exercise) => {
@@ -33,20 +35,39 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
         }
     }
 
-    const handleCloseExervise = () => {
+    const handleCloseExercise = () => {
         dispatch(setSelectedExercise(null))
     }
 
     useEffect(() => {
         const fetchExercises = async () => {
-            if (categoryId) {
+            if (categoryId && source === "library") {
                 const exerciseResults = await getExercises(parseInt(categoryId));
                 dispatch(setExercises(exerciseResults))
                 setLoading(false);
             }
         }
-        fetchExercises();
+        if (source === "library") {
+            fetchExercises();
+        }
     }, [categoryId, dispatch])
+
+    useEffect(() => {
+        const fetchExercises = async () => {
+            const categoryId = categories.find(category => category.name === selectedCategory)?.id;
+            if (categoryId && source === "logs") {
+                const exercisesFetch = await getExercises(categoryId);
+                dispatch(setExercises(exercisesFetch));
+                setLoading(false);
+            }
+        }
+        if (source === "logs") {
+            fetchExercises();
+        }
+
+    }, [dispatch, setLoading])
+
+
 
     return (
         <div className="flex flex-col">
@@ -71,7 +92,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
             {selectedExercise && (source === "library") && (
                 <OverlayWindow
                     headerText={selectedExercise.exercise_name}
-                    onClose={handleCloseExervise}
+                    onClose={handleCloseExercise}
                     className="phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3"
                     className2="max-h-[75vh] min-h-[65vh]"
                 >
