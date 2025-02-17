@@ -18,7 +18,6 @@ export const ExerciseLibrary = () => {
     }
     const [showAddExercise, setShowAddExercise] = useState(false);
 
-
     return (
         <div className="flex flex-col xl:pl-0 pl-16 relative h-screen w-full justify-center">
             {categoryId && (
@@ -36,7 +35,7 @@ export const ExerciseLibrary = () => {
                 <FaPlus />
             </button>
            
-            <div className="flex-grow overflow-y-auto p-4 ">
+            <div className={` flex-grow overflow-y-auto p-4`}>
                 
                 {categoryId ? (
                     <Exercises
