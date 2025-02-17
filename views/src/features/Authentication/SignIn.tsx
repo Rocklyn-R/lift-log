@@ -35,7 +35,7 @@ export const SignIn = () => {
         dispatch(setUserEmail(response.user.email));
 
       }
-      
+
     } catch (error: any) {
       console.log('Error signing up:', error.message);
     }
@@ -92,7 +92,7 @@ export const SignIn = () => {
         </div>
         <div className="flex flex-col p-4 items-center">
           <span>or</span>
-          <Link className="hover:underline text-xl p-4" to="/signup">Sign Up</Link>
+          <Link className="text-darkestPurple hover:underline text-xl p-4" to="/signup">Sign Up</Link>
         </div>
       </div>
     </div>

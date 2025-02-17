@@ -8,6 +8,7 @@ import { Button } from "../../components/Button";
 import { createSettings } from "../../api/settings";
 import { Link } from "react-router-dom";
 import { CustomPasswordInput } from "../../components/CustomPasswordInput";
+import { Loading } from "../../components/Loading";
 
 export const SignUp = () => {
     const [firstName, setFirstName] = useState("");
@@ -18,9 +19,11 @@ export const SignUp = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setLoading(true);
         if (password !== repeatPassword) {
             setErrorMessage("Passwords don't match.")
             return;
@@ -101,44 +104,44 @@ export const SignUp = () => {
 
 
                         {/* Password Field */}
-                
-                            <CustomPasswordInput
-                                value={password}
-                                name="password"
-                                className="mb-4"
-                                placeholder="Password"
-                                onChange={(e) => {
-                                    setPassword(e.target.value)
-                                }}
-                            />
-               
-                  
-                            <CustomPasswordInput
-                                value={repeatPassword}
-                                name="repeat-password"
-                                className="mb-4"
-                                placeholder="Repeat password"
-                                onChange={(e) => {
-                                    setRepeatPassword(e.target.value)
-                                }}
-                            />
-                      
+
+                        <CustomPasswordInput
+                            value={password}
+                            name="password"
+                            className="mb-4"
+                            placeholder="Password"
+                            onChange={(e) => {
+                                setPassword(e.target.value)
+                            }}
+                        />
+
+
+                        <CustomPasswordInput
+                            value={repeatPassword}
+                            name="repeat-password"
+                            className="mb-4"
+                            placeholder="Repeat password"
+                            onChange={(e) => {
+                                setRepeatPassword(e.target.value)
+                            }}
+                        />
+
                         {errorMessage && <p className="mt-6 text-red-800">{errorMessage}</p>}
-                 
-                        <Button
-                            type="submit"
-                            className="w-full text-lg font-semibold p-3 hover:bg-darkPurple focus:outline-none focus:ring-2 focus:ring-darkPurple"
-                        >
-                            Sign Up
-                        </Button>
+                       
+                            <Button
+                                type="submit"
+                                className="flex justify-center w-full text-lg font-semibold p-3 hover:bg-darkPurple focus:outline-none focus:ring-2 focus:ring-darkPurple"
+                            >
+                               {loading ? <Loading size="w-7 h-7" /> : "Sign Up"}
+                            </Button>
                     </form>
 
                 </div>
             </div>
             <div className="flex flex-col items-center pb-4">
-          <span>or</span>
-          <Link className="hover:underline text-xl p-4" to="/signin">Sign In</Link>
-        </div>
+                <span>or</span>
+                <Link className="text-darkestPurple hover:underline text-xl p-4" to="/signin">Sign In</Link>
+            </div>
         </div>
     )
 }
