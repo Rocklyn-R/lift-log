@@ -1,8 +1,8 @@
 services:
-  - type: web
+  - type: static
     name: lift-log  # Change this to your frontend service name
     env: static
-    buildCommand: npm run build  # Change if using Vite: "npm run build"
+    buildCommand: npm install && npm run build  # Change if using Vite: "npm run build"
     staticPublishPath: build  # The folder where the built frontend is located
     routes:
       - src: /.*
