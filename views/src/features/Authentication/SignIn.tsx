@@ -7,17 +7,18 @@ import { setUserFirstName, setUserLastName, setUserEmail } from "../../redux-sto
 import { Link } from "react-router-dom";
 import { Header } from "../../components/Header";
 import { CustomPasswordInput } from "../../components/CustomPasswordInput";
+import { Loading } from "../../components/Loading";
 
 export const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       // Make a POST request to your server's signup endpoint using fetch
       const response = await signInUser(email, password);
@@ -34,7 +35,7 @@ export const SignIn = () => {
         dispatch(setUserEmail(response.user.email));
 
       }
-
+      
     } catch (error: any) {
       console.log('Error signing up:', error.message);
     }
@@ -75,12 +76,14 @@ export const SignIn = () => {
             </div>
 
             {errorMessage && <p className="mt-6 text-red-800">{errorMessage}</p>}
+
             <Button
               type="submit"
-              className="w-full text-lg font-semibold p-3 hover:bg-darkPurple focus:outline-none focus:ring-2 focus:ring-darkPurple"
+              className="mb-2  flex justify-center w-full text-lg font-semibold p-3 hover:bg-darkPurple focus:outline-none focus:ring-2 focus:ring-darkPurple"
             >
-              Sign In
+              {loading ? <Loading size="w-7 h-7" /> : "Sign In"}
             </Button>
+
           </form>
 
           <div className="mt-4 text-center">
