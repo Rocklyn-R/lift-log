@@ -75,7 +75,6 @@ export const LogsSlice = createSlice({
             state.workout = action.payload;
         },
         editSet: (state, action) => {
-            console.log(action.payload);
             const foundIndex = state.workout.findIndex(exercise => exercise.exercise_id === action.payload.exercise_id);
             if (foundIndex !== -1) {
                 const foundSetIndex = state.workout[foundIndex].sets.findIndex(set => set.set_id === action.payload.id);

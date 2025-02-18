@@ -26,7 +26,6 @@ export const ResetPassword = () => {
         const validateToken = async () => {
             try {
                 if (token) {
-                    console.log(token)
                     const response = await checkToken(token);
                     if (response.valid) {
                         setIsValid(true);  // Token is valid, show form
@@ -58,7 +57,6 @@ export const ResetPassword = () => {
         } else {
             if (userId) {
                 const passwordUpdate = await createNewPasswordWithToken(password, userId);
-                console.log(passwordUpdate);
                 if (passwordUpdate) {
                     setSuccessMessage(true);
                 }

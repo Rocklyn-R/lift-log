@@ -28,10 +28,8 @@ export const UserSettings = () => {
             setShowEditPassword(false);
             setStatusMessage('Password successfully changed!');
         } else if (passwordUpdated === 'Old password incorrect') {
-            console.log("Old password incorrect")
             setPasswordErrorMessage('Current password incorrect!');
         } else {
-            console.log("Some shit happened")
             setStatusMessage('An error ocurred');
         }
     }

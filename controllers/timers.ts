@@ -10,7 +10,6 @@ export const addTimer = async (req: Request, res: Response) => {
     const {hours, minutes, seconds, seconds_left} = req.body;
     try {
         const result = await timerAdd(user_id, hours, minutes, seconds, seconds_left);
-        console.log(result);
         if (result) {
             res.status(201).json({ message: "Timer successfully added"})
         }
@@ -24,7 +23,6 @@ export const getTimer = async (req: Request, res: Response) => {
     try {
         const result = await timerGet(user_id);
         if (result) {
-            //console.log(result);
             res.status(201).json({ timer: result })
         }
     } catch (error) {

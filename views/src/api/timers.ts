@@ -36,7 +36,6 @@ export const getTimer = async () => {
         })
 
         const data = await response.json();
-        console.log(data.timer);
         return data.timer;
     } catch (error) {
         console.log(error);

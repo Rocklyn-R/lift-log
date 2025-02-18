@@ -47,7 +47,6 @@ export const signInUser = async (email: string, password: string) => {
             credentials: 'include'
         });
         const responseData = await response.json();
-        console.log(responseData);
         if (!response.ok) {
             return { error: "Incorrect email or password" }
         }

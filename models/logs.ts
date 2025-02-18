@@ -57,7 +57,6 @@ WHERE
 ORDER BY 
     sets.exercise_order, 
     sets.set_number;`;
-    console.log(user_id, date);
     try {
         const result = await db.query(query, [
             user_id, date
@@ -78,11 +77,9 @@ export const logEdit = async (
     const query = `UPDATE sets SET weight = $1, reps = $2, weight_lbs = $3
     WHERE id = $4 AND user_id = $5 RETURNING *`;
     try {
-        console.log(weight);
         const result = await db.query(query, [
             weight, reps, weight_lbs, set_id, user_id
         ]);
-        console.log(result.rows[0]);
         return result.rows[0];
     } catch (error) {
         console.log(error);
@@ -101,7 +98,6 @@ export const setDelete = async (
         const result = await db.query(query, [
             set_id, user_id
         ]);
-        console.log(result);
         return result;
     } catch (error) {
         console.log(error);
@@ -151,7 +147,6 @@ ORDER BY
         const result = await db.query(query, [
             user_id, exercise_id
         ]);
-        console.log(result.rows);
         return result.rows;
     } catch (error) {
         console.log(error);
@@ -180,7 +175,6 @@ WHERE
         const result = await db.query(query, [
             user_id, exercise_id, date
         ]);
-        //console.log(result.rows);
         return result.rows;
     } catch (error) {
         console.log(error);

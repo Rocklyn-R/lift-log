@@ -62,8 +62,6 @@ export const updateUserPassword = async (oldPassword: string, newPassword: strin
         })
 
         const data = await response.json();
-        console.log(data.message);
-
         if (response.ok) {
             return 'Success';
         } else if (!response.ok && data.message === 'Old password incorrect') {

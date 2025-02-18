@@ -3,7 +3,6 @@ import db from '../config/db';
 const queryExecutor = async (query: string, params: any[] = []) => {
   try {
     const result = await db.query(query, params);
-    console.log(result.rows);
     return result.rows;
   } catch (error) {
     console.log(error)

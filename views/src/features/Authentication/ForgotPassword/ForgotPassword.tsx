@@ -18,16 +18,13 @@ export const ForgotPassword = ({ }) => {
          setPending(true);
          setErrorMessage("");
          const lowerCaseEmail = email.toLocaleLowerCase()
-         console.log(lowerCaseEmail);
          const emailCheckResult = await checkForUserEmail(lowerCaseEmail);
          if (emailCheckResult === "User not found") {
              setErrorMessage("No account associated with that email. Please try again.");
              setPending(false);
          }
          if (emailCheckResult === "User found") {
-             console.log(emailCheckResult);
              const resetEmail = await sendResetEmail(lowerCaseEmail);
-             console.log(resetEmail)
              setPending(false);
              setSuccessMessage(true)
          }

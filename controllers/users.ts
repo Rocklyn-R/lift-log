@@ -107,9 +107,7 @@ export const sendResetEmail = async (req: Request, res: Response) => {
     try {
         // Check if the user exists
         const userResult = await userFindByEmail(email);
-        console.log(email);
         if (!userResult) {
-            console.log("USER NOT FOUND")
             res.status(404).json({ message: "User not found" });
         }
 
@@ -141,7 +139,6 @@ export const sendResetEmail = async (req: Request, res: Response) => {
         }
 
     } catch (error) {
-        console.log(error);
         console.error("Error sending reset email:", error);
         res.status(500).json({ message: "Internal Server Error" });
     }
@@ -151,7 +148,6 @@ export const checkToken = async (req: Request, res: Response) => {
     const token = req.query.token as string; // Explicitly cast it
     try {
             const result = await tokenCheck(token);
-            console.log(result);
             if (result) {
                 res.status(200).json({ valid: result.valid, message: result.message, user_id: result.user_id })
             }

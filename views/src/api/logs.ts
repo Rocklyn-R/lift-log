@@ -50,7 +50,6 @@ export const editLog = async (
     weight_lbs: number
 ) => {
     try {
-        console.log(weight, reps, set_id);
         const response = await fetch(`${BASE_URL}/edit`, {
             method: 'PUT',
             headers: {

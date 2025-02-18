@@ -25,7 +25,6 @@ export const CopyMessage: React.FC<CopyMessageProps> = ({ setShowCopyMessage, se
     }
 
     const handleSelectCopy = async () => {
-        console.log(workoutToCopy);
         for (const exercise of workoutToCopy) {
 
             const exerciseOrder = (() => {
