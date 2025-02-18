@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addSetToLog, deleteSet, editLog, getUpdatedPrs, updateSetNumber } from "../../../../../api/logs";
 import { Button } from "../../../../../components/Button";
+import { Loading } from "../../../../../components/Loading";
 import {
     addExerciseToWorkout,
     deleteSetUpdateSetNumbers,
@@ -37,6 +38,7 @@ export const LogForm = () => {
     const workout = useSelector(selectWorkout);
     const selectedSet = useSelector(selectSelectedSet);
     const unit_system = useSelector(selectUnitSystem);
+    const [loadingSave, setLoadingSave] = useState(false);
 
     useEffect(() => {
         if (errorMessage) {
@@ -113,14 +115,31 @@ export const LogForm = () => {
         }
         setErrorMessage(null);
         if (selectedExercise) {
+            setLoadingSave(true);
             const findIndexOfExercise = workout.findIndex(exercise => exercise.exercise_id === selectedExercise.exercise_id);
             const setNumber = (findIndexOfExercise === -1) ? 1 : workout[findIndexOfExercise].sets.length + 1;
             const weightInputToAdd = weightInput ? Number(weightInput) : 0;
             const repsInputToAdd = repsInput ? repsInput : 0;
             const exercise_order = (findIndexOfExercise === -1) ? workout.length + 1 : workout[findIndexOfExercise].exercise_order;
+         /*   dispatch(addExerciseToWorkout({
+                PR: false,
+                date: selectedDate,
+                distance: null,
+                exercise_id: selectedExercise.exercise_id,
+                exercise_name: selectedExercise.exercise_name,
+                exercise_order: exercise_order,
+                id: null,
+                reps: repsInputToAdd,
+                set_number: setNumber,
+                time: null,
+                user_id: null,
+                weight: weightInputToAdd,
+                weight_lbs: 
+            }))*/
             const addSetResult = await addSetToLog(selectedDate, selectedExercise.exercise_id, setNumber, weightInputToAdd, repsInputToAdd, exercise_order);
             if (addSetResult) {
                 dispatch(addExerciseToWorkout(addSetResult));
+                setLoadingSave(false);
                 const newPRData = await getUpdatedPrs(selectedExercise.exercise_id, selectedDate);
                 newPRData.forEach((set: any) => {
                     dispatch(updatePr(set))
@@ -160,7 +179,6 @@ export const LogForm = () => {
             }
             setEditMode(false);
         }
-
     }
 
     const handleDeleteSet = async () => {
@@ -253,7 +271,6 @@ export const LogForm = () => {
                             style={{ width: `${calculatedRepsWidth}rem` }}
                             placeholder=""
                             onChange={(e) => {
-                                console.log(e.target.value);
                                 const value = e.target.value;
                                 if (value.length <= 8) {
                                     setRepsInput(value === "" ? null : Number(value)); // Clear or set number
@@ -273,14 +290,14 @@ export const LogForm = () => {
                                 <Button
                                     onClick={updateSet}
                                     type="button"
-                                    className="flex-grow"
+                                    className="flex-grow w-full"
                                 >
                                     Update
                                 </Button>
                                 <Button
                                     onClick={handleDeleteSet}
                                     type="button"
-                                    className="flex-grow"
+                                    className="flex-grow w-full"
                                 >
                                     Delete
                                 </Button>
@@ -288,17 +305,18 @@ export const LogForm = () => {
                         ) : (
                             <>
                                 <Button
+                                    disabled={loadingSave}
                                     onClick={() => handleSaveSet()}
                                     type="button"
-                                    className="flex-grow"
+                                    className="flex-grow flex items-center justify-center w-full"
                                 >
-                                    Save
+                                  {loadingSave ? <Loading size="h-5 w-5 mx-2" /> : "Save"} 
                                 </Button>
                                 <Button
 
                                     type="button"
                                     onClick={() => handleClear()}
-                                    className="flex-grow"
+                                    className="flex-grow w-full"
                                 >
                                     Clear
                                 </Button>

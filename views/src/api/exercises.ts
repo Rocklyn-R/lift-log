@@ -3,6 +3,36 @@ export const BASE_URL = process.env.NODE_ENV === 'production'
     : 'http://localhost:4000/exercises';
 
 
+export const getDefaultExercises = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/default`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        const data = await response.json();
+        return data.defaultExercises;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const copyDefaultsToLibrary = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/defaults`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include"
+        })
+        return response.ok
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const getCategories = async () => {
     try {
         const response = await fetch(`${BASE_URL}/categories`, {
@@ -49,4 +79,24 @@ export const createNewExercise = async (name: string, category: number, type: nu
     } catch (error) {
         console.log(error);
     }
+}
+
+export const updateExercise = async (
+    name: string,
+    category: number,
+    type: number,
+    exercise_id: number) => {
+        try {
+            const response = await fetch(`${BASE_URL}/`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: "include",
+                body: JSON.stringify({ name, category, type, exercise_id })
+            })
+            return response.ok
+        } catch (error) {
+            console.log(error);
+        }
 }

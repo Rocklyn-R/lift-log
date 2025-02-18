@@ -47,7 +47,6 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
         const categoryId = categories.find(cat => cat.name === category)?.id;
         const typeId = types.find(item => item.name === type)?.id;
         if (name && categoryId && typeId) {
-            console.log("RUNS")
             const createResult = await createNewExercise(name, categoryId, typeId);
             if (createResult) {
                 setShowSucessMessage(true);

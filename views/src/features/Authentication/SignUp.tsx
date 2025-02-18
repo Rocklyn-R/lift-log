@@ -9,6 +9,7 @@ import { createSettings } from "../../api/settings";
 import { Link } from "react-router-dom";
 import { CustomPasswordInput } from "../../components/CustomPasswordInput";
 import { Loading } from "../../components/Loading";
+import { copyDefaultsToLibrary, getDefaultExercises } from "../../api/exercises";
 
 export const SignUp = () => {
     const [firstName, setFirstName] = useState("");
@@ -38,6 +39,9 @@ export const SignUp = () => {
                 }
             } else if (response.user) {
                 await createSettings();
+                const defaultAdds = await copyDefaultsToLibrary();
+                console.log(defaultAdds);
+
                 dispatch(setIsAuthenticated(true));
                 setErrorMessage("");
                 dispatch(setUserFirstName(response.user.first_name));

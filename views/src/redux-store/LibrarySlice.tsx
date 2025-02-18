@@ -15,13 +15,20 @@ export const LibrarySlice = createSlice({
         setExercises: (state, action) => {
             state.exercises = action.payload;
         },
+        editExercise: (state, action) => {
+            const foundIndex = state.exercises.findIndex(exercise => exercise.exercise_id === action.payload.exercise_id);
+            if (foundIndex !== -1) {
+                state.exercises[foundIndex] = action.payload;
+            }
+        }
     }
 })
 
 
 export const { 
     setCategories,
-    setExercises 
+    setExercises,
+    editExercise 
 } = LibrarySlice.actions;
 
 export const selectCategories = (state: RootState) => state.library.categories;

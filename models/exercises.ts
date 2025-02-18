@@ -10,6 +10,18 @@ const queryExecutor = async (query: string, params: any[] = []) => {
   }
 };
 
+export const defaultExercisesGet = () => {
+  const query = `SELECT name, category, type FROM default_exercise_library`;
+  return queryExecutor(query);
+}
+
+export const defaultsAddToLibrary = (user_id: number) => {
+  const query = ` INSERT INTO exercise_library (name, category, type, user_id)
+  SELECT name, category, type, $1 FROM default_exercise_library;
+  `;
+  return queryExecutor(query, [user_id])
+};
+
 export const categoriesGet = async () => {
   const query = `SELECT * FROM exercise_categories`;
   return queryExecutor(query);  // No parameters for this query
@@ -31,7 +43,7 @@ export const exercisesGet = async (id: string, user_id: number) => {
       exercise_types et ON et.id = el.type
     WHERE 
       el.category = $1
-      AND (el.user_id IS NULL OR el.user_id = $2)
+      AND el.user_id = $2
       ORDER BY 
   el.name ASC;`
   return queryExecutor(query, [id, user_id]);  // Pass the id as the parameter
@@ -41,3 +53,9 @@ export const exerciseCreate = async (name: string, category: number, type: numbe
   const query = `INSERT INTO exercise_library (name, category, type, user_id) VALUES ($1, $2, $3, $4) RETURNING *`;
   return queryExecutor(query, [name, category, type, user_id])
 };
+
+export const exerciseUpdate = async (name: string, category: number, type: number, exercise_id: number, user_id: number) => {
+  const query = `UPDATE exercise_library SET name = $1, category = $2, type = $3
+  WHERE id = $4 AND user_id = $5`;
+  return queryExecutor(query, [name, category, type, exercise_id, user_id])
+}

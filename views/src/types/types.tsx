@@ -1,4 +1,4 @@
-export interface Exercise {
+export interface Exercise extends SelectedExercise {
     exercise_id: number;
     exercise_name: string;
 }
