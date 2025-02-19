@@ -234,7 +234,7 @@ export const CopyWorkout: React.FC<CopyWorkoutProps> = ({ setShowCalendar, setSh
                                             <div className="p-3">
                                                 {exercise.sets.map((set, index) => (
                                                     <div key={index} className="p-2 flex justify-end space-x-6 text-center items-center">
-                                                        {unit_system === "metric" ? (
+                                                        {unit_system === "Metric" ? (
                                                             <span className="flex justify-end">{formatNumber(set.weight)} kgs</span>
                                                         ) : (
                                                             <span className="flex justify-end">{formatNumber(set.weight_lbs)} lbs</span>
