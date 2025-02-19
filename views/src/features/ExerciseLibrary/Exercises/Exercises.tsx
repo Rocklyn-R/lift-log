@@ -15,6 +15,7 @@ import { MdOutlineEdit } from "react-icons/md";
 import { MdDeleteOutline } from "react-icons/md";
 import { EditExercise } from "./EditExercise/EditExercise";
 import { useCategoriesFetch } from "../../../hooks/useCatgoriesFetch";
+import { DeleteExercise } from "./DeleteExercise/DeleteExercise";
 
 
 interface ExercisesProps {
@@ -36,6 +37,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [showEditExercise, setShowEditExercise] = useState(false);
     const [exerciseToUpdate, setExerciseToUpdate] = useState<SelectedExercise | null>(null);
+    const [showDeleteExercise, setShowDeleteExercise] = useState(false);
 
     const handleOpenExercise = (exercise: Exercise) => {
         if (openDropdown !== null) {
@@ -157,8 +159,9 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
                                                 <div
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        console.log("Deleting", exercise.exercise_name);
+                                                        setShowDeleteExercise(true);
                                                         setOpenDropdown(null);
+                                                        setExerciseToUpdate(exercise)
                                                     }}
                                                     className="flex justify-between items-center w-full rounded-b-md text-left px-4 py-2 text-md text-darkestPurple hover:bg-lightestPurple cursor-pointer"
                                                 >
@@ -178,13 +181,17 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
             {showEditExercise && exerciseToUpdate && (source === "library") && (
                 <OverlayWindow
                     headerText={`Edit - ${exerciseToUpdate.exercise_name}`}
-                    onClose={() => setShowEditExercise(false)}
+                    onClose={() => {
+                        setShowEditExercise(false);
+                        setExerciseToUpdate(null);
+                    }}
                     className="phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3"
                     className2="p-4"
                 >
                     <EditExercise
                         exercise={exerciseToUpdate}
                         setShowEditExercise={setShowEditExercise}
+                        setExerciseToUpdate={setExerciseToUpdate}
                     />
                 </OverlayWindow>
             )}
@@ -198,7 +205,23 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
                     <ViewLog
                     />
                 </OverlayWindow>
-
+            )}
+            {showDeleteExercise && exerciseToUpdate && (source === "library") && (
+                <OverlayWindow
+                    headerText={`Delete - ${exerciseToUpdate.exercise_name}`}
+                    onClose={() => {
+                        setShowDeleteExercise(false);
+                        setExerciseToUpdate(null);
+                    }}
+                    className="phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3"
+                    className2="p-4"
+                >
+                    <DeleteExercise 
+                        exercise={exerciseToUpdate}
+                        setShowDeleteExercise={setShowDeleteExercise}
+                        setExerciseToUpdate={setExerciseToUpdate}
+                    />
+                </OverlayWindow>
             )}
         </div>
     );

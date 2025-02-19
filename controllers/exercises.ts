@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { categoriesGet, defaultExercisesGet, defaultsAddToLibrary, exerciseCreate, exercisesGet, exerciseUpdate } from "../models/exercises"
+import { categoriesGet, defaultExercisesGet, defaultsAddToLibrary, exerciseCreate, exerciseDelete, exercisesGet, exerciseUpdate } from "../models/exercises"
 
 interface User {
     id: number
@@ -59,7 +59,7 @@ export const createExercise = async (req: Request, res: Response) => {
     try {
         const result = await exerciseCreate(name, category, type, user_id);
         if (result) {
-            res.status(201).json({ exercises: result})
+            res.status(201).json({ exercise: result})
         }
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' })
@@ -72,7 +72,20 @@ export const updateExercise = async (req: Request, res: Response) => {
     try {
         const result = await exerciseUpdate(name, category, type, exercise_id, user_id);
         if (result) {
-            res.status(201).json({ exercises: result})
+            res.status(201).json({ message: "Exercise successfully updated"})
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' })
+    }
+}
+
+export const deleteExercise = async (req: Request, res: Response) => {
+    const { exercise_id } = req.body;
+    const user_id = (req.user as User).id;
+    try {
+        const result = await exerciseDelete(exercise_id, user_id);
+        if (result) {
+            res.status(201).json({ message: "Exercise successfully deleted"})
         }
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' })

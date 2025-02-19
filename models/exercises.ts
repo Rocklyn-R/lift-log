@@ -59,3 +59,8 @@ export const exerciseUpdate = async (name: string, category: number, type: numbe
   WHERE id = $4 AND user_id = $5`;
   return queryExecutor(query, [name, category, type, exercise_id, user_id])
 }
+
+export const exerciseDelete = async (exercise_id: number, user_id: number) => {
+  const query = `DELETE FROM exercise_library WHERE id = $1 AND user_id = $2`;
+  return queryExecutor(query, [exercise_id, user_id]);
+}

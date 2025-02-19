@@ -75,7 +75,7 @@ export const createNewExercise = async (name: string, category: number, type: nu
             body: JSON.stringify({ name, category, type })
         })
         const data = await response.json();
-        return data.exercises;
+        return data.exercise;
     } catch (error) {
         console.log(error);
     }
@@ -99,4 +99,20 @@ export const updateExercise = async (
         } catch (error) {
             console.log(error);
         }
+}
+
+export const deleteExercise = async (exercise_id: number) => {
+    try {
+        const response = await fetch(`${BASE_URL}/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({ exercise_id })
+        })
+        return response.ok
+    } catch (error) {
+        console.log(error);
+    }
 }

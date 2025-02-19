@@ -1,5 +1,5 @@
 import express from 'express';
-import { addDefaultsToLibrary, createExercise, getCategories, getDefaultExercises, getExercises, updateExercise } from '../controllers/exercises';
+import { addDefaultsToLibrary, createExercise, deleteExercise, getCategories, getDefaultExercises, getExercises, updateExercise } from '../controllers/exercises';
 
 const exercisesRouter = express.Router();
 
@@ -12,5 +12,7 @@ exercisesRouter.post('/', createExercise);
 exercisesRouter.post('/defaults', addDefaultsToLibrary);
 
 exercisesRouter.put('/', updateExercise);
+
+exercisesRouter.delete('/', deleteExercise);
 
 export default exercisesRouter;

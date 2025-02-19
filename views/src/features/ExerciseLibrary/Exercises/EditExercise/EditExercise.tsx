@@ -12,9 +12,10 @@ import { useDispatch } from "react-redux";
 interface EditExerciseProps {
     exercise: SelectedExercise;
     setShowEditExercise: (arg0: boolean) => void;
+    setExerciseToUpdate: (arg0: null) => void;
 }
 
-export const EditExercise: React.FC<EditExerciseProps> = ({ exercise, setShowEditExercise }) => {
+export const EditExercise: React.FC<EditExerciseProps> = ({ setExerciseToUpdate, exercise, setShowEditExercise }) => {
     const [name, setName] = useState(exercise.exercise_name);
     const [category, setCategory] = useState(exercise.category_name);
     const [type, setType] = useState(exercise.type_name);
@@ -42,17 +43,19 @@ export const EditExercise: React.FC<EditExerciseProps> = ({ exercise, setShowEdi
                     type_name: type
                 }))
                 setShowSucessMessage(true);
-                setShowEditExercise(false);
+                    setTimeout(() => {
+                        setShowEditExercise(false);
+                        setExerciseToUpdate(null);
+                    }, 2500)
             }
         }
-        
     }
 
     return (
         <div>
             {showSuccessMessage ? (
                 <div className="min-h-[5vh] flex items-center justify-center">
-                    <span>Exercise successfully added to library!</span>
+                    <span>Exercise successfully updated!</span>
                 </div>
             ) : (
                 <form onSubmit={handleUpdateExercise} 
@@ -95,10 +98,17 @@ export const EditExercise: React.FC<EditExerciseProps> = ({ exercise, setShowEdi
                         />
                         <span className="absolute -bottom-5 right-0 px-2 text-sm rounded-md">{typeError}</span>
                     </div>
-                    <div className="w-full flex justify-center p-4">
+                    <div className="w-full flex justify-center p-4 space-x-4">
                         <Button
                             type="submit"
                         >Update</Button>
+                         <Button
+                            type="button"
+                            onClick={() => {
+                                setShowEditExercise(false);
+                                setExerciseToUpdate(null)
+                            }}
+                        >Cancel</Button>
                     </div>
                 </form>
             )}

@@ -1,6 +1,4 @@
 export interface Exercise extends SelectedExercise {
-    exercise_id: number;
-    exercise_name: string;
 }
 
 /*export interface Workout {
