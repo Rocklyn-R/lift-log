@@ -64,38 +64,53 @@ export const Stopwatch = () => {
 
     const formatTime = () => {
         let hours = Math.floor(elapsedTime / (1000 * 60 * 60));
-        let minutes = Math.floor(elapsedTime / (1000 * 60 * 60) % 60);
-        let seconds = Math.floor(elapsedTime / (1000) % 60);
-        let milliseconds = Math.floor(elapsedTime % (1000) / 10);
+        let minutes = Math.floor((elapsedTime / (1000 * 60)) % 60);
+        let seconds = Math.floor((elapsedTime / 1000) % 60);
+        let milliseconds = Math.floor((elapsedTime % 1000) / 10);
+    
         // Convert numbers to zero-padded strings
         const paddedHours = String(hours).padStart(2, "0");
         const paddedMinutes = String(minutes).padStart(2, "0");
         const paddedSeconds = String(seconds).padStart(2, "0");
         const paddedMilliseconds = String(milliseconds).padStart(2, "0");
-
-        return `${paddedMinutes}:${paddedSeconds}:${paddedMilliseconds}`;
-    }
+    
+        // Conditional formatting
+        if (hours > 0) {
+            return `${paddedHours}:${paddedMinutes}:${paddedSeconds}:${paddedMilliseconds}`;
+        } else if (minutes > 0) {
+            return `${paddedMinutes}:${paddedSeconds}:${paddedMilliseconds}`;
+        } else {
+            return `${paddedSeconds}:${paddedMilliseconds}`;
+        }
+    };
+    
 
     return (
-        <div className="h-[70vh] flex flex-col justify-center items-center text-darkestPurple w-full">
+        <div className="h-[60vh] flex flex-col justify-center items-center text-darkestPurple w-full">
             {/* Centered Circle */}
             <div className="flex items-center justify-center h-fit w-full">
-                <div className="flex flex-col items-center justify-center   w-[70vh] h-[70vh] max-w-[400px] max-h-[400px]">
+                <div className="flex flex-col items-center w-full">
                     {/* Timer */}
-                    <div className="text-7xl font-bold mb-8 p-2 font-mono">
+                    <div className=" h-[18.75rem] w-[18.75rem] justify-center flex items-center md:text-7xl sm:text-6xl text-5xl font-bold p-2 font-robotoMono">
                         {formatTime()}
                     </div>
                     {/* Buttons */}
-                    <div className="w-full flex justify-around px-4">
-                        <Button onClick={start} type="button">
-                            Start
-                        </Button>
-                        <Button onClick={stop} type="button">
-                            Stop
-                        </Button>
-                        <Button onClick={reset} type="button">
+                    <div className="lg:w-1/2 md:w-2/3 w-full flex justify-evenly px-4">
+                         <Button width="w-24" onClick={reset} type="button">
                             Reset
-                        </Button>
+                        </Button> 
+                        {isRunning ? (
+                               <Button width="w-24" onClick={stop} type="button">
+                            Stop
+                        </Button> 
+                        ) : (elapsedTime === 0 ? (
+                           <Button width="w-24" onClick={start} type="button">
+                            Start
+                        </Button>  
+                        ) : <Button width="w-24" type="button" onClick={start}>Resume</Button>)}
+                       
+                    
+                      
                     </div>
                 </div>
             </div>

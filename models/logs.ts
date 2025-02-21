@@ -220,3 +220,17 @@ export const datesGetAll = async (
         throw error;
     }
 }
+
+export const allSetsDelete = async (exercise_id: number, user_id: number) => {
+    const query = `DELETE FROM sets 
+    WHERE exercise_id = $1 AND user_id = $2`;
+    try {
+        const result = await db.query(query, [
+            exercise_id, user_id
+        ]);
+        return result.rows;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}

@@ -1,5 +1,5 @@
 import express from 'express';
-import { addToLog, changeOrder, deleteSet, editLog, getAllDates, getHistory, getLog, getPrs, updateSetNumber } from '../controllers/logs';
+import { addToLog, changeOrder, deleteAllSets, deleteSet, editLog, getAllDates, getHistory, getLog, getPrs, updateSetNumber } from '../controllers/logs';
 
 const logsRouter = express.Router();
 
@@ -20,5 +20,7 @@ logsRouter.get('/prs', getPrs);
 logsRouter.put('/reorder', changeOrder);
 
 logsRouter.get('/dates', getAllDates);
+
+logsRouter.delete('/delete-all-sets', deleteAllSets);
 
 export default logsRouter;

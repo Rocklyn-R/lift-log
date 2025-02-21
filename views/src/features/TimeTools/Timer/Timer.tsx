@@ -11,6 +11,7 @@ import { EditTimer } from "./EditTimer/EditTimer";
 import { useDispatch, useSelector } from "react-redux";
 import { selectHours, playTimer, pauseTimer, resetTimer, tick, selectMinutes, selectSeconds, selectSecondsLeft, selectTimerRunning } from "../../../redux-store/TimeSlice";
 import { playPauseTimer } from "../../../api/timers";
+import { Button } from "../../../components/Button";
 
 let intervalId: any = null;
 
@@ -119,17 +120,17 @@ export const Timer = () => {
             mediumPurple: '#454399',
             whitePurple: '#DDDAF3' */
     return (
-        <div className="h-[70vh] justify-center w-full flex flex-col items-center relative">
+        <div className="h-[60vh] justify-center w-full flex flex-col items-center relative">
             {showEditTimer ? (
                 <EditTimer setShowEditTimer={setShowEditTimer} play={play} />
             ) : (
                 <>
-                <div className="flex items-start z-50 relative w-[60vh] h-[60vh] max-w-[350px] max-h-[350px]">
+                <div className="flex items-start z-20 relative">
                     {/* Wrapper div for background color */}
                     <div
                         className="absolute inset-0 rounded-full bg-[#BDBCDC]" // background color inside circle
                     ></div>
-                    <div className="flex items-start z-50 w-[60vh] h-[60vh] max-w-[350px] max-h-[350px]">
+                    <div className="flex items-start z-20 font-robotoMono font-bold">
                         <CircularProgressbar
                             value={percentage}
                             text={formatTime()}
@@ -137,36 +138,39 @@ export const Timer = () => {
                                 textColor: "#2C2C64",
                                 pathColor: "#001247",
                                 trailColor: "#BDBCDC",
-                                backgroundColor: "#BDBCDC"
+                                backgroundColor: "#BDBCDC",
+                                textSize: "16px"
                             })}
                         />
                     </div>
                 </div>
 
                     <button
-                        onClick={() => setShowEditTimer(true)}
+                        onClick={() => {
+                            setShowEditTimer(true)
+                            pauseTimer();
+                        }}
                         className="absolute right-1/4 top-10 hover:bg-lightPurple hover:shadow-lg p-2 rounded-full"
                     >
-                        <LuTimer className="text-2xl text-darkestPurple" />
+                        <LuTimer className="text-4xl text-darkestPurple" />
                     </button>
 
-                    <div className="flex space-between mt-4 text-darkPurple">
-                        <button
-                            onClick={reset}
-                            className=""
-                        >
-                            <IoStop className="text-5xl" />
-                        </button>
-                        {!isRunning && (
-                            <button onClick={play} className="">
-                                <IoPlay className="text-5xl" />
-                            </button>
-                        )}
-                        {isRunning && (
-                            <button onClick={pause} className="">
-                                <IoPause className="text-4xl" />
-                            </button>
-                        )}
+                    <div className="lg:w-1/2 md:w-2/3 w-full flex justify-evenly px-4">
+                         <Button width="w-24" onClick={reset} type="button">
+                            Reset
+                        </Button> 
+                        {isRunning ? (
+                               <Button width="w-24" onClick={pause} type="button">
+                            Pause
+                        </Button> 
+                        ) : (secondsLeft === 0 ? (
+                           <Button width="w-24" onClick={play} type="button">
+                            Start
+                        </Button>  
+                        ) : <Button width="w-24" type="button" onClick={play}>Resume</Button>)}
+                       
+                    
+                      
                     </div>
                 </>
             )}

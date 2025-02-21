@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { selectHours, selectMinutes, selectSeconds, setTimerTime } from "../../../../redux-store/TimeSlice";
 import { useDispatch } from "react-redux";
 import { addTimer, updateTimer } from "../../../../api/timers";
+import { NumberPicker } from "../../../../components/NumberPicker";
 
 interface EditTimerProps {
     setShowEditTimer: (arg0: boolean) => void;
@@ -54,8 +55,8 @@ export const EditTimer: React.FC<EditTimerProps> = ({ setShowEditTimer, play }) 
     }
     return (
         <div className="flex flex-col items-center justify-between h-full space-y-4 w-full p-10">
-            <h2 className="text-lg font-semibold text-darkestPurple">Set Timer:</h2>
-            <div className="grid grid-cols-3 gap-12">
+            <h2 className="text-xl font-semibold text-darkestPurple">Set Timer:</h2>
+            <div className="sm:grid hidden grid-cols-3 gap-12">
                 <div className="flex flex-col items-center space-y-2">
                     <label htmlFor="hours" className="text-md font-medium text-darkPurple">
                         Hours
@@ -89,6 +90,28 @@ export const EditTimer: React.FC<EditTimerProps> = ({ setShowEditTimer, play }) 
                         onChange={(newValue) => setSeconds(newValue)}
                     />
                 </div>
+            </div>
+            <div className="grid sm:hidden grid-cols-3 gap-12">
+                <NumberPicker
+                    maxNumber={24}
+                    value={hours}
+                    label="Hours"
+                    onChange={setHours}
+                    separator={true}
+                />
+                <NumberPicker
+                    maxNumber={59}
+                    value={minutes}
+                    label="Minutes"
+                    onChange={setMinutes}
+                    separator={true}
+                />
+                <NumberPicker
+                    maxNumber={59}
+                    value={seconds}
+                    label="Seconds"
+                    onChange={setSeconds}
+                />
             </div>
             <button
                 type="button"

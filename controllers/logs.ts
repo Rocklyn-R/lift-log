@@ -1,5 +1,5 @@
 import e, { Request, Response } from 'express';
-import { datesGetAll, historyGet, logEdit, logGet, orderChange, prsGet, setDelete, setNumberUpdate, toLogAdd } from '../models/logs';
+import { allSetsDelete, datesGetAll, historyGet, logEdit, logGet, orderChange, prsGet, setDelete, setNumberUpdate, toLogAdd } from '../models/logs';
 
 interface User {
     id: number
@@ -125,6 +125,19 @@ export const getAllDates = async (req: Request, res: Response) => {
         const result = await datesGetAll(month, user_id);
         if (result) {
             res.status(201).json({ dates: result })
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' })
+    }
+}
+
+export const deleteAllSets = async (req: Request, res: Response) => {
+    const user_id = (req.user as User).id;
+    const exercise_id = req.body.exercise_id;
+    try {
+        const result = await allSetsDelete(exercise_id, user_id);
+        if (result) {
+            res.status(201).json({ message: "All sets deleted" })
         }
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' })

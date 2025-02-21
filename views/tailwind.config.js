@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        robotoMono: ['"Roboto Mono"', 'monospace'],
+      },
       colors: {
         darkestBlue: '#083757',
         darkBlue: '#115583',

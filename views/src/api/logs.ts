@@ -164,3 +164,21 @@ export const getAllDates = async (month: string) => {
         console.log(error);
     }
 }
+
+export const deleteAllSets = async (
+    exercise_id: number
+) => {
+    try {
+        const response = await fetch(`${BASE_URL}/delete-all-sets`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({ exercise_id })
+        })
+        return response.ok;
+    } catch (error) {
+        console.log(error);
+    }
+}

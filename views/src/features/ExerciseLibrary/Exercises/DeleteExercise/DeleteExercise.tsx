@@ -4,6 +4,7 @@ import { Button } from "../../../../components/Button";
 import { removeExercise } from "../../../../redux-store/LibrarySlice";
 import { SelectedExercise } from "../../../../types/types";
 import { useState } from "react";
+import { deleteAllSets } from "../../../../api/logs";
 
 interface DeleteExerciseProps {
     exercise: SelectedExercise;
@@ -16,15 +17,19 @@ export const DeleteExercise: React.FC<DeleteExerciseProps> = ({ setExerciseToUpd
     const [showSuccessMessage, setShowSucessMessage] = useState(false);
 
     const handleDeleteExercise = async () => {
-        const deletion = await deleteExercise(exercise.exercise_id);
-        if (deletion) {
-            dispatch(removeExercise(exercise));
-            setShowSucessMessage(true);
-            setTimeout(() => {
-                setShowDeleteExercise(false);
-                setExerciseToUpdate(null);
-            }, 2500)
+        const allSetsDeletion = await deleteAllSets(exercise.exercise_id);
+        if (allSetsDeletion) {
+            const deletion = await deleteExercise(exercise.exercise_id);
+            if (deletion) {
+                dispatch(removeExercise(exercise));
+                setShowSucessMessage(true);
+                setTimeout(() => {
+                    setShowDeleteExercise(false);
+                    setExerciseToUpdate(null);
+                }, 2500)
+            }
         }
+
     }
 
     return (
@@ -36,7 +41,8 @@ export const DeleteExercise: React.FC<DeleteExerciseProps> = ({ setExerciseToUpd
 
             ) : (
                 <div className="min-h-[5vh] flex flex-col items-center justify-center">
-                    <span>Would you like to delete this exercise?</span>
+                    <span>Would you like to delete {exercise.exercise_name}?</span>
+                    <span>This will delete all the data associated with this exercise.</span>
                     <div className="mt-4 space-x-4">
                         <Button type="button" onClick={() => handleDeleteExercise()}>Yes</Button>
                         <Button type="button" onClick={() => {
