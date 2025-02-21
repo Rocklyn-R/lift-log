@@ -17,6 +17,8 @@ import { Settings } from './features/Settings/Settings';
 import { useSettingsFetch } from './hooks/useSettingsFetch';
 import { ForgotPassword } from './features/Authentication/ForgotPassword/ForgotPassword';
 import { ResetPassword } from './features/Authentication/ResetPassword/ResetPassword';
+import { selectTheme } from './redux-store/SettingsSlice';
+import { useEffect } from 'react';
 
 function App() {
   useUserFetch();
@@ -27,18 +29,30 @@ function App() {
   const isLoading = useSelector(selectIsLoading);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [isOpen, setIsOpen] = useState(false);
+  const theme = useSelector(selectTheme);
+
+      // Dynamically set the dark class on the HTML element
+      useEffect(() => {
+        if (theme === "dark") {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      }, [theme]);
+  
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-lightestPurple">
+      <div className="flex flex-col items-center justify-center h-screen dark:bg-darkestPurple bg-lightestPurple">
         <Loading />
       </div>
     );
   }
 
+
   return (
     <BrowserRouter>
-      <div className="flex w-full h-screen bg-lightestPurple">
+      <div className="flex w-full h-screen dark:bg-darkestPurple bg-lightestPurple">
 
         {isAuthenticated && <Navigation isOpen={isOpen} setIsOpen={setIsOpen} />}
         {/* Overlay */}

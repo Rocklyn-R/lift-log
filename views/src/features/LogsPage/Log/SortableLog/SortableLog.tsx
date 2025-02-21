@@ -34,7 +34,7 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exercise }) => {
         {...attributes}
         {...listeners}
         style={style}
-        className="bg-gray-100 rounded-md shadow-xl hover:cursor-pointer hover:outline-2 hover:outline-mediumPurple w-full">
+        className="dark:bg-darkPurple bg-gray-100 rounded-md shadow-xl hover:cursor-pointer bo box-border border-2 dark:border-lightestPurple border-lightPurple w-full">
             {exercise.sets.length > 0 && (
 
                 <>
@@ -42,7 +42,7 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exercise }) => {
                     <div className="p-3 w-full">
                         {exercise.sets.map((set, index) => (
                             <div key={index} className="p-2 grid grid-cols-[0.5fr_1fr_1fr] text-center items-center w-full">
-                                <span>{set.pr && <span className="text-mediumPurple flex xs:justify-end justify-center"><FaTrophy /></span>}</span>
+                                <span>{set.pr && <span className="dark:text-lightestPurple text-mediumPurple flex xs:justify-end justify-center"><FaTrophy /></span>}</span>
                                 {unit_system === "Metric" ? <span className="flex justify-end w-full">{formatNumber(set.weight)} kgs</span> : (
                                     <span className="flex justify-end w-full">{formatNumber(set.weight_lbs)} lbs</span> 
                                 ) }

@@ -4,9 +4,9 @@ import { RootState } from "./store";
 export const SettingsSlice = createSlice({
     name: "settings",
     initialState: {
-        theme: "light",
+        theme: "dark",
         unit_system: "Metric",
-        settingsLoading: true
+        settingsLoading: true,
     },
     reducers: {
         changeUnitSystem: (state, action) => {
@@ -22,5 +22,6 @@ export const {
 
 export const selectUnitSystem = (state: RootState) => state.settings.unit_system;
 export const selectSettingsLoading = (state: RootState) => state.settings.settingsLoading;
+export const selectTheme = (state: RootState) => state.settings.theme;
 
 export default SettingsSlice.reducer;

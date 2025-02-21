@@ -33,16 +33,16 @@ export const SetData: React.FC<SetDataProps> = ({ setEditMode, setWeightInput, s
 
 
     return (
-        <div className="max-h-[30vh] flex w-full flex-col mt-4 overflow-y-auto mb-2 px-2 ">
+        <div className="max-h-[30vh] font-semibold border-t-2 flex h-full w-full rounded-b-md flex-col mt-4 overflow-y-auto dark:mb-0 mb-2 mx-2 dark:bg-darkPurple">
             {setArray.map((set, index) => (
                 <button
                     onClick={() => handleSelectSet(set)}
                     key={index}
-                    className={`${selectedSet?.set_number === set.set_number && 'bg-lightPurple'} flex w-full justify-center items-center text-darkestPurple py-2 border-b-2 border-lightPurple hover:bg-lightPurple`}
+                    className={`${set.set_number === setArray.length && "dark:border-none"}  ${selectedSet?.set_number === set.set_number && 'bg-lightPurple'}  dark:text-lightestPurple flex w-full justify-center items-center text-darkestPurple py-2 border-b-2 border-lightPurple dark:hover:text-darkestPurple hover:bg-lightPurple`}
                 >
-                    <div className="text-mediumPurple grid grid-cols-3 gap-4 items-center">
+                    <div className=" grid grid-cols-3 gap-4 items-center">
                         <MdOutlineMessage />
-                        <span>{set.pr && <FaTrophy />}</span>
+                        <span>{set.pr && <FaTrophy  />}</span>
                         <span className="w-3/12 flex justify-center text-center">{set.set_number}</span>
                     </div>
                     {unit_system === "Metric" ? (

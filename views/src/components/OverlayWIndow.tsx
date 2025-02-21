@@ -24,14 +24,14 @@ export const OverlayWindow: React.FC<OverlayWindowProps> = ({
             ></div>
 
             {/* Modal Content */}
-            <div className={`${className || ""} relative bg-lightestPurple rounded-md shadow-lg`}>
-                <div className="sticky flex justify-between items-center text-lightestPurple rounded-t-md bg-darkestPurple">
-                    <h2 className="sm:text-lg mx-4 text-sm font-bold w-full text-center border-b-2 p-3 border-darkPurple">{headerText}</h2>
+            <div className={`${className || ""} z-50 relative bg-lightestPurple rounded-lg shadow-lg border-2 border-darkestPurple dark:border-lightPurple`}>
+                <div className="sticky flex justify-between items-center text-lightestPurple rounded-t-md bg-darkestPurple border-b-2 border-darkPurple dark:border-lightPurple">
+                    <h2 className="sm:text-lg mx-4 text-sm font-bold w-full text-center p-3">{headerText}</h2>
                     <button onClick={onClose}>
                         <IoCloseSharp className="absolute top-3.5 right-2 sm:right-3 sm:text-2xl" />
                     </button>
                 </div>
-                <div className={`${className2} flex flex-col z-20`}>{children}</div>
+                <div className={`${className2} flex flex-col z-20 rounded-md`}>{children}</div>
             </div>
         </div>
     );

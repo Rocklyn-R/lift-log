@@ -117,7 +117,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
                                 {/* Main Exercise Button (Lower z-index) */}
                                 <button
                                     onClick={() => handleOpenExercise(exercise)}
-                                    className={`exercise-button relative z-10 bg-gray-100 border-2 border-darkestPurple rounded-md shadow-lg ${openDropdown ? "" : "hover:font-semibold hover:text-xl hover:bg-lightPurple"} text-lg p-2 w-full flex justify-center`}
+                                    className={`dark:border-lightestPurple dark:text-lightestPurple font-semibold dark:bg-darkPurple exercise-button relative z-10 bg-gray-100 border-2 border-darkestPurple rounded-md shadow-lg ${openDropdown ? "" : "hover:font-semibold hover:text-xl hover:bg-lightPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple"} text-lg p-2 w-full flex justify-center`}
                                 >
                                     <span>{exercise.exercise_name}</span>
                                 </button>
@@ -130,7 +130,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
                                                     e.stopPropagation();
                                                     setOpenDropdown(openDropdown === exercise.exercise_id ? null : exercise.exercise_id);
                                                 }}
-                                                className={`${openDropdown === exercise.exercise_id ? "border-2 border-darkestPurple bg-lightPurple" : "border-2 border-transparent"} p-2 hover:border-2 hover:border-darkestPurple hover:bg-lightPurple rounded-full cursor-pointer box-border`}
+                                                className={`${openDropdown === exercise.exercise_id ? "border-2 dark:border-lightestPurple dark:text-darkestPurple dark:bg-lightestPurple border-darkestPurple bg-lightPurple" : "border-2 border-transparent"} dark:border-lightestPurple dark:text-lightestPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple p-2 dark:bg-darkPurple hover:border-2 hover:border-darkestPurple hover:bg-lightPurple rounded-full cursor-pointer box-border`}
                                             >
                                                 <FiMoreVertical className="w-5 h-5" />
                                             </div>
@@ -140,7 +140,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
                                         {openDropdown === exercise.exercise_id && (
                                             <div
                                                 ref={dropdownRef}
-                                                className="border-darkestPurple border-2 absolute right-2 top-7 mt-2 w-32 bg-white rounded-md shadow-lg z-50"
+                                                className="dark:border-lightestPurple border-darkestPurple border-2 absolute right-2 top-7 mt-2 w-32 dark:bg-darkestPurple bg-white rounded-md shadow-lg z-50"
                                             >
                                                 <div
                                                     onClick={(e) => {
@@ -150,7 +150,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
                                                         setExerciseToUpdate(exercise);
                                                         console.log(exercise);
                                                     }}
-                                                    className="flex justify-between items-center rounded-t-md w-full text-left px-4 py-2 text-md text-darkestPurple hover:bg-lightestPurple cursor-pointer"
+                                                    className="flex justify-between items-center rounded-t-md w-full text-left px-4 py-2 text-md dark:text-lightestPurple font-semibold text-darkestPurple dark:hover:bg-darkPurple hover:bg-lightestPurple cursor-pointer"
                                                 >
                                                     <span> Edit</span>
                                                     <MdOutlineEdit className="text-lg" />
@@ -163,7 +163,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
                                                         setOpenDropdown(null);
                                                         setExerciseToUpdate(exercise)
                                                     }}
-                                                    className="flex justify-between items-center w-full rounded-b-md text-left px-4 py-2 text-md text-darkestPurple hover:bg-lightestPurple cursor-pointer"
+                                                    className="flex justify-between items-center w-full rounded-b-md text-left px-4 py-2 text-md dark:text-lightestPurple font-semibold text-darkestPurple dark:hover:bg-darkPurple hover:bg-lightestPurple cursor-pointer"
                                                 >
                                                     <span>Delete</span>
                                                     <MdDeleteOutline className="text-lg" />

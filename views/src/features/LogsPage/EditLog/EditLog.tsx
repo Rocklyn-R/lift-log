@@ -23,7 +23,7 @@ export const EditLog: React.FC<EditLogProps> = ({ setShowEditExercise }) => {
             onClose={handleCloseEditExercise}
             headerText={`${selectedExercise?.exercise_name}`}
             className="phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3"
-            className2="min-h-[65vh] max-h-[70vh]"
+            className2="min-h-[65vh] max-h-[70vh] dark:bg-darkestPurple"
         >
             <ViewLog
             />

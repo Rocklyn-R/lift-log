@@ -113,12 +113,13 @@ export const Timer = () => {
         // If there are hours, format the string as "hh:mm:ss"
         return `${hrs}:${mins < 10 ? "0" : ""}${mins}:${secs < 10 ? "0" : ""}${secs}`;
     };
-    /*darkestPurple: '#001247',
-            darkPurple: '#2C2C64',
-            lightPurple: '#BDBCDC',
-            lightestPurple: '#ddddf7',
-            mediumPurple: '#454399',
-            whitePurple: '#DDDAF3' */
+    /*
+        darkestPurple: '#07043d',
+        darkPurple: '#282b54',
+        lightPurple: '#BDBCDC',
+        lightestPurple: '#ddddf7',
+        mediumPurple: '#454399',
+        whitePurple: '#DDDAF3' */
     return (
         <div className="h-[60vh] justify-center w-full flex flex-col items-center relative">
             {showEditTimer ? (
@@ -128,18 +129,18 @@ export const Timer = () => {
                 <div className="flex items-start z-20 relative">
                     {/* Wrapper div for background color */}
                     <div
-                        className="absolute inset-0 rounded-full bg-[#BDBCDC]" // background color inside circle
+                        className="absolute inset-0 rounded-full border-2 border-lightestPurple bg-[#BDBCDC] " // background color inside circle
                     ></div>
-                    <div className="flex items-start z-20 font-robotoMono font-bold">
+                    <div className="flex items-start z-20 border-2 border-lightPurple rounded-full font-robotoMono font-bold">
                         <CircularProgressbar
                             value={percentage}
                             text={formatTime()}
                             styles={buildStyles({
-                                textColor: "#2C2C64",
-                                pathColor: "#001247",
-                                trailColor: "#BDBCDC",
-                                backgroundColor: "#BDBCDC",
-                                textSize: "16px"
+                                textColor: "#282b54",
+                                pathColor: "#282b54",
+                                trailColor: "#ddddf7",
+                                textSize: "16px",
+                                //strokeLinecap: '#DDDAF3'
                             })}
                         />
                     </div>

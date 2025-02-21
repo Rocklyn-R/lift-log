@@ -73,14 +73,14 @@ export const History = () => {
     }, [selectedExercise, dispatch]);
 
     return (
-        <div className="p-4 min-h-[55vh] max-h-[65vh] overflow-y-auto">
+        <div className="p-4 min-h-[55vh] max-h-[65vh] overflow-y-auto font-semibold dark:bg-darkestPurple dark:text-lightestPurple">
             
             {exerciseHistory.map((exercise, index) => (
                 <div key={index}>
                     <h3 className="border-b-2 border-lightPurple">{formatDateForHistory(exercise.date)}</h3>
                     {exercise.sets.map((set, index) => (
                         <div key={index} className="p-2 grid grid-cols-3 text-center items-center">
-                            <span>{set.pr && <span className="text-mediumPurple flex justify-end"><FaTrophy /></span>}</span>
+                            <span>{set.pr && <span className="dark:text-lightestPurple text-mediumPurple flex justify-end"><FaTrophy /></span>}</span>
                            {unit_system === "Metric" ? (
                             <span className="flex justify-end">{formatNumber(set.weight)} kgs</span>
                            ) :  <span className="flex justify-end">{formatNumber(set.weight_lbs)} lbs</span>}

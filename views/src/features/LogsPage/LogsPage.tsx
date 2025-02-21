@@ -4,7 +4,7 @@ import { MdArrowBackIos } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
 import { adjustDate, formatDate } from "../../utilities/utilities";
 import { useDispatch } from "react-redux";
-import { FaPlus } from "react-icons/fa6";
+import { FaAngleLeft, FaAngleRight, FaPlus } from "react-icons/fa6";
 import { useState } from "react";
 import { AddLog } from "./AddLog/AddLog";
 import { EditLog } from "./EditLog/EditLog";
@@ -36,12 +36,12 @@ export const LogsPage = () => {
     return (
         <div className="w-full xl:pl-0 pl-16 relative flex justify-center min-h-screen">
             <div className="w-full flex flex-col items-center min-h-screen">
-                <div className="sticky top-0 w-full py-5 bg-darkestPurple flex justify-center ">
+                <div className="dark:border-b-2 dark:border-lightestPurple sticky top-0 w-full py-5 bg-darkestPurple flex justify-center ">
                     <button
                         onClick={() => handleAdjustDate('back')}
-                        className={`${dateStringLong ? "xs:top-8 top-8" : "top-5"} absolute left-12 xs:left-24 sm:left-44 md:left-52 lg:left-72 md:top-6 text-lightestPurple text-2xl`}
+                        className={` ${dateStringLong ? "xs:top-5 top-5" : "top-2"} p-3 flex justify-center absolute left-12 xs:left-24 sm:left-44 md:left-52 lg:left-72 md:top-3 text-lightestPurple text-2xl`}
                     >
-                        <MdArrowBackIos />
+                        <FaAngleLeft />
                     </button>
 
                     <h1 className="text-lightestPurple md:w-fit w-28 md:text-xl font-semibold text-center">
@@ -50,9 +50,9 @@ export const LogsPage = () => {
 
                     <button
                         onClick={() => handleAdjustDate('forward')}
-                        className={`${dateStringLong ? "xs:top-8 top-8" : "top-5"} absolute  right-12 xs:right-24 sm:right-44 md:right-52 lg:right-72 md:top-6 text-lightestPurple text-2xl`}
+                        className={`${dateStringLong ? "xs:top-5 top-5" : "top-2"} absolute p-3 right-12 xs:right-24 sm:right-44 md:right-52 lg:right-72 md:top-3 text-lightestPurple text-2xl`}
                     >
-                        <MdArrowForwardIos />
+                        <FaAngleRight />
                     </button>
                 </div>
 
@@ -65,7 +65,7 @@ export const LogsPage = () => {
                     <div>
                         <button
                             onClick={() => setShowCalendarNav(true)}
-                            className={`${dateStringLong ? 'xs:top-5 sm:top-5 md:top-2 top-5' : 'top-2'} bg-darkestPurple p-3 fixed right-0 xs:right-6 md:right-8 xl:right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple`}
+                            className={`${dateStringLong ? 'xs:top-5 sm:top-5 md:top-2 top-5' : 'top-2'} dark:sm:hover:bg-lightestPurple dark:sm:hover:text-darkestPurple dark:sm:border-lightestPurple dark:sm:bg-darkPurple  border-2 border-transparent bg-darkestPurple p-3 fixed right-0 xs:right-6 md:right-8 xl:right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple`}
                         >
                             <FaCalendarAlt />
                         </button>
@@ -73,12 +73,12 @@ export const LogsPage = () => {
                 </div>
                 <button
                     onClick={() => setShowAddExercise(true)}
-                    className="bg-darkestPurple p-3 fixed bottom-12 right-6 sm:right-10 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
+                    className="dark:border-lightestPurple dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple border-2 border-transparent bg-darkestPurple p-3 fixed bottom-12 right-6 sm:right-10 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
                     <FaPlus />
                 </button>
                 <button
                     onClick={() => setShowCalendarCopy(true)}
-                    className="bg-darkestPurple p-3 fixed bottom-1/5 h-md:bottom-1/6 right-6 sm:right-10  rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
+                    className="dark:border-lightestPurple dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple border-2 border-transparent bg-darkestPurple p-3 fixed bottom-1/5 h-md:bottom-1/6 right-6 sm:right-10  rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
                     <IoIosCopy />
                 </button>
 

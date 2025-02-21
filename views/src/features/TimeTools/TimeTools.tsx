@@ -32,15 +32,15 @@ export const TimeTools = () => {
             </div>
             <div className="flex justify-center mt-4 space-x-4">
                 <button
-                    className={`px-4 py-2 text-lg rounded-lg ${activeTab === "Timer" ? "bg-darkestPurple text-lightestPurple shadow-md" : "bg-lightPurple text-darkPurple"
-                        } hover:shadow-lg transition`}
+                    className={`px-4 py-2 text-lg rounded-lg ${activeTab === "Timer" ? "dark:border-2 dark:bg-lightestPurple dark:text-darkestPurple bg-darkestPurple text-lightestPurple shadow-md" : "dark:border-2 dark:border-lightestPurple dark:bg-darkPurple dark:text-lightestPurple bg-lightPurple text-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple"
+                 } font-semibold hover:shadow-lg transition`}
                     onClick={() => setActiveTab("Timer")}
                 >
                     Timer
                 </button>
                 <button
-                    className={`px-4 py-2 text-lg rounded-lg ${activeTab === "Stopwatch" ? "bg-darkestPurple text-lightestPurple shadow-md" : "bg-lightPurple text-darkPurple"
-                        } hover:shadow-lg transition`}
+                    className={`px-4 py-2 text-lg rounded-lg ${activeTab === "Stopwatch" ? "dark:border-2 dark:bg-lightestPurple dark:text-darkestPurple bg-darkestPurple text-lightestPurple shadow-md" : "dark:border-2 dark:border-lightestPurple dark:bg-darkPurple dark:text-lightestPurple bg-lightPurple text-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple"
+                        } font-semibold hover:shadow-lg transition`}
                     onClick={() => setActiveTab("Stopwatch")}
                 >
                     Stopwatch

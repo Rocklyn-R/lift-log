@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     "./src/**/*.{js,jsx,ts,tsx}", // Add paths to all template files in your src folder
   ],
@@ -13,8 +14,8 @@ module.exports = {
         darkBlue: '#115583',
         lightBlue: '#7CB3E9',
         lightestBlue: '#C7E3FF',
-        darkestPurple: '#001247',
-        darkPurple: '#2C2C64',
+        darkestPurple: '#07043d',
+        darkPurple: '#282b54',
         lightPurple: '#BDBCDC',
         lightestPurple: '#ddddf7',
         mediumPurple: '#454399',

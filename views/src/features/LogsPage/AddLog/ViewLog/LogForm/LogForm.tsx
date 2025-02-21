@@ -210,13 +210,13 @@ export const LogForm = () => {
     }
 
     return (
-        <div className="min-h-[55vh] max-h-[65vh] w-full flex justify-start items-center relative pt-4 flex-col z-40">
+        <div className="min-h-[55vh] max-h-[60vh] rounded-b-md w-full flex justify-start items-center relative pt-4 flex-col z-40 dark:bg-darkestPurple">
             {errorMessage && <p className="absolute top-0 z-50 bg-lightPurple px-2 rounded-md text-darkestPurple text-sm">{errorMessage}</p>}
 
 
-            <form className="flex flex-col w-2/3 space-y-6">
+            <form className="flex flex-col w-2/3 space-y-6 dark:text-lightPurple font-semibold">
                 <div className="px-2 space-y-2 flex flex-col">
-                    <h4 className="border-b-2 border-darkPurple">Weight {unit_system === "Metric" ? '(kgs)' : '(lbs)'}</h4>
+                    <h4 className="border-b-2 dark:border-lightPurple border-darkPurple">Weight {unit_system === "Metric" ? '(kgs)' : '(lbs)'}</h4>
                     <div className="flex space-x-2 justify-center w-1/2 self-center">
                         <Button
                             onClick={handleDecrementWeight}
@@ -234,7 +234,7 @@ export const LogForm = () => {
                             }
                             type="number"
                             step="0.1"
-                            className="weight-reps-input border-b-2 border-darkPurple focus:outline-none appearance-none bg-transparent text-2xl text-center"
+                            className="weight-reps-input border-b-2 dark:border-lightPurple border-darkPurple focus:outline-none appearance-none bg-transparent text-2xl text-center"
                             style={{ width: `${calculatedWeightWidth}rem` }}
                             placeholder=""
                             onChange={(e) => {
@@ -255,7 +255,7 @@ export const LogForm = () => {
 
                 </div>
                 <div className="px-2 space-y-2">
-                    <h4 className="border-b-2 border-darkPurple">Reps</h4>
+                    <h4 className="border-b-2 dark:border-lightPurple border-darkPurple">Reps</h4>
                     <div className="w-full flex space-x-2 justify-center">
                         <Button
                             onClick={handleDecrementReps}
@@ -267,7 +267,7 @@ export const LogForm = () => {
                             value={repsInput !== null ? repsInput : ""}
                             type="number"
                             step="0.1"
-                            className="weight-reps-input border-b-2 border-darkPurple focus:outline-none appearance-none bg-transparent text-2xl text-center"
+                            className="weight-reps-input border-b-2 dark:border-lightPurple border-darkPurple focus:outline-none appearance-none bg-transparent text-2xl text-center"
                             style={{ width: `${calculatedRepsWidth}rem` }}
                             placeholder=""
                             onChange={(e) => {
