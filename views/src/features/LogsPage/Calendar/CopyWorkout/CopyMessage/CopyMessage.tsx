@@ -78,7 +78,7 @@ export const CopyMessage: React.FC<CopyMessageProps> = ({ setShowCopyMessage, se
         <OverlayWindow
             headerText="Copy Workout"
             onClose={() => setShowCopyMessage(false)}
-            className="phones:w-4/5 xs:w-3/5 sm:w-2/5 md:w-1/3 lg:w-1/4"
+            className="dark:bg-darkestPurple phones:w-4/5 xs:w-3/5 sm:w-2/5 md:w-1/3 lg:w-1/4"
             className2="flex justify-center p-4 z-50"
         >
             <span>Are you sure you want to copy the selected sets to <span className="font-semibold">{formatDateForHistory(selectedDate)}</span>?</span>

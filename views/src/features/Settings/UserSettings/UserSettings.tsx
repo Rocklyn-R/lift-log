@@ -5,6 +5,10 @@ import { useSelector } from "react-redux";
 import { selectEmail } from "../../../redux-store/UserSlice";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { updateUserPassword } from "../../../api/settings";
+import { CustomPasswordInput } from "../../../components/CustomPasswordInput";
+import { CustomTextInput } from "../../../components/CustomTextInput";
+import { OverlayWindow } from "../../../components/OverlayWIndow";
+import { Button } from "../../../components/Button";
 
 export const UserSettings = () => {
     const email = useSelector(selectEmail)
@@ -33,77 +37,72 @@ export const UserSettings = () => {
             setStatusMessage('An error ocurred');
         }
     }
-   
+
     return (
         <div>
-            <h2 className="text-lg font-bold mb-2">User Settings</h2>
-            <div className="flex text-darkestPurple space-x-4 w-48">
-                {showUsername ? (
-                    <>
-                        <input
-                            type="text"
-                            className=" mt-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
+            <h2 className="text-lg font-bold mb-2 dark:text-lightestPurple">User Settings</h2>
+            <label className="text-lightestPurple font-semibold">E-mail</label>
+            <div className="flex items-center justify-between text-darkestPurple w-full">
+
+                <div className="flex w-full justify-between items-center">
+                    <span className="flex items-center rounded-md border-2 dark:border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 w-fit bg-white justify-center">{username}</span>
+                    <button onClick={() => setShowUserName(true)} className="mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 h-fit dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple"><MdOutlineEdit className="text-xl" /></button>
+                </div>
+
+                {showUsername && (
+                    <OverlayWindow
+                        onClose={() => setShowUserName(false)}
+                        headerText="Change Email"
+                        className="dark:bg-darkestPurple w-full xs:w-3/4 sm:w-1/2 md:w-1/3 lg-w-1/4"
+                        className2="p-4 items-center dark:bg-darkestPurple space-y-4 flex justify-center items-center w-full"
+                    >
+                        <span className="dark:text-lightestPurple font-semibold">Please enter your new email address.</span>
+                        <span className="dark:text-lightestPurple font-semibold">A confirmation email will be sent.</span>
+                        <CustomTextInput
+                            name="username"
                             value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            onChange={setUsername}
                             placeholder="Enter your username"
+                            className="w-fit "
                         />
-                        <button onClick={() => setShowUserName(false)} className="mt-2 flex items-center justify-center"><FaCheck className="text-xl" /></button>
-                        <button onClick={() => setShowUserName(false)} className="mt-2 flex items-center justify-center"><FaX className="text-lg" /></button>
-                    </>
-                ) : (
-                    <>
-                        <span className="mt-2 min-h-12 p-3 w-full bg-white">{username}</span>
-                        <button onClick={() => setShowUserName(true)} className="mt-2 flex items-center justify-center"><MdOutlineEdit className="text-xl" /></button>
-                    </>
+                        <div className="flex space-x-4">
+                            <Button onClick={() => setShowUserName(false)} type="button">Cancel</Button>
+                            <Button type="button">Save</Button>
+                        </div>
+                    </OverlayWindow>
                 )}
-
-
             </div>
-            <div className="flex text-darkestPurple space-x-4 w-fit">
-                {showEditPassword ? (
-                    <div className="flex space-x-4 w-full">
-                        <div className="relative">
-                            <input
-                                 type={showOldPassword ? 'text' : 'password'}
-                                className="mt-2 p-3 z-40 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
-                                value={oldPassword}
-                                onChange={(e) => setOldPassword(e.target.value)}
-                                placeholder="Current password"
-                            />
-                            <button
-                                type="button"
-                                onClick={() => setShowOldPassword(!showOldPassword)}
-                                className="absolute z-50 right-3 top-6"
-                            >
-                                {showOldPassword ? <IoEye className="text-xl text-gray-400" /> : <IoEyeOff className="text-xl text-gray-400" />}
-                            </button>
+            <label className="text-lightestPurple font-semibold">Password</label>
+            <div className="flex items-center text-darkestPurple w-full">
+                <div className="flex w-full justify-between items-center">
+                    <span className="flex items-center justify-center rounded-md border-2 dark:border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 w-fit bg-white">{password}</span>
+                    <button onClick={() => setShowEditPassword(true)} className="mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><MdOutlineEdit className="text-xl" /></button>
+                </div>
+                {showEditPassword && (
+                    <OverlayWindow
+                        onClose={() => setShowEditPassword(false)}
+                        headerText="Change Password"
+                        className=" dark:bg-darkestPurple w-full xs:w-3/4 sm:w-1/2 md:w-1/3 lg-w-1/4"
+                        className2="p-4 items-center dark:bg-darkestPurple space-y-4 flex justify-center items-center w-full"
+                    >
+                        <CustomPasswordInput
+                            name="password 1"
+                            value={oldPassword}
+                            onChange={(e) => setOldPassword(e.target.value)}
+                            placeholder="Current password"
+                        />
+                        <CustomPasswordInput
+                            name="password 2"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            placeholder="New password"
+                        />
+
+                        <div className="flex space-x-4">
+                            <Button onClick={() => setShowEditPassword(false)} type="button">Cancel</Button>
+                            <Button type="button">Save</Button>
                         </div>
-                        <div className="relative">
-                            <input
-                                type={showNewPassword ? 'text' : 'password'}
-                                className="mt-2 p-3 border z-40 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
-                                value={newPassword}
-                                onChange={(e) => setNewPassword(e.target.value)}
-                                placeholder="New password"
-                            />
-                           
-                            <button
-                                type="button"
-                                onClick={() => setShowNewPassword(!showNewPassword)}
-                                className="absolute z-50 right-3 top-6"
-                            >
-                                {showNewPassword ? <IoEye className="text-xl text-gray-400" /> : <IoEyeOff className="text-xl text-gray-400" />}
-                            </button>
-                        </div>
-                        <button onClick={handleUpdatePassword} className="mt-2 flex items-center justify-center"><FaCheck className="text-xl" /></button>
-                        <button onClick={() => setShowEditPassword(false)} className="mt-2 flex items-center justify-center"><FaX className="text-lg" /></button>
-                    </div>
-                ) : (
-                    <>
-                        <span className="mt-2 min-h-12 p-3 w-full bg-white">{password}</span>
-                        <button onClick={() => setShowEditPassword(true)} className="mt-2 flex items-center justify-center"><MdOutlineEdit className="text-xl" /></button>
-                       
-                    </>
+                    </OverlayWindow>
                 )}
 
             </div>

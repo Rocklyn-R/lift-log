@@ -31,7 +31,7 @@ export const ExerciseLibrary = () => {
             <Header text="Exercise Library" />
             <button
                 onClick={() => setShowAddExercise(true)}
-                className="bg-darkestPurple p-3 fixed bottom-12 right-6 sm:right-10 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
+                className="z-50 border-2 border-transparent dark:border-lightestPurple dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple bg-darkestPurple p-3 fixed bottom-12 right-6 sm:right-10 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
                 <FaPlus />
             </button>
            

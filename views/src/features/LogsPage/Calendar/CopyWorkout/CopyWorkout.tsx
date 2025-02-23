@@ -194,7 +194,7 @@ export const CopyWorkout: React.FC<CopyWorkoutProps> = ({ setShowCalendar, setSh
         <OverlayWindow
             headerText={`Copy Workout - ${formattedDate}`}
             onClose={handleCloseOverlay}
-            className="phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3 min-h-[45vh] max-h-[75vh]"
+            className="dark:bg-darkestPurple font-semibold dark:text-lightestPurple phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3 min-h-[45vh] max-h-[75vh]"
             className2={`min-h-[45vh] max-h-[65vh] ${workoutOnDate.length === 0 ? "flex items-center justify-center" : "flex flex-col justify-between"}`}
         >
             <button
@@ -220,20 +220,20 @@ export const CopyWorkout: React.FC<CopyWorkoutProps> = ({ setShowCalendar, setSh
                                 <div key={index} className="w-full">
                                     {exercise.sets.length > 0 && (
                                         <>
-                                            <div className="bg-lightPurple p-2 flex items-center w-full justify-between border-b-2 border-lightPurple">
+                                            <div className="border-t-2 dark:bg-darkPurple bg-lightPurple p-2 flex items-center w-full justify-between border-b-2 border-lightPurple">
                                                 <h3 className="font-semibold text-lg">{exercise.exercise_name}</h3>
                                                 <input
                                                     checked={checkForAllSetsChecked(exercise)}
                                                     onChange={() => handleCheckExercise(exercise)}
                                                     type="checkbox"
                                                     id="custom-checkbox2"
-                                                    className="styled-checkbox mx-3"
+                                                    className="styled-checkbox dark:styled-checkbox-dark mx-3"
                                                 />
                                             </div>
 
                                             <div className="p-3">
                                                 {exercise.sets.map((set, index) => (
-                                                    <div key={index} className="p-2 flex justify-end space-x-6 text-center items-center">
+                                                    <div key={index} className={` p-2 flex justify-end space-x-6 text-center items-center`}>
                                                         {unit_system === "Metric" ? (
                                                             <span className="flex justify-end">{formatNumber(set.weight)} kgs</span>
                                                         ) : (

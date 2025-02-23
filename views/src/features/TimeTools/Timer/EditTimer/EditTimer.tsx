@@ -56,9 +56,9 @@ export const EditTimer: React.FC<EditTimerProps> = ({ setShowEditTimer, play }) 
     return (
         <div className="flex flex-col items-center justify-between h-full space-y-4 w-full p-10">
             <h2 className="text-xl font-semibold text-darkestPurple">Set Timer:</h2>
-            <div className="sm:grid hidden grid-cols-3 gap-12">
+            <div className="font-semibold sm:grid hidden grid-cols-3 gap-12">
                 <div className="flex flex-col items-center space-y-2">
-                    <label htmlFor="hours" className="text-md font-medium text-darkPurple">
+                    <label htmlFor="hours" className="text-md font-medium dark:text-lightestPurple text-darkPurple">
                         Hours
                     </label>
                     <CustomNumberInput
@@ -66,10 +66,12 @@ export const EditTimer: React.FC<EditTimerProps> = ({ setShowEditTimer, play }) 
                         max={24}
                         value={hours}
                         onChange={(newValue) => setHours(newValue)}
+                        disabledDecrement={hours === 0}
+                        disabledIncrement={hours > 24}
                     />
                 </div>
                 <div className="flex flex-col items-center space-y-2">
-                    <label htmlFor="minutes" className="text-md font-medium text-darkPurple">
+                    <label htmlFor="minutes" className="text-md font-medium dark:text-lightestPurple text-darkPurple">
                         Minutes
                     </label>
                     <CustomNumberInput
@@ -77,10 +79,12 @@ export const EditTimer: React.FC<EditTimerProps> = ({ setShowEditTimer, play }) 
                         max={59}
                         value={minutes}
                         onChange={(newValue) => setMinutes(newValue)}
+                        disabledDecrement={minutes === 0}
+                        disabledIncrement={minutes > 59}
                     />
                 </div>
                 <div className="flex flex-col items-center space-y-2">
-                    <label htmlFor="seconds" className="text-md font-medium text-darkPurple">
+                    <label htmlFor="seconds" className="text-md font-medium dark:text-lightestPurple text-darkPurple">
                         Seconds
                     </label>
                     <CustomNumberInput
@@ -88,6 +92,8 @@ export const EditTimer: React.FC<EditTimerProps> = ({ setShowEditTimer, play }) 
                         max={59}
                         value={seconds}
                         onChange={(newValue) => setSeconds(newValue)}
+                        disabledDecrement={seconds === 0}
+                        disabledIncrement={seconds > 59}
                     />
                 </div>
             </div>
@@ -113,15 +119,15 @@ export const EditTimer: React.FC<EditTimerProps> = ({ setShowEditTimer, play }) 
                     onChange={setSeconds}
                 />
             </div>
-            <button
+            <Button
                 type="button"
                 disabled={isButtonDisabled}  // Disable button if all are 0
                 onClick={() => handleSetTimer()}
-                className={`hover:shadow-lg transition py-2 px-4 w-fit rounded-lg bg-darkestPurple text-lightestPurple
+                className={`border-2 font-semibold hover:shadow-lg transition py-2 px-4 w-fit rounded-lg bg-darkestPurple text-lightestPurple
           ${isButtonDisabled ? 'bg-opacity-50 hover:shadow-none cursor-not-allowed' : 'hover:bg-darkPurple'}`}
             >
                 Start
-            </button>
+            </Button>
         </div>
     )
 }

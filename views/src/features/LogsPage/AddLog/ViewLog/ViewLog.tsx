@@ -11,7 +11,7 @@ export const ViewLog = () => {
     const handleShowHistory = () => setActiveTab('history');
 
     return (
-        <div className="">
+        <div className="dark:bg-darkestPurple">
             <div className="relative flex bg-darkestPurple h-fit">
                 {/* Tabs */}
                 <button

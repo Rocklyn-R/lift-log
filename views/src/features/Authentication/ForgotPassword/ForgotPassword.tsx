@@ -33,28 +33,29 @@ export const ForgotPassword = ({ }) => {
     return (
         <div className="flex flex-col w-full h-screen">
             <Header text="Welcome to LogLift" />
-            <div className="flex-grow flex items-center justify-center flex-col">
+            <div className="dark:bg-darkestPurple flex-grow flex items-center justify-center flex-col">
                 <div
-                    className="bg-white p-8 rounded-lg shadow-lg w-fit"
+                    className="dark:bg-darkestPurple border-2  bg-white p-8 rounded-lg shadow-lg w-fit"
                 >
-                    <h4 className="text-xl font-semibold text-center mb-6 text-darkPurple">{successMessage ? "An email has been sent to:" : "Enter your email to reset your password:"}</h4>
+                    <h4 className="text-xl font-semibold text-center mb-6 dark:text-lightestPurple text-darkPurple">{successMessage ? "An email has been sent to:" : "Enter your email to reset your password:"}</h4>
                     {successMessage ?
                         <div className=''>
-                            <p className="font-semibold text-center">{email.toLocaleLowerCase()}</p>
+                            <p className="font-semibold dark:text-lightestPurple text-center">{email.toLocaleLowerCase()}</p>
                         </div> : (
                             <form
                                 onSubmit={handleSubmitEmail}
                                 id="reset-password"
                                 className="flex flex-col justify-center items-center space-y-4"
                             >
-                                <div className="">
+                          
                                     <CustomTextInput
                                         name="email"
                                         placeholder="Email"
                                         value={email}
                                         onChange={(newValue) => setEmail(newValue)}
+                                        className="w-fit"
                                     />
-                                </div>
+                          
                                 {pending ? <Loading size="h-12 w-12" /> :
                                     <Button
                                         type="submit"

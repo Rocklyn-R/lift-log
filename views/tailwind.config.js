@@ -14,12 +14,13 @@ module.exports = {
         darkBlue: '#115583',
         lightBlue: '#7CB3E9',
         lightestBlue: '#C7E3FF',
-        darkestPurple: '#07043d',
+        darkestPurple: '#0c0121',
         darkPurple: '#282b54',
         lightPurple: '#BDBCDC',
         lightestPurple: '#ddddf7',
-        mediumPurple: '#454399',
-        whitePurple: '#DDDAF3'
+        mediumPurple: '#52517a',
+        whitePurple: '#DDDAF3',
+        darkest: '#0c0121'
       },
       screens: {
         'phones': {'min': '0px', max: '449px'},

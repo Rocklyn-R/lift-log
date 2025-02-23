@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { Header } from "../../components/Header";
 import { CustomPasswordInput } from "../../components/CustomPasswordInput";
 import { Loading } from "../../components/Loading";
+import { CustomTextInput } from "../../components/CustomTextInput";
 
 export const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -43,30 +44,27 @@ export const SignIn = () => {
 
   return (
     <div className="flex flex-col w-full h-screen">
-      <Header text="Welcome to LogLift" />
-      <div className="flex-grow flex items-center justify-center flex-col">
-        <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-          <h2 className="text-2xl font-semibold text-center mb-6 text-darkPurple">Sign In</h2>
+      <Header text="Welcome to LiftLog" />
+      <div className="flex-grow bg-darkestPurple flex items-center justify-center flex-col dark:text-lightestPurple">
+        <div className="dark:bg-darkestPurple border-2 bg-white p-8 rounded-lg shadow-lg w-96">
+          <h2 className="text-2xl font-semibold text-center mb-6 dark:text-lightestPurple text-darkPurple">Sign In</h2>
 
           <form onSubmit={handleLogin}>
             {/* Username Field */}
             <div className="mb-4">
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700"></label>
-              <input
+              <label htmlFor="username" className="block text-sm font-medium dark:text-lightestPurple0"></label>
+              <CustomTextInput
                 value={email}
-                type="text"
-                id="username"
                 name="username"
-                className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
                 placeholder="Email"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={setEmail}
                 required
               />
             </div>
 
             {/* Password Field */}
             <div className="mb-6">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700"></label>
+              <label htmlFor="password" className="block text-sm font-medium dark:text-lightestPurple"></label>
               <CustomPasswordInput
                 value={password}
                 name="password"
@@ -86,13 +84,13 @@ export const SignIn = () => {
 
           </form>
 
-          <div className="mt-4 text-center">
-            <a href="/forgot-password" className="text-sm text-mediumPurple hover:underline">Forgot Password?</a>
+          <div className="mt-4 text-center ">
+            <a href="/forgot-password" className="text-sm dark:text-lightestPurple text-mediumPurple hover:underline">Forgot Password?</a>
           </div>
         </div>
         <div className="flex flex-col p-4 items-center">
           <span>or</span>
-          <Link className="text-darkestPurple hover:underline text-xl p-4" to="/signup">Sign Up</Link>
+          <Link className="text-darkestPurple dark:text-lightestPurple hover:underline text-xl p-4" to="/signup">Sign Up</Link>
         </div>
       </div>
     </div>

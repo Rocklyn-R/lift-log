@@ -91,8 +91,11 @@ export const Stopwatch = () => {
             <div className="flex items-center justify-center h-fit w-full">
                 <div className="flex flex-col items-center w-full">
                     {/* Timer */}
-                    <div className="dark:text-lightestPurple h-[18.75rem] w-[18.75rem] justify-center flex items-center md:text-7xl sm:text-6xl text-5xl font-bold p-2 font-robotoMono">
-                        {formatTime()}
+                    <div className="mt-4 dark:text-lightestPurple h-[19rem] justify-center flex items-center md:text-7xl sm:text-6xl text-5xl font-bold p-2 font-robotoMono">
+                        <div className="border-2 rounded-full p-8 dark:bg-darkPurple">
+                            {formatTime()}
+                        </div>
+                        
                     </div>
                     {/* Buttons */}
                     <div className="lg:w-1/2 md:w-2/3 w-full flex justify-evenly px-4">

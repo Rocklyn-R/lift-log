@@ -76,15 +76,15 @@ export const ResetPassword = () => {
 
     if (isValid === false && error === "Token expired") {
         return (
-            <div className="mt-2 w-full flex justify-center flex-col items-center">
-                <h1 className="mb-8 text-3xl text-center font-bold">Reset Password</h1>
+            <div className="mt-2 w-full dark:text-lightestPurple flex justify-center flex-col items-center">
+                <h1 className="mb-8 text-3xl dark:text-lightestPurple text-center font-bold">Reset Password</h1>
                 <p>This link has expired.</p>
             </div>
         )
     }
     if (isValid === false && error === "Token not found") {
         return (
-            <div className="mt-2 w-full flex justify-center flex-col items-center">
+            <div className="mt-2 dark:text-lightestPurple w-full flex justify-center flex-col items-center">
                 <p>This page does not exist.</p>
             </div>
         )
@@ -94,12 +94,12 @@ export const ResetPassword = () => {
         <div className="flex flex-col w-full h-screen">
             <Header text="Welcome to LogLift" />
             <div className="flex-grow flex items-center justify-center flex-col">
-                <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-                    <h2 className="text-2xl font-semibold text-center mb-6 text-darkPurple">Reset Password</h2>
+                <div className="dark:bg-darkestPurple border-2 bg-white p-8 rounded-lg shadow-lg w-96">
+                    <h2 className="text-2xl font-semibold text-center mb-6 dark:text-lightestPurple text-darkPurple">Reset Password</h2>
 
                     {successMessage ? (
                         <div className='space-y-4 flex justify-center flex-col items-center'>
-                            <p className="text-center text-darkestPurple">Password successfully updated! Log in with your new password.</p>
+                            <p className="text-center dark:text-lightestPurple text-darkestPurple">Password successfully updated! Log in with your new password.</p>
                             <Button type="button" onClick={() => navigate('/signin')} className="" >Go to Login Page</Button>
                         </div>
                     ) :

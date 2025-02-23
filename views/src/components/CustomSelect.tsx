@@ -41,15 +41,15 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
     return (
         <div ref={selectRef} className={`relative ${className} mt-2`}>
             <div
-                className={`${isOpen ? "ring-2 ring-darkPurple" : ""} ${
-                    value ? "text-darkestPurple" : "text-gray-400"
-                } min-h-12 p-3 w-full border border-gray-300 rounded-md bg-white cursor-pointer`}
+                className={`${isOpen ? "ring-2 ring-darkPurple border-2  border-lightestPurple rounded-t-md" : "rounded-md border-2 dark:border-lightestPurple border-gray-300"} ${
+                    value ? "dark:text-lightestPurple text-darkestPurple" : "text-gray-400"
+                } dark:bg-darkPurple min-h-12 p-3 w-full  bg-white cursor-pointer`}
                 onClick={() => setIsOpen(!isOpen)}
             >
                 {value || placeholder}
                 <span className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
                     <svg
-                        className={`w-4 h-4 text-gray-500 transform transition-transform ${
+                        className={`w-4 h-4 dark:text-lightestPurple text-gray-500 transform transition-transform ${
                             isOpen ? "rotate-180" : ""
                         }`}
                         xmlns="http://www.w3.org/2000/svg"
@@ -67,12 +67,12 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                 </span>
             </div>
             {isOpen && (
-                <div className="text-darkestPurple absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-[25vh] overflow-y-auto">
+                <div className="text-darkestPurple absolute z-10 -mt-1 w-full dark:bg-darkPurple dark:text-lightestPurple bg-white border-b-2 border-x-2 border-gray-300 rounded-b-md shadow-lg max-h-[25vh] overflow-y-auto">
                     {options.map((option) => (
                         <div
                             key={option.id}
                             onClick={() => handleSelect(option.name)}
-                            className="p-3 hover:bg-gray-100 cursor-pointer"
+                            className="p-3 dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:bg-gray-100 cursor-pointer"
                         >
                             {option.name}
                         </div>

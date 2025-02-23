@@ -28,6 +28,12 @@ code {
   --lightest-purple: #ddddf7;
 }
 
+/* Dark mode overrides */
+.dark {
+  --darkest-purple: #ddddf7; /* Swap darkest with lightest */
+  --lightest-purple: #001247; /* Swap lightest with darkest */
+}
+
 /* Base styles for the checkbox */
 .styled-checkbox {
   width: 22px; /* Size of the checkbox */
@@ -40,6 +46,8 @@ code {
   position: relative; /* For checkmark positioning */
   transition: background-color 0.3s, border-color 0.3s;
 }
+
+
 
 /* Checkmark styles */
 .styled-checkbox:checked {

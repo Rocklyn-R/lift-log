@@ -8,6 +8,7 @@ import { SelectedExercise } from "../../../../types/types";
 import { updateExercise } from "../../../../api/exercises";
 import e from "express";
 import { useDispatch } from "react-redux";
+import { CustomTextInput } from "../../../../components/CustomTextInput";
 
 interface EditExerciseProps {
     exercise: SelectedExercise;
@@ -52,7 +53,7 @@ export const EditExercise: React.FC<EditExerciseProps> = ({ setExerciseToUpdate,
     }
 
     return (
-        <div>
+        <div className="dark:text-lightestPurple">
             {showSuccessMessage ? (
                 <div className="min-h-[5vh] flex items-center justify-center">
                     <span>Exercise successfully updated!</span>
@@ -62,16 +63,12 @@ export const EditExercise: React.FC<EditExerciseProps> = ({ setExerciseToUpdate,
                     className="h-full flex flex-col justify-evenly">
                     <div className="mb-6 relative">
                         <label htmlFor="name">Name</label>
-                        <input
+                        <CustomTextInput
                             value={name}
-                            type="text"
-                            id="name"
                             name="name"
                             className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
                             placeholder="Name"
-                            onChange={(e) => {
-                                setName(e.target.value)
-                            }}
+                            onChange={setName}
                         />
                         {!name && <span className="absolute -bottom-5 right-0 px-2 text-sm rounded-md">{nameError}</span>}
                     </div>

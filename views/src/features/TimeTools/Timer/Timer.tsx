@@ -129,9 +129,9 @@ export const Timer = () => {
                 <div className="flex items-start z-20 relative">
                     {/* Wrapper div for background color */}
                     <div
-                        className="absolute inset-0 rounded-full border-2 border-lightestPurple bg-[#BDBCDC] " // background color inside circle
+                        className="absolute inset-0 rounded-full border-2 border-mediumPurple bg-[#BDBCDC] " // background color inside circle
                     ></div>
-                    <div className="flex items-start z-20 border-2 border-lightPurple rounded-full font-robotoMono font-bold">
+                    <div className="flex items-start z-20 border-2 border-mediumPurple rounded-full font-robotoMono font-bold">
                         <CircularProgressbar
                             value={percentage}
                             text={formatTime()}
@@ -151,12 +151,12 @@ export const Timer = () => {
                             setShowEditTimer(true)
                             pauseTimer();
                         }}
-                        className="absolute right-1/4 top-10 hover:bg-lightPurple hover:shadow-lg p-2 rounded-full"
+                        className="dark:bg-darkPurple dark:border-2 dark:border-lightestPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple text-4xl text-darkestPurple dark:text-lightestPurple absolute right-5 sm:right-1/6 md:right-1/4 top-8 md:top-10 hover:bg-lightPurple hover:shadow-lg p-2 rounded-full"
                     >
-                        <LuTimer className="text-4xl text-darkestPurple" />
+                        <LuTimer className="" />
                     </button>
 
-                    <div className="lg:w-1/2 md:w-2/3 w-full flex justify-evenly px-4">
+                    <div className="mt-4 lg:w-1/2 md:w-2/3 w-full flex justify-evenly px-4">
                          <Button width="w-24" onClick={reset} type="button">
                             Reset
                         </Button> 

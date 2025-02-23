@@ -106,31 +106,34 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
     return (
         <div className="flex flex-col box-border">
             {/* Main Content with Flex for center alignment */}
-            <div className="flex-grow flex justify-center my-4">
+            <div className="flex-grow flex justify-center">
 
                 <div className={`${source === "library" ? "md:w-1/2" : "md:w-2/3"} flex flex-col items-center sm:w-2/3 xs:w-3/4 w-full space-y-2`}>
                     {loading ? (
                         <Loading />
                     ) : (
                         exercises.map((exercise, index) => (
-                            <div key={index} className="relative w-full">
+                            <div key={index} className="relative w-full flex justify-center dark:text-lightestPurple dark:hover:text-darkestPurple">
                                 {/* Main Exercise Button (Lower z-index) */}
                                 <button
                                     onClick={() => handleOpenExercise(exercise)}
-                                    className={`dark:border-lightestPurple dark:text-lightestPurple font-semibold dark:bg-darkPurple exercise-button relative z-10 bg-gray-100 border-2 border-darkestPurple rounded-md shadow-lg ${openDropdown ? "" : "hover:font-semibold hover:text-xl hover:bg-lightPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple"} text-lg p-2 w-full flex justify-center`}
+                                    className={`dark:border-mediumPurple dark:text-lightestPurple font-semibold dark:bg-darkPurple exercise-button relative z-10 bg-gray-100 border-2 border-darkestPurple rounded-md shadow-lg ${openDropdown ? "" : "hover:font-semibold hover:text-xl hover:bg-lightPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple"
+                                        } sm:text-base text-sm md:text-lg py-2 ${source === "library" ? "px-8" : "px-2"} w-full flex justify-center`}
                                 >
                                     <span>{exercise.exercise_name}</span>
                                 </button>
                                 {source === "library" ? (
                                     <>
-                                        {/* Three-Dot Menu (Higher z-index) */}
+                                        {/* Three-Dot Menu */}
                                         <div className="absolute right-2 top-1/2 -translate-y-1/2 z-20">
                                             <div
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     setOpenDropdown(openDropdown === exercise.exercise_id ? null : exercise.exercise_id);
                                                 }}
-                                                className={`${openDropdown === exercise.exercise_id ? "border-2 dark:border-lightestPurple dark:text-darkestPurple dark:bg-lightestPurple border-darkestPurple bg-lightPurple" : "border-2 border-transparent"} dark:border-lightestPurple dark:text-lightestPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple p-2 dark:bg-darkPurple hover:border-2 hover:border-darkestPurple hover:bg-lightPurple rounded-full cursor-pointer box-border`}
+                                                className={`p-2 rounded-full cursor-pointer box-border border-2 border-transparent 
+              dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:border-lightestPurple hover:bg-lightPurple
+              ${openDropdown === exercise.exercise_id ? "border-2 dark:border-lightestPurple dark:text-darkestPurple dark:bg-lightestPurple border-darkestPurple bg-lightPurple" : ""}`}
                                             >
                                                 <FiMoreVertical className="w-5 h-5" />
                                             </div>
@@ -186,7 +189,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
                         setExerciseToUpdate(null);
                     }}
                     className="phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3"
-                    className2="p-4"
+                    className2="dark:bg-darkestPurple p-4"
                 >
                     <EditExercise
                         exercise={exerciseToUpdate}
@@ -214,9 +217,9 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
                         setExerciseToUpdate(null);
                     }}
                     className="phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3"
-                    className2="p-4"
+                    className2="dark:bg-darkestPurple dark:text-lightestPurple p-4"
                 >
-                    <DeleteExercise 
+                    <DeleteExercise
                         exercise={exerciseToUpdate}
                         setShowDeleteExercise={setShowDeleteExercise}
                         setExerciseToUpdate={setExerciseToUpdate}

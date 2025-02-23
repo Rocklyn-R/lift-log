@@ -86,7 +86,7 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
         <OverlayWindow
             headerText="New Exercise"
             onClose={() => setShowAddExercise(false)}
-            className="phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3"
+            className="dark:bg-darkestPurple dark:font-semibold phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3"
             className2="p-4"
         >
             {showSuccessMessage ? (
@@ -96,13 +96,13 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
             ) : (
                 <form onSubmit={handleCreateExercise} className="h-full flex flex-col justify-evenly">
                     <div className="mb-6 relative">
-                        <label htmlFor="name">Name</label>
+                        <label className="dark:text-lightestPurple font-semibold" htmlFor="name">Name</label>
                         <input
                             value={name}
                             type="text"
                             id="name"
                             name="name"
-                            className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
+                            className="dark:bg-darkPurple dark:text-lightestPurple mt-2 p-3 w-full border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
                             placeholder="Name"
                             onChange={(e) => {
                                 setName(e.target.value)
@@ -111,7 +111,7 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
                         {!name && <span className="absolute -bottom-5 right-0 px-2 text-sm rounded-md">{nameError}</span>}
                     </div>
                     <div className="mb-4 relative">
-                        <label>Category</label>
+                        <label className="dark:text-lightestPurple font-semibold">Category</label>
                         <CustomSelect
                             options={categories}
                             value={category}
@@ -122,7 +122,7 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
                         <span className="absolute -bottom-5 right-0 px-2 text-sm rounded-md">{categoryError}</span>
                     </div>
                     <div className="mb-4 relative">
-                        <label>Type</label>
+                        <label className="dark:text-lightestPurple font-semibold">Type</label>
                         <CustomSelect
                             options={types}
                             value={type}

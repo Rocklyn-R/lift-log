@@ -3,11 +3,13 @@ interface CustomTextInput {
     onChange: (value: string) => void;
     placeholder: string;
     name: string;
+    className?: string
+    required?: boolean
 }
 
-export const CustomTextInput: React.FC<CustomTextInput> = ({ name, placeholder, value, onChange }) => {
+export const CustomTextInput: React.FC<CustomTextInput> = ({ required, className = "w-full", name, placeholder, value, onChange }) => {
     return (
-      <div className="relative flex items-center w-full">
+      <div className="relative flex items-center justify-center w-full">
         {/* Input Field */}
         <input
           type="text"
@@ -15,7 +17,8 @@ export const CustomTextInput: React.FC<CustomTextInput> = ({ name, placeholder, 
           name={name}
           value={value}
           onChange={(e) => onChange(e.target.value)} 
-          className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
+          className={`${className} dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 p-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple`}
+          required={required}
         />
       </div>
     );

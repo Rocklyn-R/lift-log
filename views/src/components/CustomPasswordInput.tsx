@@ -19,7 +19,7 @@ export const CustomPasswordInput: React.FC<CustomPasswordInputProps> = ({ classN
                 type={showPassword ? "text" : "password"} // Toggle password visibility
                 id={name}
                 name={name}
-                className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple pr-10"
+                className="border-2 border-lightestPurple dark:bg-darkPurple dark:text-lightestPurple mt-2 p-3 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple pr-10"
                 placeholder={placeholder || "Enter password"}
                 onChange={onChange}
             />

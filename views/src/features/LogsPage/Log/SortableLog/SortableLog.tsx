@@ -23,7 +23,7 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exercise }) => {
       } = useSortable({id: exercise.exercise_id});
 
       const style = {
-        transform: CSS.Transform.toString(transform),
+        transform: CSS.Translate.toString(transform),
         transition,
         height: 'auto'
       };
@@ -34,7 +34,7 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exercise }) => {
         {...attributes}
         {...listeners}
         style={style}
-        className="dark:bg-darkPurple bg-gray-100 rounded-md shadow-xl hover:cursor-pointer bo box-border border-2 dark:border-lightestPurple border-lightPurple w-full">
+        className="dark:bg-darkPurple bg-gray-100 rounded-md shadow-xl hover:cursor-pointer bo box-border border-2 dark:border-mediumPurple border-lightPurple w-full">
             {exercise.sets.length > 0 && (
 
                 <>

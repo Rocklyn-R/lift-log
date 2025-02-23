@@ -61,9 +61,9 @@ export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action, set
             headerText="Calendar"
             onClose={() => setShowCalendar(false)}
             className2=""
-            className="phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-2/5 xl:w-1/3 2xl:w-1/4">
+            className="dark:bg-darkestPurple phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-2/5 xl:w-1/3 2xl:w-1/4">
 
-            <div className="flex justify-between items-center my-4 text-darkestPurple">
+            <div className="flex justify-between items-center my-4 dark:text-lightestPurple text-darkestPurple">
                 <button
                     onClick={handlePrevMonth}
                     className="px-4 py-2 text-xl"
@@ -82,7 +82,7 @@ export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action, set
             </div>
             <div className="w-full min-h-[300px] h-auto sm:min-h-[350px] flex flex-col">
                  {loading ? <div className="flex flex-grow justify-center items-center pb-6"><Loading /></div> : (
-            <div className="grid grid-cols-7 gap-2 text-center px-4 text-darkestPurple place-items-center">
+            <div className="grid grid-cols-7 gap-2 text-center px-4 dark:text-lightestPurple text-darkestPurple place-items-center">
                 {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, idx) => (
                     <div key={idx} className="font-semibold">{day}</div>
                 ))}
@@ -102,7 +102,7 @@ export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action, set
                                 }}
                                 key={index}
                                 className={`flex justify-center items-center w-9 h-9 sm:w-10 sm:h-10 ${dayIndex > 0 && dayIndex <= totalDays ? "cursor-pointer" : "text-transparent"
-                                    } p-2 rounded-full transition ${highlightedDates.includes(dayString) ? "border-2 rounded-full border-darkestPurple" : ""
+                                    } p-2 rounded-full transition ${highlightedDates.includes(dayString) ? "border-2 rounded-full dark:hover:bg-lightestPurple dark:bg-darkPurple dark:hover:text-darkestPurple dark:border-lightestPurple border-darkestPurple" : ""
                                     }`}
                             >
                                 {dayIndex > 0 && dayIndex <= totalDays ? dayIndex : ""}

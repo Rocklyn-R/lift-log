@@ -43,7 +43,7 @@ export const DeleteExercise: React.FC<DeleteExerciseProps> = ({ setExerciseToUpd
                 <div className="min-h-[5vh] flex flex-col items-center justify-center">
                     <span>Would you like to delete {exercise.exercise_name}?</span>
                     <span>This will delete all the data associated with this exercise.</span>
-                    <div className="mt-4 space-x-4">
+                    <div className="mt-4 space-x-4 flex">
                         <Button type="button" onClick={() => handleDeleteExercise()}>Yes</Button>
                         <Button type="button" onClick={() => {
                             setShowDeleteExercise(false);

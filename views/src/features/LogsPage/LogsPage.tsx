@@ -14,6 +14,7 @@ import { Calendar } from "./Calendar/Calendar";
 import { IoIosCopy } from "react-icons/io";
 import { ShowWorkout } from "./Calendar/ShowWorkout/ShowWorkout";
 import { CopyWorkout } from "./Calendar/CopyWorkout/CopyWorkout";
+import { Header } from "../../components/Header";
 
 
 export const LogsPage = () => {
@@ -36,7 +37,7 @@ export const LogsPage = () => {
     return (
         <div className="w-full xl:pl-0 pl-16 relative flex justify-center min-h-screen">
             <div className="w-full flex flex-col items-center min-h-screen">
-                <div className="dark:border-b-2 dark:border-lightestPurple sticky top-0 w-full py-5 bg-darkestPurple flex justify-center ">
+                <div className=" sticky top-0 w-full  bg-darkestPurple flex justify-center ">
                     <button
                         onClick={() => handleAdjustDate('back')}
                         className={` ${dateStringLong ? "xs:top-5 top-5" : "top-2"} p-3 flex justify-center absolute left-12 xs:left-24 sm:left-44 md:left-52 lg:left-72 md:top-3 text-lightestPurple text-2xl`}
@@ -44,9 +45,9 @@ export const LogsPage = () => {
                         <FaAngleLeft />
                     </button>
 
-                    <h1 className="text-lightestPurple md:w-fit w-28 md:text-xl font-semibold text-center">
-                        {formatDate(selectedDate)}
-                    </h1>
+                    <Header text={formatDate(selectedDate)} />
+                        
+                
 
                     <button
                         onClick={() => handleAdjustDate('forward')}

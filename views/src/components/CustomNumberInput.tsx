@@ -6,6 +6,8 @@ interface CustomNumberInputProps {
     min: number;
     max: number;
     onChange: (value: number) => void;
+    disabledDecrement: boolean;
+    disabledIncrement: boolean;
 }
 
 export const CustomNumberInput: React.FC<CustomNumberInputProps> = ({
@@ -13,6 +15,8 @@ export const CustomNumberInput: React.FC<CustomNumberInputProps> = ({
     min,
     max,
     onChange,
+    disabledDecrement,
+    disabledIncrement
 }) => {
 
     const handleIncrement = () => {
@@ -28,7 +32,7 @@ export const CustomNumberInput: React.FC<CustomNumberInputProps> = ({
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = Math.max(min, Math.min(max, parseInt(e.target.value) || 0));
+        const newValue = Math.max(min, Math.min(max, parseInt(e.target.value)));
         onChange(newValue);
     };
 
@@ -37,7 +41,8 @@ export const CustomNumberInput: React.FC<CustomNumberInputProps> = ({
           {/* Increment Button */}
           <button
             onClick={handleDecrement}
-            className="absolute bg-darkPurple left-0 top-1/2 transform -translate-y-1/2 px-1 py-3 rounded-l-md text-lightestPurple"
+            className={`${disabledDecrement ? "opacity-75" : "dark:hover:bg-lightestPurple dark:hover:text-darkestPurple"} bg-darkPurple   text-lightestPurple absolute border-2 left-0 top-1/2 transform -translate-y-1/2 px-1 py-3 rounded-l-md `}
+            disabled={disabledDecrement}
           >
             <FaAngleDown />
           </button>
@@ -48,12 +53,13 @@ export const CustomNumberInput: React.FC<CustomNumberInputProps> = ({
             min={min}
             max={max}
             onChange={handleInputChange}
-            className="px-8 h-10 w-24 text-xl text-center border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple ring-2 ring-darkestPurple"
+            className="bg-lightPurple border-2 px-8 h-11 w-24 text-xl text-center border-lightestPurple rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple ring-2 ring-darkestPurple"
           />
           {/* Decrement Button */}
           <button
             onClick={handleIncrement}
-            className="absolute right-0 top-1/2 bg-darkPurple transform -translate-y-1/2 px-1 py-3 rounded-r-md text-lightestPurple "
+            className={`${disabledIncrement ? "opacity-75" : "dark:hover:bg-lightestPurple dark:hover:text-darkestPurple"} absolute border-2 right-0 top-1/2 bg-darkPurple transform -translate-y-1/2 px-1 py-3 rounded-r-md text-lightestPurple`}
+            disabled={disabledIncrement}
           >
             <FaAngleUp />
           </button>
