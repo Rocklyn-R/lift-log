@@ -1,7 +1,5 @@
 import { useSelector } from "react-redux"
 import { selectSelectedDate, setSelectedDate } from "../../redux-store/LogsSlice";
-import { MdArrowBackIos } from "react-icons/md";
-import { MdArrowForwardIos } from "react-icons/md";
 import { adjustDate, formatDate } from "../../utilities/utilities";
 import { useDispatch } from "react-redux";
 import { FaAngleLeft, FaAngleRight, FaPlus } from "react-icons/fa6";

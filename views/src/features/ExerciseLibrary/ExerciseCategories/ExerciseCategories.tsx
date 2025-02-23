@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getCategories, getExercises } from "../../../api/exercises";
+import { getCategories } from "../../../api/exercises";
 import { Loading } from "../../../components/Loading";
-import { selectCategories, setCategories, setExercises } from "../../../redux-store/LibrarySlice";
+import { selectCategories, setCategories } from "../../../redux-store/LibrarySlice";
 import { setSelectedCategory } from "../../../redux-store/LogsSlice";
 import { Category } from "../../../types/types";
 

@@ -10,7 +10,6 @@ import { selectSelectedCategory, selectSelectedExercise, setSelectedExercise } f
 import { ViewLog } from "../../LogsPage/AddLog/ViewLog/ViewLog";
 import { Loading } from "../../../components/Loading";
 import { FiMoreVertical } from "react-icons/fi";
-import { FaEdit } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
 import { MdDeleteOutline } from "react-icons/md";
 import { EditExercise } from "./EditExercise/EditExercise";
@@ -67,7 +66,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
         if (source === "library") {
             fetchExercises();
         }
-    }, [categoryId, dispatch])
+    }, [categoryId, dispatch, source])
 
     useEffect(() => {
         const fetchExercises = async () => {
@@ -82,7 +81,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
             fetchExercises();
         }
 
-    }, [dispatch, setLoading])
+    }, [dispatch, setLoading, categories, selectedCategory, source])
 
 
     useEffect(() => {

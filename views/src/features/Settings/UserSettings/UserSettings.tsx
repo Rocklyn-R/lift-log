@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { FaCheck, FaX } from "react-icons/fa6";
 import { MdOutlineEdit } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { selectEmail } from "../../../redux-store/UserSlice";
-import { IoEye, IoEyeOff } from "react-icons/io5";
 import { updateUserPassword } from "../../../api/settings";
 import { CustomPasswordInput } from "../../../components/CustomPasswordInput";
 import { CustomTextInput } from "../../../components/CustomTextInput";
@@ -18,8 +16,6 @@ export const UserSettings = () => {
     const [showEditPassword, setShowEditPassword] = useState(false);
     const [newPassword, setNewPassword] = useState("");
     const [oldPassword, setOldPassword] = useState("");
-    const [showOldPassword, setShowOldPassword] = useState(false);
-    const [showNewPassword, setShowNewPassword] = useState(false);
     const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
     const [statusMessage, setStatusMessage] = useState("");
 

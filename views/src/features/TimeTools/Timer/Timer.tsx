@@ -1,11 +1,6 @@
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { IoPlay } from "react-icons/io5";
-import { IoPause } from "react-icons/io5";
-import { IoStop } from "react-icons/io5";
 import { useState, useEffect, useCallback } from "react";
-import { BsFillSkipEndFill } from "react-icons/bs";
-import { MdOutlineEdit } from "react-icons/md";
 import { LuTimer } from "react-icons/lu";
 import { EditTimer } from "./EditTimer/EditTimer";
 import { useDispatch, useSelector } from "react-redux";
