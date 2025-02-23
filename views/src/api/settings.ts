@@ -73,3 +73,19 @@ export const updateUserPassword = async (oldPassword: string, newPassword: strin
         console.log(error)
     }
 }
+
+export const updateTheme = async (theme: string) => {
+    try {
+        const response = await fetch(`${BASE_URL}/theme`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({ theme })
+        })
+        return response.ok
+    } catch (error) {
+        console.log(error);
+    }
+}

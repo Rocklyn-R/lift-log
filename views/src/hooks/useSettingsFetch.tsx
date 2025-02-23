@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getSettings } from "../api/settings";
-import { changeUnitSystem } from "../redux-store/SettingsSlice";
+import { changeTheme, changeUnitSystem } from "../redux-store/SettingsSlice";
 import { selectIsAuthenticated } from "../redux-store/UserSlice";
 
 export const useSettingsFetch = () => {
@@ -12,9 +12,9 @@ export const useSettingsFetch = () => {
     useEffect(() => {
         const fetchSettings = async () => {
             const settings = await getSettings();
-            const unit_system_formated = (settings.unit_system.charAt(0).toUpperCase() + settings.unit_system.slice(1).toLowerCase());
             if (settings) {
-                dispatch(changeUnitSystem(unit_system_formated));
+                dispatch(changeUnitSystem(settings.unit_system));
+                dispatch(changeTheme(settings.theme))
             }
         }
          if (isAuthenticated) {

@@ -13,7 +13,7 @@ export const Button: React.FC<ButtonProps> = ({ width = "w-fit", onClick, childr
             disabled={disabled}
             type={type}
             onClick={onClick}
-            className={`${width} flex justify-center text-base dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:shadow-lg transition py-2 px-4 rounded-lg border-2 border-transparent dark:border-lightestPurple dark:bg-darkPurple font-semibold bg-darkestPurple hover:bg-darkPurple text-lightestPurple ${className || ""}`}
+            className={`${disabled ? "opacity-55" : "dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:shadow-lg"} ${width} flex justify-center text-base transition py-2 px-4 rounded-lg border-2 border-transparent dark:border-lightestPurple dark:bg-darkPurple font-semibold bg-darkestPurple hover:bg-darkPurple text-lightestPurple ${className || ""}`}
         >
             {children}
         </button>

@@ -34,3 +34,15 @@ export const unitSystemSet = async (unit_system: "Metric" | "Imperial", user_id:
         throw error; 
     }
 }
+
+export const themeSet = async (theme: "Light" | "Dark", user_id: number) => {
+    const query = `UPDATE settings SET theme = $1
+    WHERE user_id = $2`;
+    try {
+        const result = await db.query(query, [theme, user_id]);
+        return result;
+    } catch (error) {
+        console.log(error);
+        throw error; 
+    }
+}

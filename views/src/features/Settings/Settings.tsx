@@ -1,18 +1,19 @@
 import { Header } from "../../components/Header"
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MdOutlineEdit } from "react-icons/md";
 import { CustomSelect } from "../../components/CustomSelect";
 import { FaCheck, FaX } from "react-icons/fa6";
-import { updateUnitSystem } from "../../api/settings";
+import { updateTheme, updateUnitSystem } from "../../api/settings";
 import { useDispatch } from "react-redux";
-import { changeUnitSystem, selectSettingsLoading, selectUnitSystem } from "../../redux-store/SettingsSlice";
+import { changeTheme, changeUnitSystem, selectSettingsLoading, selectTheme, selectUnitSystem } from "../../redux-store/SettingsSlice";
 import { useSelector } from "react-redux";
 import { Loading } from "../../components/Loading";
 import { UserSettings } from "./UserSettings/UserSettings";
 
 
 export const Settings = () => {
-    const [theme, setTheme] = useState('Light'); // Default theme is Light
+    const theme = useSelector(selectTheme) // Default theme is Light
+    const [newTheme, setNewTheme] = useState(theme)
     const [showTheme, setShowTheme] = useState(false);
     const unitSystem = useSelector(selectUnitSystem);
     const [unitSystemValue, setUnitSystemValue] = useState(unitSystem);
@@ -21,16 +22,22 @@ export const Settings = () => {
     const isLoading = useSelector(selectSettingsLoading);
 
     const handleChangeUnitSystem = async () => {
-        const unitSystemResult = await updateUnitSystem(unitSystemValue);
-        if (unitSystemResult) {
-            dispatch(changeUnitSystem(unitSystemValue))
-        }
+        dispatch(changeUnitSystem(unitSystemValue));
         setShowUnitSystem(false);
+        await updateUnitSystem(unitSystemValue);
     }
 
     useEffect(() => {
         setUnitSystemValue(unitSystem)
     }, [unitSystem]);
+
+    const handleUpdateTheme = async () => {
+        dispatch(changeTheme(newTheme));
+        setShowTheme(false);
+        await updateTheme(newTheme);
+    }
+
+    
 
     if (isLoading) {
         return (
@@ -55,13 +62,18 @@ export const Settings = () => {
                                 <>
                                     <CustomSelect
                                         options={[{ id: 1, name: "Light" }, { id: 2, name: "Dark" }]}
-                                        onChange={(theme) => setTheme(theme)}
-                                        value={theme}
+                                        onChange={(theme) => setNewTheme(theme)}
+                                        value={newTheme}
                                         className="w-20"
                                     />
                                     <div className="flex space-x-2 items-center">
-                                        <button onClick={() => setShowTheme(false)} className="mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><FaCheck className="text-xl" /></button>
-                                        <button onClick={() => setShowTheme(false)} className="mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><FaX className="text-lg" /></button>
+                                        <button onClick={() => {
+                                           handleUpdateTheme()
+                                        }} className="mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><FaCheck className="text-xl" /></button>
+                                        <button onClick={() => {
+                                            setNewTheme(theme)
+                                            setShowTheme(false)
+                                        }} className="mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><FaX className="text-lg" /></button>
                                     </div>
 
                                 </>
@@ -88,7 +100,10 @@ export const Settings = () => {
                                     />
                                     <div className="flex space-x-2 items-center">
                                         <button onClick={handleChangeUnitSystem} className="mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><FaCheck className="text-xl" /></button>
-                                        <button onClick={() => setShowUnitSystem(false)} className="mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><FaX className="text-lg" /></button>
+                                        <button onClick={() => {
+                                            setUnitSystemValue(unitSystem);
+                                            setShowUnitSystem(false);
+                                        }} className="mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><FaX className="text-lg" /></button>
                                     </div>
 
                                 </>

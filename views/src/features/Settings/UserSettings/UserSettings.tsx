@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { selectEmail } from "../../../redux-store/UserSlice";
@@ -7,6 +7,7 @@ import { CustomPasswordInput } from "../../../components/CustomPasswordInput";
 import { CustomTextInput } from "../../../components/CustomTextInput";
 import { OverlayWindow } from "../../../components/OverlayWIndow";
 import { Button } from "../../../components/Button";
+import { Loading } from "../../../components/Loading";
 
 export const UserSettings = () => {
     const email = useSelector(selectEmail)
@@ -18,19 +19,26 @@ export const UserSettings = () => {
     const [oldPassword, setOldPassword] = useState("");
     const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
     const [statusMessage, setStatusMessage] = useState("");
+    const [loadingPasswordUpdate, setLoadingPasswordUpdate] = useState(false);
 
-    const handleUpdatePassword = async () => {
-        //event.preventDefault();
+    const handleUpdatePassword = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoadingPasswordUpdate(true);
         const passwordUpdated = await updateUserPassword(oldPassword, newPassword);
         setOldPassword('');
         setNewPassword('');
         if (passwordUpdated === 'Success') {
-            setShowEditPassword(false);
             setStatusMessage('Password successfully changed!');
+            setTimeout(() => {
+                setShowEditPassword(false);
+            }, 2000); 
+            setLoadingPasswordUpdate(false);
         } else if (passwordUpdated === 'Old password incorrect') {
             setPasswordErrorMessage('Current password incorrect!');
+            setLoadingPasswordUpdate(false);
         } else {
             setStatusMessage('An error ocurred');
+            setLoadingPasswordUpdate(false);
         }
     }
 
@@ -72,7 +80,10 @@ export const UserSettings = () => {
             <div className="flex items-center text-darkestPurple w-full">
                 <div className="flex w-full justify-between items-center">
                     <span className="flex items-center justify-center rounded-md border-2 dark:border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 w-fit bg-white">{password}</span>
-                    <button onClick={() => setShowEditPassword(true)} className="mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><MdOutlineEdit className="text-xl" /></button>
+                    <button onClick={() => {
+                        setStatusMessage("")
+                        setShowEditPassword(true)
+                    }} className="mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><MdOutlineEdit className="text-xl" /></button>
                 </div>
                 {showEditPassword && (
                     <OverlayWindow
@@ -81,23 +92,37 @@ export const UserSettings = () => {
                         className=" dark:bg-darkestPurple w-full xs:w-3/4 sm:w-1/2 md:w-1/3 lg-w-1/4"
                         className2="p-4 items-center dark:bg-darkestPurple space-y-4 flex justify-center items-center w-full"
                     >
-                        <CustomPasswordInput
-                            name="password 1"
-                            value={oldPassword}
-                            onChange={(e) => setOldPassword(e.target.value)}
-                            placeholder="Current password"
-                        />
-                        <CustomPasswordInput
-                            name="password 2"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            placeholder="New password"
-                        />
+                        {statusMessage === 'Password successfully changed!' ? (
+                            <span className="dark:text-lightestPurple font-semibold">{statusMessage}</span>
+                        ) : (
+                            <>
+                            <form className="" onSubmit={handleUpdatePassword}>
 
-                        <div className="flex space-x-4">
-                            <Button onClick={() => setShowEditPassword(false)} type="button">Cancel</Button>
-                            <Button type="button">Save</Button>
-                        </div>
+                                 <CustomPasswordInput
+                                    name="password 1"
+                                    value={oldPassword}
+                                    onChange={(e) => setOldPassword(e.target.value)}
+                                    placeholder="Current password"
+                                    required={true}
+                                />
+                                <CustomPasswordInput
+                                    name="password 2"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    placeholder="New password"
+                                    required={true}
+                                />
+                           
+                               
+
+                                <div className="flex space-x-4 mt-6">
+                                    <Button disabled={loadingPasswordUpdate} width="w-24" onClick={() => setShowEditPassword(false)} type="button">Cancel</Button>
+                                    <Button width="w-24" disabled={loadingPasswordUpdate} type="submit">{loadingPasswordUpdate ? <Loading size="w-6 h-6" /> : "Save"} </Button>
+                                </div>
+                                </form>
+                            </>
+                        )}
+
                     </OverlayWindow>
                 )}
 

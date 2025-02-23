@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { settingsCreate, settingsGet, unitSystemSet } from '../models/settings';
+import { settingsCreate, settingsGet, themeSet, unitSystemSet } from '../models/settings';
 
 interface User {
     id: number
@@ -36,6 +36,19 @@ export const setUnitSystem = async (req: Request, res: Response) => {
         const result = await unitSystemSet(unit_system, user_id);
         if (result) {
             res.status(201).json({ message: "Unit system successfully updated" })
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' })
+    }
+}
+
+export const setTheme = async (req: Request, res: Response) => {
+    const user_id = (req.user as User).id;
+    const { theme } = req.body;
+    try {
+        const result = await themeSet(theme, user_id);
+        if (result) {
+            res.status(201).json({ message: "Theme successfully updated" })
         }
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' })

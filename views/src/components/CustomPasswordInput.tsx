@@ -7,9 +7,10 @@ interface CustomPasswordInputProps {
     placeholder?: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     className?: string;
+    required?: boolean
 }
 
-export const CustomPasswordInput: React.FC<CustomPasswordInputProps> = ({ className, value, name, placeholder, onChange }) => {
+export const CustomPasswordInput: React.FC<CustomPasswordInputProps> = ({ required = false, className, value, name, placeholder, onChange }) => {
     const [showPassword, setShowPassword] = useState(false);
 
     return (
@@ -22,6 +23,7 @@ export const CustomPasswordInput: React.FC<CustomPasswordInputProps> = ({ classN
                 className="border-2 border-lightestPurple dark:bg-darkPurple dark:text-lightestPurple mt-2 p-3 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple pr-10"
                 placeholder={placeholder || "Enter password"}
                 onChange={onChange}
+                required={required}
             />
             {/* Eye Icon for toggling visibility */}
             <button

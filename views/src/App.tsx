@@ -33,7 +33,7 @@ function App() {
 
       // Dynamically set the dark class on the HTML element
       useEffect(() => {
-        if (theme === "dark") {
+        if (theme === "Dark") {
           document.documentElement.classList.add("dark");
         } else {
           document.documentElement.classList.remove("dark");
