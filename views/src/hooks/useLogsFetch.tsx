@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getLog } from "../api/logs";
-import { selectSelectedDate, setWorkout } from "../redux-store/LogsSlice";
+import { selectSelectedDate, setLogsLoading, setWorkout } from "../redux-store/LogsSlice";
 import { selectIsAuthenticated } from "../redux-store/UserSlice";
 import { Workout } from "../types/types";
 
@@ -51,6 +51,7 @@ export const useLogsFetch = () => {
                 }, [] as Workout[]); // Initialize the accumulator as an empty array of Workout objects
 
                 dispatch(setWorkout(workoutArray)); // Update the workout state
+                dispatch(setLogsLoading(false));
             }
         };
         if (isAuthenticated) {

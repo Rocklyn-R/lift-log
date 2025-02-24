@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { selectSelectedDate, setSelectedDate } from "../../redux-store/LogsSlice";
+import { selectLogsLoading, selectSelectedDate, setSelectedDate } from "../../redux-store/LogsSlice";
 import { adjustDate, formatDate } from "../../utilities/utilities";
 import { useDispatch } from "react-redux";
 import { FaAngleLeft, FaAngleRight, FaPlus } from "react-icons/fa6";
@@ -13,11 +13,13 @@ import { IoIosCopy } from "react-icons/io";
 import { ShowWorkout } from "./Calendar/ShowWorkout/ShowWorkout";
 import { CopyWorkout } from "./Calendar/CopyWorkout/CopyWorkout";
 import { Header } from "../../components/Header";
+import { Loading } from "../../components/Loading";
 
 
 export const LogsPage = () => {
     const selectedDate = useSelector(selectSelectedDate);
     const dispatch = useDispatch();
+    const isLoading = useSelector(selectLogsLoading);
 
     const handleAdjustDate = (direction: 'back' | 'forward') => {
         const newDate = adjustDate(direction, selectedDate);
@@ -44,8 +46,8 @@ export const LogsPage = () => {
                     </button>
 
                     <Header text={formatDate(selectedDate)} />
-                        
-                
+
+
 
                     <button
                         onClick={() => handleAdjustDate('forward')}
@@ -54,12 +56,21 @@ export const LogsPage = () => {
                         <FaAngleRight />
                     </button>
                 </div>
+                <div className={`flex flex-col items-center w-full space-y-4 mt-4`}>
+                    {isLoading ? (
+                        <div className="dark:bg-darkestPurple flex flex-col items-center justify-center h-screen bg-lightestPurple">
+                            <Loading />
+                        </div>
+                    ) : (
+                        <>
 
-                <div className="flex flex-col items-center w-full space-y-4 mt-4">
+                            <Log
+                                setShowEditExercise={setShowEditExercise}
+                            />
+                        </>
+                    )}
 
-                    <Log
-                        setShowEditExercise={setShowEditExercise}
-                    />
+
 
                     <div>
                         <button
@@ -108,19 +119,19 @@ export const LogsPage = () => {
                 />
             )}
             {showViewDay && (
-                <ShowWorkout 
+                <ShowWorkout
                     setShowViewDay={setShowViewDay}
                     setShowCalendar={setShowCalendarNav}
                 />
             )}
             {showCopyDay && (
-                <CopyWorkout 
+                <CopyWorkout
                     setShowCalendar={setShowCalendarCopy}
                     setShowCopyDay={setShowCopyDay}
-                    //setShowCopyMessage={setShowCopyMessage}
+                //setShowCopyMessage={setShowCopyMessage}
                 />
             )}
-          
+
         </div>
     )
 }

@@ -13,7 +13,6 @@ import { FiMoreVertical } from "react-icons/fi";
 import { MdOutlineEdit } from "react-icons/md";
 import { MdDeleteOutline } from "react-icons/md";
 import { EditExercise } from "./EditExercise/EditExercise";
-import { useCategoriesFetch } from "../../../hooks/useCatgoriesFetch";
 import { DeleteExercise } from "./DeleteExercise/DeleteExercise";
 
 
@@ -24,7 +23,6 @@ interface ExercisesProps {
 }
 
 export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategories, handleSelectExercise }) => {
-    useCategoriesFetch();
     const exercises = useSelector(selectExercises);
     const selectedExercise = useSelector(selectSelectedExercise);
     const { categoryId } = useParams<{ categoryId: string }>();

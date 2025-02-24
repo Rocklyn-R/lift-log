@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../redux-store/UserSlice";
 import { getCategories } from "../api/exercises";
-import { setCategories } from "../redux-store/LibrarySlice";
+import { setCategories, setLibraryLoading } from "../redux-store/LibrarySlice";
 
 
 export const useCategoriesFetch = () => {
@@ -15,6 +15,7 @@ export const useCategoriesFetch = () => {
             const exerciseCategories = await getCategories();
             if (exerciseCategories) {
                 dispatch(setCategories(exerciseCategories))
+                dispatch(setLibraryLoading(false));
             }
         }
         categoriesFetch();

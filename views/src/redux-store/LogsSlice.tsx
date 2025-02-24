@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { act } from "react";
 import { SelectedExercise, Workout, SelectedSet } from "../types/types";
 import { getTodayDate } from "../utilities/utilities";
 import { RootState } from "./store";
@@ -16,7 +17,8 @@ export const LogsSlice = createSlice({
         dateToView: "",
         dateToCopy: "",
         workoutOnDate: [] as Workout[],
-        workoutToCopy: [] as Workout[]
+        workoutToCopy: [] as Workout[],
+        logsLoading: true,
     },
     reducers: {
         setSelectedDate: (state, action) => {
@@ -132,6 +134,9 @@ export const LogsSlice = createSlice({
         },
         setWorkoutToCopy: (state, action) => {
             state.workoutToCopy = action.payload
+        },
+        setLogsLoading: (state, action) => {
+            state.logsLoading = action.payload;
         }
     }
 })
@@ -152,7 +157,8 @@ export const {
     setDateToView,
     setDateToCopy,
     setWorkoutOnDate,
-    setWorkoutToCopy
+    setWorkoutToCopy,
+    setLogsLoading
 } = LogsSlice.actions;
 
 export const selectSelectedDate = (state: RootState) => state.logs.selectedDate;
@@ -165,5 +171,6 @@ export const selectDateToView = (state: RootState) => state.logs.dateToView;
 export const selectDateToCopy = (state: RootState) => state.logs.dateToCopy;
 export const selectWorkoutOnDate = (state: RootState) => state.logs.workoutOnDate;
 export const selectWorkoutToCopy = (state: RootState) => state.logs.workoutToCopy;
+export const selectLogsLoading = (state: RootState) => state.logs.logsLoading;
 
 export default LogsSlice.reducer;

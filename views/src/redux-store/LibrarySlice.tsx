@@ -7,6 +7,7 @@ export const LibrarySlice = createSlice({
     initialState: {
         categories: [] as Category[],
         exercises: [] as Exercise[],
+        libraryLoading: true,
     },
     reducers: {
         setCategories: (state, action) => {
@@ -30,6 +31,9 @@ export const LibrarySlice = createSlice({
         addExercise: (state, action) => {
             state.exercises.push(action.payload);
             state.exercises.sort((a, b) => a.exercise_name.localeCompare(b.exercise_name));
+        },
+        setLibraryLoading: (state, action) => {
+            state.libraryLoading = action.payload;
         }
     }
 })
@@ -40,10 +44,13 @@ export const {
     setExercises,
     editExercise,
     removeExercise,
-    addExercise
+    addExercise,
+    setLibraryLoading
 } = LibrarySlice.actions;
 
 export const selectCategories = (state: RootState) => state.library.categories;
 export const selectExercises = (state: RootState) => state.library.exercises;
+export const selectLibraryLoading = (state: RootState) => state.library.libraryLoading;
+
 
 export default LibrarySlice.reducer;

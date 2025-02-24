@@ -20,12 +20,14 @@ import { ResetPassword } from './features/Authentication/ResetPassword/ResetPass
 import { selectTheme } from './redux-store/SettingsSlice';
 import { useEffect } from 'react';
 import { ConfirmEmail } from './features/Authentication/ConfirmEmail/ConfirmEmail';
+import { useCategoriesFetch } from './hooks/useCatgoriesFetch';
 
 function App() {
   useUserFetch();
   useLogsFetch();
   useTimerFetch();
   useSettingsFetch();
+  useCategoriesFetch();
 
   const isLoading = useSelector(selectIsLoading);
   const isAuthenticated = useSelector(selectIsAuthenticated);
