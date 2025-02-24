@@ -30,7 +30,7 @@ export const Navigation: React.FC<NavigationProps> = ({isOpen, setIsOpen}) => {
       setSelectedTab('Exercises');
     } else if (pathname.includes('/logs')) {
       setSelectedTab('Logs');
-    } else if (pathname.includes('/settings')) {
+    } else if (pathname.includes('/settings') || pathname.includes('/confirm-email')) {
       setSelectedTab('Settings');
     } else if (pathname.includes('/clock')) {
       setSelectedTab("Time")

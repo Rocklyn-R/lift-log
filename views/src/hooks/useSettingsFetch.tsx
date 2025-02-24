@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getSettings } from "../api/settings";
-import { changeTheme, changeUnitSystem } from "../redux-store/SettingsSlice";
+import { changeTheme, changeUnitSystem, setPendingEmail } from "../redux-store/SettingsSlice";
 import { selectIsAuthenticated } from "../redux-store/UserSlice";
 
 export const useSettingsFetch = () => {
@@ -14,7 +14,8 @@ export const useSettingsFetch = () => {
             const settings = await getSettings();
             if (settings) {
                 dispatch(changeUnitSystem(settings.unit_system));
-                dispatch(changeTheme(settings.theme))
+                dispatch(changeTheme(settings.theme));
+                dispatch(setPendingEmail(settings.pending_email));
             }
         }
          if (isAuthenticated) {

@@ -103,7 +103,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
 
 
     return (
-        <div className="flex flex-col box-border">
+        <div className="flex flex-col box-border my-2">
             {/* Main Content with Flex for center alignment */}
             <div className="flex-grow flex justify-center">
 

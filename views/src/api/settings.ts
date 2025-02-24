@@ -89,3 +89,36 @@ export const updateTheme = async (theme: string) => {
         console.log(error);
     }
 }
+
+export const sendConfirmationEmail = async (pending_email: string) => {
+    try {
+        const response = await fetch(`${BASE_URL}/email-pending`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({ pending_email })
+        })
+        return response.ok
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const confirmNewEmail = async (pending_email_token: string) => {
+    try {
+        const response = await fetch(`${BASE_URL}/confirm-email`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({ pending_email_token })
+        })
+        const data = await response.json();
+        return data.email;
+    } catch (error) {
+        console.log(error);
+    }
+}

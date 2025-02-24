@@ -20,13 +20,19 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exercise }) => {
         setNodeRef,
         transform,
         transition,
-      } = useSortable({id: exercise.exercise_id});
+        isDragging
+      } = useSortable({
+        id: exercise.exercise_id,
+        animateLayoutChanges: () => true
+    });
 
-      const style = {
+  const style = {
         transform: CSS.Translate.toString(transform),
         transition,
-        height: 'auto'
-      };
+        height: 'auto', 
+  }
+
+  
     
     return (
         <div 
@@ -36,7 +42,6 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exercise }) => {
         style={style}
         className="dark:bg-darkPurple bg-gray-100 rounded-md shadow-xl hover:cursor-pointer bo box-border border-2 dark:border-mediumPurple border-lightPurple w-full">
             {exercise.sets.length > 0 && (
-
                 <>
                     <h3 className="p-2 border-b-2 border-lightPurple font-semibold text-lg">{exercise.exercise_name}</h3>
                     <div className="p-3 w-full">
@@ -52,7 +57,6 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exercise }) => {
                     </div>
                 </>
             )}
-
         </div>
     )
 }

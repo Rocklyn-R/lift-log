@@ -2,16 +2,18 @@ import React, { useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { selectEmail } from "../../../redux-store/UserSlice";
-import { updateUserPassword } from "../../../api/settings";
+import { sendConfirmationEmail, updateUserPassword } from "../../../api/settings";
 import { CustomPasswordInput } from "../../../components/CustomPasswordInput";
 import { CustomTextInput } from "../../../components/CustomTextInput";
 import { OverlayWindow } from "../../../components/OverlayWIndow";
 import { Button } from "../../../components/Button";
 import { Loading } from "../../../components/Loading";
+import { selectPendingEmail, setPendingEmail } from "../../../redux-store/SettingsSlice";
+import { useDispatch } from "react-redux";
 
 export const UserSettings = () => {
     const email = useSelector(selectEmail)
-    const [username, setUsername] = useState(email);
+    const [newEmail, setNewEmail] = useState("");
     const [password, setPassword] = useState('••••••••••••');
     const [showUsername, setShowUserName] = useState(false);
     const [showEditPassword, setShowEditPassword] = useState(false);
@@ -19,7 +21,10 @@ export const UserSettings = () => {
     const [oldPassword, setOldPassword] = useState("");
     const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
     const [statusMessage, setStatusMessage] = useState("");
+    const [emailStatusMessage, setEmailStatusMessage] = useState("")
     const [loadingPasswordUpdate, setLoadingPasswordUpdate] = useState(false);
+    const pendingEmail = useSelector(selectPendingEmail);
+    const dispatch = useDispatch();
 
     const handleUpdatePassword = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -31,7 +36,7 @@ export const UserSettings = () => {
             setStatusMessage('Password successfully changed!');
             setTimeout(() => {
                 setShowEditPassword(false);
-            }, 2000); 
+            }, 2000);
             setLoadingPasswordUpdate(false);
         } else if (passwordUpdated === 'Old password incorrect') {
             setPasswordErrorMessage('Current password incorrect!');
@@ -42,14 +47,26 @@ export const UserSettings = () => {
         }
     }
 
+    const handleUpdateEmail = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (email === newEmail) {
+            setEmailStatusMessage("New email must be different from current email");
+            return;
+        } 
+        dispatch(setPendingEmail(newEmail));
+        setShowUserName(false); 
+        const confirmationEmail = await sendConfirmationEmail(newEmail);
+        console.log(confirmationEmail);
+    }
+
     return (
         <div>
             <h2 className="text-lg font-bold mb-2 dark:text-lightestPurple">User Settings</h2>
             <label className="text-lightestPurple font-semibold">E-mail</label>
-            <div className="flex items-center justify-between text-darkestPurple w-full">
+            <div className="mb-2 flex items-center justify-between text-darkestPurple w-full">
 
                 <div className="flex w-full justify-between items-center">
-                    <span className="flex items-center rounded-md border-2 dark:border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 w-fit bg-white justify-center">{username}</span>
+                    <span className="flex items-center rounded-md border-2 dark:border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 w-fit bg-white justify-center">{email}</span>
                     <button onClick={() => setShowUserName(true)} className="mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 h-fit dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple"><MdOutlineEdit className="text-xl" /></button>
                 </div>
 
@@ -58,24 +75,38 @@ export const UserSettings = () => {
                         onClose={() => setShowUserName(false)}
                         headerText="Change Email"
                         className="dark:bg-darkestPurple w-full xs:w-3/4 sm:w-1/2 md:w-1/3 lg-w-1/4"
-                        className2="p-4 items-center dark:bg-darkestPurple space-y-4 flex justify-center items-center w-full"
+                        className2="p-4 space-y-2 items-center dark:bg-darkestPurple flex justify-center items-center w-full"
                     >
+                        <span className="dark:text-lightestPurple font-semibold">Your current email address:</span>
+                        <span className="flex items-center w-fit rounded-md border-2 dark:border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 bg-white">{email}</span>
                         <span className="dark:text-lightestPurple font-semibold">Please enter your new email address.</span>
                         <span className="dark:text-lightestPurple font-semibold">A confirmation email will be sent.</span>
-                        <CustomTextInput
-                            name="username"
-                            value={username}
-                            onChange={setUsername}
-                            placeholder="Enter your username"
-                            className="w-fit "
-                        />
-                        <div className="flex space-x-4">
-                            <Button onClick={() => setShowUserName(false)} type="button">Cancel</Button>
-                            <Button type="button">Save</Button>
-                        </div>
+                        <form onSubmit={handleUpdateEmail} className="flex space-y-4 flex-col justify-center items-center">
+                            <CustomTextInput
+                                name="username"
+                                value={newEmail}
+                                onChange={setNewEmail}
+                                placeholder="New Email"
+                                className="w-fit mb-2"
+                            />
+                            <div className="flex space-x-4">
+                                <Button className="mb-3" onClick={() => setShowUserName(false)} type="button">Cancel</Button>
+                                <Button className="mb-3" type="submit">Save</Button>
+                            </div>
+                        </form>
+
                     </OverlayWindow>
                 )}
             </div>
+            {pendingEmail && (
+                <>
+                    <label className="dark:text-lightestPurple font-semibold">Email Pending Confirmation</label>
+                    <div className="mt-2 mb-2">
+                        <span className=" opacity-75 flex items-center rounded-md border-2 dark:border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 w-fit bg-white justify-center">{pendingEmail}</span>
+                    </div>
+                </>
+            )}
+
             <label className="text-lightestPurple font-semibold">Password</label>
             <div className="flex items-center text-darkestPurple w-full">
                 <div className="flex w-full justify-between items-center">
@@ -96,33 +127,28 @@ export const UserSettings = () => {
                             <span className="dark:text-lightestPurple font-semibold">{statusMessage}</span>
                         ) : (
                             <>
-                            <form className="" onSubmit={handleUpdatePassword}>
-
-                                 <CustomPasswordInput
-                                    name="password 1"
-                                    value={oldPassword}
-                                    onChange={(e) => setOldPassword(e.target.value)}
-                                    placeholder="Current password"
-                                    required={true}
-                                />
-                                <CustomPasswordInput
-                                    name="password 2"
-                                    value={newPassword}
-                                    onChange={(e) => setNewPassword(e.target.value)}
-                                    placeholder="New password"
-                                    required={true}
-                                />
-                           
-                               
-
-                                <div className="flex space-x-4 mt-6">
-                                    <Button disabled={loadingPasswordUpdate} width="w-24" onClick={() => setShowEditPassword(false)} type="button">Cancel</Button>
-                                    <Button width="w-24" disabled={loadingPasswordUpdate} type="submit">{loadingPasswordUpdate ? <Loading size="w-6 h-6" /> : "Save"} </Button>
-                                </div>
+                                <form className="" onSubmit={handleUpdatePassword}>
+                                    <CustomPasswordInput
+                                        name="password 1"
+                                        value={oldPassword}
+                                        onChange={(e) => setOldPassword(e.target.value)}
+                                        placeholder="Current password"
+                                        required={true}
+                                    />
+                                    <CustomPasswordInput
+                                        name="password 2"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        placeholder="New password"
+                                        required={true}
+                                    />
+                                    <div className="flex space-x-4 mt-6">
+                                        <Button disabled={loadingPasswordUpdate} width="w-24" onClick={() => setShowEditPassword(false)} type="button">Cancel</Button>
+                                        <Button width="w-24" disabled={loadingPasswordUpdate} type="submit">{loadingPasswordUpdate ? <Loading size="w-6 h-6" /> : "Save"} </Button>
+                                    </div>
                                 </form>
                             </>
                         )}
-
                     </OverlayWindow>
                 )}
 

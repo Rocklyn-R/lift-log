@@ -41,7 +41,7 @@ export const ExerciseCategories: React.FC<ExerciseCategoriesProps> = ({ source, 
     }
 
     return (
-        <div className="flex items-center my-4 w-full justify-center">
+        <div className="flex items-center my-2 w-full justify-center">
             <div className={`${source === "library" ? "md:w-1/2" : "md:w-2/3"} flex flex-col items-center justify-around rounded-md md:w-1/3 sm:w-2/3 xs:w-3/4 w-full space-y-2`}>
                 {loading ? <div className="mt-10"><Loading /></div> : (
                     categories.map((category, index) => (

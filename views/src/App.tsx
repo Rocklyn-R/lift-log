@@ -19,6 +19,7 @@ import { ForgotPassword } from './features/Authentication/ForgotPassword/ForgotP
 import { ResetPassword } from './features/Authentication/ResetPassword/ResetPassword';
 import { selectTheme } from './redux-store/SettingsSlice';
 import { useEffect } from 'react';
+import { ConfirmEmail } from './features/Authentication/ConfirmEmail/ConfirmEmail';
 
 function App() {
   useUserFetch();
@@ -80,6 +81,9 @@ function App() {
 
               </>
             )}
+            <>
+              <Route path="/confirm-email/:token" element={<ConfirmEmail />} />
+            </>
             {isAuthenticated && (
               <>
                 <Route path="/logs" element={<LogsPage />} />

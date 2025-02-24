@@ -1,4 +1,4 @@
-import { createSettings, getSettings, setTheme, setUnitSystem } from '../controllers/settings';
+import { confirmEmailChange, createSettings, getSettings, setPendingEmail, setTheme, setUnitSystem } from '../controllers/settings';
 import express from 'express';
 import { changeUserPassword } from '../controllers/users';
 
@@ -13,5 +13,11 @@ settingsRouter.put('/unit-system', setUnitSystem);
 settingsRouter.put('/change-password', changeUserPassword);
 
 settingsRouter.put('/theme', setTheme);
+
+settingsRouter.put('/email-pending', setPendingEmail);
+
+settingsRouter.get('/validate-email-token');
+
+settingsRouter.put('/confirm-email', confirmEmailChange);
 
 export default settingsRouter;
