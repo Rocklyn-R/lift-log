@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectHours, playTimer, pauseTimer, resetTimer, tick, selectMinutes, selectSeconds, selectSecondsLeft, selectTimerRunning } from "../../../redux-store/TimeSlice";
 import { playPauseTimer } from "../../../api/timers";
 import { Button } from "../../../components/Button";
+import { selectTheme } from "../../../redux-store/SettingsSlice";
 
 let intervalId: any = null;
 
@@ -22,6 +23,8 @@ export const Timer = () => {
     );
     const secondsLeft = useSelector(selectSecondsLeft);
     const dispatch = useDispatch();
+    const theme = useSelector(selectTheme);
+    const dark = theme === "Dark";
 
   /*  useEffect(() => {
         // Save the remaining time to localStorage when the tab is about to unload
@@ -124,7 +127,7 @@ export const Timer = () => {
                 <div className="flex items-start z-20 relative">
                     {/* Wrapper div for background color */}
                     <div
-                        className="absolute inset-0 rounded-full border-2 border-mediumPurple bg-[#BDBCDC] " // background color inside circle
+                        className="absolute inset-0 rounded-full border-2 dark:border-mediumPurple bg-[#BDBCDC] dark:bg-[#BDBCDC] " // background color inside circle
                     ></div>
                     <div className="flex items-start z-20 border-2 border-mediumPurple rounded-full font-robotoMono font-bold">
                         <CircularProgressbar
@@ -132,8 +135,8 @@ export const Timer = () => {
                             text={formatTime()}
                             styles={buildStyles({
                                 textColor: "#282b54",
-                                pathColor: "#282b54",
-                                trailColor: "#ddddf7",
+                                pathColor: dark ? "#282b54" : "#07043d",
+                                trailColor: dark ? "#ddddf7" : "#fffcff",
                                 textSize: "16px",
                                 //strokeLinecap: '#DDDAF3'
                             })}
@@ -146,7 +149,7 @@ export const Timer = () => {
                             setShowEditTimer(true)
                             pauseTimer();
                         }}
-                        className="dark:bg-darkPurple dark:border-2 dark:border-lightestPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple text-4xl text-darkestPurple dark:text-lightestPurple absolute right-5 sm:right-1/6 md:right-1/4 top-8 md:top-10 hover:bg-lightPurple hover:shadow-lg p-2 rounded-full"
+                        className="dark:bg-darkPurple dark:border-2 dark:border-mediumPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple text-4xl text-lightestPurple bg-darkestPurple border-mediumPurple dark:text-lightestPurple absolute right-5 sm:right-1/6 md:right-1/4 top-8 md:top-10 hover:bg-darkPurple hover:shadow-lg p-2 rounded-full"
                     >
                         <LuTimer className="" />
                     </button>

@@ -40,10 +40,10 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exercise }) => {
         {...attributes}
         {...listeners}
         style={style}
-        className="dark:bg-darkPurple bg-gray-100 rounded-md shadow-xl hover:cursor-pointer bo box-border border-2 dark:border-mediumPurple border-lightPurple w-full">
+        className="dark:bg-darkPurple bg-whitestPurple rounded-md shadow-xl hover:cursor-pointer bo box-border border-2 dark:border-mediumPurple border-mediumPurple w-full">
             {exercise.sets.length > 0 && (
                 <>
-                    <h3 className="p-2 border-b-2 border-lightPurple font-semibold text-lg">{exercise.exercise_name}</h3>
+                    <h3 className="p-2 border-b-2 dark:border-mediumPurple border-mediumPurple font-semibold text-lg">{exercise.exercise_name}</h3>
                     <div className="p-3 w-full">
                         {exercise.sets.map((set, index) => (
                             <div key={index} className="p-2 grid grid-cols-[0.5fr_1fr_1fr] text-center items-center w-full">

@@ -48,7 +48,7 @@ export const ExerciseCategories: React.FC<ExerciseCategoriesProps> = ({ source, 
                         <button
                             onClick={() => handleGetExercises(category)}
                             key={index}
-                            className="dark:hover:bg-lightestPurple dark:hover:text-darkestPurple dark:text-lightestPurple font-semibold dark:bg-darkPurple bg-gray-100 border-2 dark:border-mediumPurple border-darkPurple text-darkestPurple rounded-md hover:text-xl hover:font-semibold  hover:bg-lightPurple text-lg p-2 w-full"
+                            className="dark:hover:bg-lightestPurple dark:hover:text-darkestPurple dark:text-lightestPurple font-semibold dark:bg-darkPurple bg-whitestPurple border-2 dark:border-mediumPurple border-mediumPurple text-darkestPurple rounded-md hover:text-xl hover:font-semibold  hover:bg-lightPurple text-lg p-2 w-full"
                         >{category.name}
                         </button>
                     ))

@@ -122,8 +122,8 @@ export const EditTimer: React.FC<EditTimerProps> = ({ setShowEditTimer, play }) 
                 type="button"
                 disabled={isButtonDisabled}  // Disable button if all are 0
                 onClick={() => handleSetTimer()}
-                className={`border-2 font-semibold hover:shadow-lg transition py-2 px-4 w-fit rounded-lg bg-darkestPurple text-lightestPurple
-          ${isButtonDisabled ? 'bg-opacity-50 hover:shadow-none cursor-not-allowed' : 'hover:bg-darkPurple'}`}
+                className={`border-2 font-semibold transition py-2 px-4 w-fit rounded-lg bg-darkestPurple text-lightestPurple
+         cursor-not-allowed' : 'hover:bg-darkPurple'}`}
             >
                 Start
             </Button>

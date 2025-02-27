@@ -32,14 +32,14 @@ export const TimeTools = () => {
                     </div>
                     <div className="flex justify-center mt-4 space-x-4">
                         <button
-                            className={`px-4 py-2 text-lg rounded-lg ${activeTab === "Timer" ? "dark:border-2 dark:bg-lightestPurple dark:text-darkestPurple bg-darkestPurple text-lightestPurple shadow-md" : "dark:border-2 dark:border-lightestPurple dark:bg-darkPurple dark:text-lightestPurple bg-lightPurple text-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple"
+                            className={`px-4 py-2 text-lg rounded-lg ${activeTab === "Timer" ? "dark:border-2 dark:bg-lightestPurple dark:text-darkestPurple bg-darkestPurple text-lightestPurple shadow-md border-2 border-transparent" : "dark:border-2 dark:border-mediumPurple dark:text-lightestPurple dark:bg-darkPurple text-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple bg-whitestPurple border-2 hover:bg-lightPurple border-mediumPurple"
                                 } font-semibold hover:shadow-lg transition`}
                             onClick={() => setActiveTab("Timer")}
                         >
                             Timer
                         </button>
                         <button
-                            className={`px-4 py-2 text-lg rounded-lg ${activeTab === "Stopwatch" ? "dark:border-2 dark:bg-lightestPurple dark:text-darkestPurple bg-darkestPurple text-lightestPurple shadow-md" : "dark:border-2 dark:border-lightestPurple dark:bg-darkPurple dark:text-lightestPurple bg-lightPurple text-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple"
+                            className={`px-4 py-2 text-lg rounded-lg ${activeTab === "Stopwatch" ? "dark:border-2 dark:bg-lightestPurple dark:text-darkestPurple bg-darkestPurple text-lightestPurple shadow-md border-2 border-transparent" : "dark:border-2 dark:border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple bg-whitestPurple text-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple border-2 hover:bg-lightPurple border-mediumPurple"
                                 } font-semibold hover:shadow-lg transition`}
                             onClick={() => setActiveTab("Stopwatch")}
                         >

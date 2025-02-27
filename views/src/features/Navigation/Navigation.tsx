@@ -67,7 +67,7 @@ export const Navigation: React.FC<NavigationProps> = ({isOpen, setIsOpen}) => {
           <li>
             <Link
               to="/logs"
-              className={`${selectedTab === 'Logs' ? ' bg-darkPurple border-y-2 border-mediumPurple' : 'border-transparent dark:hover:bg-lightestPurple dark:hover:text-darkestPurple'} block py-4 px-4 hover:bg-darkPurple border-y-2 border-transparent`}
+              className={`${selectedTab === 'Logs' ? ' bg-darkPurple border-y-2 dark:border-mediumPurple border-transparent' : 'border-transparent dark:hover:bg-lightestPurple dark:hover:text-darkestPurple'} block py-4 px-4 hover:bg-darkPurple border-y-2`}
               onClick={() => {
                 setSelectedTab('Logs');
                 setIsOpen(false);
@@ -79,7 +79,7 @@ export const Navigation: React.FC<NavigationProps> = ({isOpen, setIsOpen}) => {
           <li>
             <Link
               to="/exercise-library"
-              className={`${selectedTab === 'Exercises' ? 'bg-darkPurple border-y-2 border-mediumPurple' : 'border-transparent dark:hover:bg-lightestPurple dark:hover:text-darkestPurple'} block py-4 px-4 dark:hover:border-y-2 border-y-2 hover:bg-darkPurple`}
+              className={`${selectedTab === 'Exercises' ? 'bg-darkPurple border-y-2 dark:border-mediumPurple border-transparent' : 'border-transparent dark:hover:bg-lightestPurple dark:hover:text-darkestPurple'} block py-4 px-4 dark:hover:border-y-2 border-y-2 hover:bg-darkPurple`}
               onClick={() => {
                 setSelectedTab('Exercises')
                 dispatch(setSelectedDate(getTodayDate()))
@@ -92,7 +92,7 @@ export const Navigation: React.FC<NavigationProps> = ({isOpen, setIsOpen}) => {
           <li>
             <Link
               to="/time"
-              className={`${selectedTab === 'Time' ? 'bg-darkPurple border-y-2 border-mediumPurple' : 'border-transparent dark:hover:bg-lightestPurple dark:hover:text-darkestPurple'} block py-4 px-4 dark:hover:border-y-2 border-y-2 hover:bg-darkPurple`}
+              className={`${selectedTab === 'Time' ? 'bg-darkPurple border-y-2 dark:border-mediumPurple border-transparent' : 'border-transparent dark:hover:bg-lightestPurple dark:hover:text-darkestPurple'} block py-4 px-4 dark:hover:border-y-2 border-y-2 hover:bg-darkPurple`}
               onClick={() => {
                 setSelectedTab('Time')
                 dispatch(setSelectedDate(getTodayDate()));
@@ -105,7 +105,7 @@ export const Navigation: React.FC<NavigationProps> = ({isOpen, setIsOpen}) => {
           <li>
             <Link
               to="/settings"
-              className={`${selectedTab === 'Settings' ? 'bg-darkPurple border-y-2 border-mediumPurple' : 'border-transparent dark:hover:bg-lightestPurple dark:hover:text-darkestPurple'} block py-4 px-4 dark:hover:border-y-2 border-y-2 hover:bg-darkPurple`}
+              className={`${selectedTab === 'Settings' ? 'bg-darkPurple border-y-2 dark:border-mediumPurple border-transparent' : 'border-transparent dark:hover:bg-lightestPurple dark:hover:text-darkestPurple'} block py-4 px-4 dark:hover:border-y-2 border-y-2 hover:bg-darkPurple`}
               onClick={() => {
                 setSelectedTab('Settings');
                 dispatch(setSelectedDate(getTodayDate()));

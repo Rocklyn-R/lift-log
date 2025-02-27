@@ -62,12 +62,12 @@ export const UserSettings = () => {
     return (
         <div>
             <h2 className="text-lg font-bold mb-2 dark:text-lightestPurple">User Settings</h2>
-            <label className="text-lightestPurple font-semibold">E-mail</label>
+            <label className="dark:text-lightestPurple font-semibold">E-mail</label>
             <div className="mb-2 flex items-center justify-between text-darkestPurple w-full">
 
                 <div className="flex w-full justify-between items-center">
-                    <span className="flex items-center rounded-md border-2 dark:border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 w-fit bg-white justify-center">{email}</span>
-                    <button onClick={() => setShowUserName(true)} className="mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 h-fit dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple"><MdOutlineEdit className="text-xl" /></button>
+                    <span className="flex items-center rounded-md border-2 border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 w-fit bg-white justify-center">{email}</span>
+                    <button onClick={() => setShowUserName(true)} className="mt-2 dark:border-mediumPurple flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 h-fit dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple bg-darkestPurple border-transparent hover:bg-darkPurple text-lightestPurple"><MdOutlineEdit className="text-xl" /></button>
                 </div>
 
                 {showUsername && (
@@ -78,7 +78,7 @@ export const UserSettings = () => {
                         className2="p-4 space-y-2 items-center dark:bg-darkestPurple flex justify-center items-center w-full"
                     >
                         <span className="dark:text-lightestPurple font-semibold">Your current email address:</span>
-                        <span className="flex items-center w-fit rounded-md border-2 dark:border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 bg-white">{email}</span>
+                        <span className="flex items-center w-fit rounded-md border-2 border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 bg-white">{email}</span>
                         <span className="dark:text-lightestPurple font-semibold">Please enter your new email address.</span>
                         <span className="dark:text-lightestPurple font-semibold">A confirmation email will be sent.</span>
                         <form onSubmit={handleUpdateEmail} className="flex space-y-4 flex-col justify-center items-center">
@@ -100,21 +100,21 @@ export const UserSettings = () => {
             </div>
             {pendingEmail && (
                 <>
-                    <label className="dark:text-lightestPurple font-semibold">Email Pending Confirmation</label>
+                    <label className="dark:text-lightestPurple text-darkestPurple font-semibold">Email Pending Confirmation</label>
                     <div className="mt-2 mb-2">
-                        <span className=" opacity-75 flex items-center rounded-md border-2 dark:border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 w-fit bg-white justify-center">{pendingEmail}</span>
+                        <span className="opacity-75 bg-lightestPurple flex items-center rounded-md border-2 border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 w-fit justify-center">{pendingEmail}</span>
                     </div>
                 </>
             )}
 
-            <label className="text-lightestPurple font-semibold">Password</label>
+            <label className="dark:text-lightestPurple font-semibold">Password</label>
             <div className="flex items-center text-darkestPurple w-full">
                 <div className="flex w-full justify-between items-center">
-                    <span className="flex items-center justify-center rounded-md border-2 dark:border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 w-fit bg-white">{password}</span>
+                    <span className="flex items-center justify-center rounded-md border-2 border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 w-fit bg-white">{password}</span>
                     <button onClick={() => {
                         setStatusMessage("")
                         setShowEditPassword(true)
-                    }} className="mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><MdOutlineEdit className="text-xl" /></button>
+                    }} className="mt-2 flex dark:border-mediumPurple items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit bg-darkestPurple border-transparent hover:bg-darkPurple text-lightestPurple"><MdOutlineEdit className="text-xl" /></button>
                 </div>
                 {showEditPassword && (
                     <OverlayWindow

@@ -44,7 +44,7 @@ function App() {
       }, [theme]);
   
 
-  if (isLoading) {
+  if (isLoading && !isAuthenticated) {
     return (
       <div className="flex flex-col items-center justify-center h-screen dark:bg-darkestPurple bg-lightestPurple">
         <Loading />

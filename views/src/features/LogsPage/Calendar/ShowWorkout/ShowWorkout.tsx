@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { OverlayWindow } from "../../../../components/OverlayWIndow"
-import { selectDateToView, selectWorkoutOnDate, setDateToView, setSelectedDate, setWorkoutOnDate } from "../../../../redux-store/LogsSlice";
+import { selectDateToView, selectWorkoutOnDate, setDateToView, setSelectedDate, setWorkoutOnDate, setWorkout, setLogsLoading } from "../../../../redux-store/LogsSlice";
 import { formatDateForHistory, formatNumber } from "../../../../utilities/utilities";
 import { FaTrophy } from "react-icons/fa6";
 import { Button } from "../../../../components/Button";
@@ -40,6 +40,8 @@ export const ShowWorkout: React.FC<ShowWorkoutProps> = ({ setShowViewDay, setSho
     }
 
     const handleGoToDay = () => {
+        dispatch(setWorkout([]))
+        dispatch(setLogsLoading(true));
         dispatch(setSelectedDate(dateToView));
         handleCloseShowWorkout();
     }
@@ -49,7 +51,7 @@ export const ShowWorkout: React.FC<ShowWorkoutProps> = ({ setShowViewDay, setSho
             onClose={() => handleCloseShowWorkout()}
             headerText={formattedDate}
             className="font-semibold dark:bg-darkestPurple dark:text-lightestPurple phones:w-full xs:w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3 relative"
-            className2={` ${workoutOnDate.length === 0 ? "items-center justify-between" : "min-h-[45vh] max-h-[65vh] flex flex-col justify-between"}`}
+            className2={` ${workoutOnDate.length === 0 ? "items-center justify-between min-h-[45vh]" : "min-h-[45vh] max-h-[65vh] flex flex-col justify-between"}`}
         >
             <button
                 onClick={() => handleNavigateBack()}

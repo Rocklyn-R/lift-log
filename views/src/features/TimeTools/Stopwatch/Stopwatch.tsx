@@ -92,10 +92,9 @@ export const Stopwatch = () => {
                 <div className="flex flex-col items-center w-full">
                     {/* Timer */}
                     <div className="mt-4 dark:text-lightestPurple h-[19rem] justify-center flex items-center md:text-7xl sm:text-6xl text-5xl font-bold p-2 font-robotoMono">
-                        <div className="border-2 rounded-full p-8 dark:bg-darkPurple">
+                        <div className="border-2 dark:border-whitestPurple border-transparent bg-lightestPurple rounded-full p-8 dark:bg-darkPurple">
                             {formatTime()}
                         </div>
-                        
                     </div>
                     {/* Buttons */}
                     <div className="lg:w-1/2 md:w-2/3 w-full flex justify-evenly px-4">
@@ -111,9 +110,6 @@ export const Stopwatch = () => {
                             Start
                         </Button>  
                         ) : <Button width="w-24" type="button" onClick={start}>Resume</Button>)}
-                       
-                    
-                      
                     </div>
                 </div>
             </div>

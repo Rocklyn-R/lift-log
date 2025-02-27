@@ -41,9 +41,9 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
     return (
         <div ref={selectRef} className={`relative ${className} mt-2`}>
             <div
-                className={`${isOpen ? "ring-2 ring-darkPurple border-2  border-lightestPurple rounded-t-md" : "rounded-md border-2 dark:border-lightestPurple border-gray-300"} ${
+                className={`${isOpen ? " border-2 border-mediumPurple dark:border-mediumPurple rounded-t-md" : "rounded-md border-2 dark:border-mediumPurple border-mediumPurple"} ${
                     value ? "dark:text-lightestPurple text-darkestPurple" : "text-gray-400"
-                } dark:bg-darkPurple min-h-12 p-3 w-full  bg-white cursor-pointer`}
+                } font-semibold dark:bg-darkPurple min-h-12 p-3 w-full  bg-white cursor-pointer`}
                 onClick={() => setIsOpen(!isOpen)}
             >
                 {value || placeholder}
@@ -67,12 +67,12 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                 </span>
             </div>
             {isOpen && (
-                <div className="text-darkestPurple absolute z-10 -mt-1 w-full dark:bg-darkPurple dark:text-lightestPurple bg-white border-b-2 border-x-2 border-gray-300 rounded-b-md shadow-lg max-h-[25vh] overflow-y-auto">
+                <div className="text-darkestPurple absolute z-10 -mt-1 w-full dark:bg-darkPurple dark:text-lightestPurple bg-white border-b-2 border-x-2 border-mediumPurple rounded-b-md shadow-lg max-h-[25vh] overflow-y-auto">
                     {options.map((option) => (
                         <div
                             key={option.id}
                             onClick={() => handleSelect(option.name)}
-                            className="p-3 dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:bg-gray-100 cursor-pointer"
+                            className="p-3 font-semibold dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:bg-lightPurple cursor-pointer"
                         >
                             {option.name}
                         </div>

@@ -20,7 +20,8 @@ module.exports = {
         lightestPurple: '#ddddf7',
         mediumPurple: '#52517a',
         whitePurple: '#DDDAF3',
-        darkest: '#0c0121'
+        whitestPurple: '#fffcff',
+        darkest: '#0c0121',
       },
       screens: {
         'phones': {'min': '0px', max: '449px'},
