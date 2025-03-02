@@ -118,7 +118,7 @@ export const findPRsOnInsert = (historyArray: Workout[], newSet: SetData) => {
   if (historyArray.length === 0) {
     return { newPR: true, removePRsSetIds: [] };
   }
-  const history = historyArray[0]
+  //const history = historyArray[0]
   // Find the highest weight (ignoring sets where reps = 0)
   const highestWeight = historyArray.reduce((maxWeight, history) => {
     return history.sets.reduce((max, set) => {
@@ -159,14 +159,23 @@ export const findPRsOnInsert = (historyArray: Workout[], newSet: SetData) => {
   }
 
   const existingPRsAtSameWeightAndReps = historyArray
-    .flatMap(history => history.sets) // Flatten all sets across historyArray
-    .filter(set => set.pr === true && Number(set.weight) === newSet.weight && set.reps === newSet.reps);
+  .flatMap(history => 
+      history.sets.map(set => ({
+          ...set,  // Spread existing set data
+          date: history.date  // Include the history object's date
+      }))
+  )
+  .filter(set => set.pr === true && Number(set.weight) === newSet.weight && set.reps === newSet.reps);
+
 
   if (existingPRsAtSameWeightAndReps.length > 0) {
-    console.log(existingPRsAtSameWeightAndReps);
-    const historyDate = new Date(history.date);
+
+
+    const historyDate = new Date(existingPRsAtSameWeightAndReps[0].date);
     const newSetDate = new Date(newSet.date);
     if (historyDate > newSetDate) {
+      console.log(historyDate)
+      console.log(newSetDate)
       console.log("THIS")
       newPR = true;
       removePRsSetIds.push(existingPRsAtSameWeightAndReps[0].set_id)
@@ -201,7 +210,11 @@ export const findPRsOnCopy = (workoutToCopy: Workout[], selectedDate: string): s
 }
 
 export const findPRsOnDelete = (historyArray: Workout[], deletedSetId: string) => {
-  const allSets = historyArray.flatMap(workout => workout.sets);
+   // Sort historyArray by date in ascending order (oldest to newest)
+   const sortedHistory = [...historyArray].sort((a, b) => 
+   new Date(a.date).getTime() - new Date(b.date).getTime()
+ );
+  const allSets = sortedHistory.flatMap(workout => workout.sets);
   // Filter sets that should be marked as PR
   const setsToMarkAsPR = allSets.filter(set => {
     return (

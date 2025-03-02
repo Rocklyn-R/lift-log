@@ -50,7 +50,7 @@ export const Settings = () => {
                 <div className=" md:text-base text-xs w-full flex justify-center h-full">
                     <div className=" dark:bg-darkestPurple rounded-none sm:rounded-md border-mediumPurple bg-lightestPurple lg:w-1/3 md:w-2/3 sm:w-3/4 w-full h-fit p-4">
                         {/* Theme Settings */}
-                        <div className="relative dark:bg-darkestPurple mb-6 flex flex-col items-start w-full rounded-none border-y-2 sm:border-2 border-mediumPurple sm:rounded-md p-2 sm:p-4 bg-lightestPurple">
+                        <div className="relative dark:bg-darkestPurple mb-4 flex flex-col items-start w-full rounded-none border-y-2 sm:border-2 border-mediumPurple sm:rounded-md p-2 sm:p-4 bg-lightestPurple">
 
                             <h2 className="text-lg font-bold dark:text-lightestPurple">Theme</h2>
 
@@ -84,7 +84,7 @@ export const Settings = () => {
                             </div>
                         </div>
                         {/* Unit System Settings */}
-                        <div className="mb-6 sm:border-2 border-y-2 border-mediumPurple bg-lightestPurple sm:p-4 p-2 rounded-none sm:rounded-md dark:bg-darkestPurple">
+                        <div className="mb-4 sm:border-2 border-y-2 border-mediumPurple bg-lightestPurple sm:p-4 p-2 rounded-none sm:rounded-md dark:bg-darkestPurple">
                             <h2 className="text-lg font-bold mb-2 dark:text-lightestPurple">Unit System</h2>
                             <div className="flex items-center w-full justify-between text-darkestPurple space-x-4">
                                 {showUnitSystem ? (
@@ -113,14 +113,11 @@ export const Settings = () => {
 
                             </div>
                         </div>
-
                         {/* User Settings */}
-                        <div className="mb-6 sm:border-2 border-y-2 border-mediumPurple p-2 sm:p-4 rounded-none sm:rounded-md dark:bg-darkestPurple bg-lightestPurple">
+                        <div className="mb-4 sm:border-2 border-y-2 border-mediumPurple p-2 sm:p-4 rounded-none sm:rounded-md dark:bg-darkestPurple bg-lightestPurple">
 
                             <UserSettings />
                         </div>
-
-
                     </div>
                 </div>
             )}

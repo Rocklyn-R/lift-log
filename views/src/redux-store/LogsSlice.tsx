@@ -198,22 +198,34 @@ export const LogsSlice = createSlice({
                     pr: PR,
                     weight_lbs: weight_lbs
                 })
-            } else {
-                state.exerciseHistory.unshift({
-                    exercise_id: exercise_id,
-                    date: date,
-                    exercise_name: exercise_name,
-                    exercise_order: exercise_order,
-                    sets: [{
-                        weight: weight,
-                        reps: reps,
-                        set_number: set_number,
-                        set_id: id,
-                        pr: PR,
-                        weight_lbs: weight_lbs
-                    }]
-                })
-            }
+             } else {
+                    const newEntry = {
+                        exercise_id: exercise_id,
+                        date: date,
+                        exercise_name: exercise_name,
+                        exercise_order: exercise_order,
+                        sets: [{
+                            weight: weight,
+                            reps: reps,
+                            set_number: set_number,
+                            set_id: id,
+                            pr: PR,
+                            weight_lbs: weight_lbs
+                        }]
+                    };
+                
+                    // Find the correct insertion index to maintain order (most recent to least recent)
+                    const insertIndex = state.exerciseHistory.findIndex(workout => new Date(workout.date) < new Date(date));
+                
+                    if (insertIndex === -1) {
+                        // If no smaller date is found, the new entry is the oldest, so push to the end
+                        state.exerciseHistory.push(newEntry);
+                    } else {
+                        // Insert at the correct position to keep the array sorted
+                        state.exerciseHistory.splice(insertIndex, 0, newEntry);
+                    }
+                }
+                
         },
         updateHistoryOnDelete: (state, action) => {
             const { set_id, PRData, date, set_number } = action.payload;
@@ -239,10 +251,11 @@ export const LogsSlice = createSlice({
                 }
               
                 if (PRData.length > 0) {
-                    state.exerciseHistory[foundIndex].sets.forEach(set => {
+                    state.exerciseHistory.forEach(historyItem => {
+                        historyItem.sets.forEach(set => {
                         if (PRData.includes(set.set_id)) {
                             set.pr = true;
-                        }
+                        }})
                     })
                 }
             }
@@ -268,12 +281,16 @@ export const LogsSlice = createSlice({
                     });
                 }
                 if (PRsToRemove.length > 0) {
-                    state.exerciseHistory[foundIndex].sets.forEach(set => {
-                        if (PRsToRemove.includes(set.set_id)) {
-                            set.pr = false;
-                        }
+                    state.exerciseHistory.forEach(historyItem => {
+                        historyItem.sets.forEach(set => {
+                            if (PRsToRemove.includes(set.set_id)) { // Added missing closing parenthesis
+                                set.pr = false;
+                            }
+                        });
                     });
                 }
+                
+               
             }
         }
     }

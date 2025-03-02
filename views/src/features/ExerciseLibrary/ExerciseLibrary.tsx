@@ -46,7 +46,7 @@ export const ExerciseLibrary = () => {
                     <Loading />
                 </div>
             ) : (
-                <div className={` flex-grow overflow-y-auto p-4`}>
+                <div className={` flex-grow overflow-y-auto p-2`}>
 
                     {categoryId ? (
                         <Exercises

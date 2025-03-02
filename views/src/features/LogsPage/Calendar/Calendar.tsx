@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getAllDates } from "../../../api/logs";
 import { Loading } from "../../../components/Loading";
 import { OverlayWindow } from "../../../components/OverlayWIndow";
-import { setDateToView } from "../../../redux-store/LogsSlice";
+import { selectSelectedDate, setDateToView } from "../../../redux-store/LogsSlice";
 import { getDaysInMonth, getYearMonth } from "../../../utilities/utilities";
 
 interface CalendarProps {
@@ -19,6 +20,8 @@ export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action, set
     const [highlightedDates, setHighlightedDates] = useState<string[]>([]);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
+    const selectedDate = useSelector(selectSelectedDate);
+
 
     useEffect(() => {
         setLoading(true);
@@ -107,6 +110,11 @@ export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action, set
                                 key={index}
                                 className={`font-semibold flex justify-center items-center w-9 h-9 sm:w-10 sm:h-10 ${dayIndex > 0 && dayIndex <= totalDays ? "cursor-pointer" : "text-transparent"
                                     } p-2 rounded-full transition ${highlightedDates.includes(dayString) ? "border-2 rounded-full dark:hover:bg-lightestPurple dark:bg-darkPurple dark:hover:text-darkestPurple dark:border-mediumPurple hover:bg-lightPurple border-mediumPurple" : ""
+                                    }
+                                    ${
+                                        selectedDate === dayString 
+                                            ? "dark:bg-lightestPurple bg-darkestPurple dark:text-darkestPurple text-lightestPurple" 
+                                            : ""
                                     }`}
                             >
                                 {dayIndex > 0 && dayIndex <= totalDays ? dayIndex : ""}

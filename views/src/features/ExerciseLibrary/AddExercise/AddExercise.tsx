@@ -6,6 +6,7 @@ import { addExercise, selectCategories } from "../../../redux-store/LibrarySlice
 import { Button } from "../../../components/Button";
 import { createNewExercise } from "../../../api/exercises";
 import { useDispatch } from "react-redux";
+import { CustomTextInput } from "../../../components/CustomTextInput";
 
 interface AddExerciseProps {
     setShowAddExercise: (arg0: boolean) => void;
@@ -97,16 +98,12 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
                 <form onSubmit={handleCreateExercise} className="h-full flex flex-col justify-evenly">
                     <div className="mb-6 relative">
                         <label className="dark:text-lightestPurple font-semibold" htmlFor="name">Name</label>
-                        <input
+                        <CustomTextInput
                             value={name}
-                            type="text"
-                            id="name"
                             name="name"
-                            className="dark:bg-darkPurple dark:text-lightestPurple mt-2 p-3 w-full border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
+                            className="dark:bg-darkPurple dark:text-lightestPurple mt-2 p-3 w-full border-2 border-mediumPurple rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
                             placeholder="Name"
-                            onChange={(e) => {
-                                setName(e.target.value)
-                            }}
+                            onChange={setName}
                         />
                         {!name && <span className="absolute -bottom-5 right-0 px-2 text-sm rounded-md">{nameError}</span>}
                     </div>

@@ -62,6 +62,9 @@ export const ViewLog = () => {
                     return result;
                 }, []);
 
+                  // Sort by date in descending order (most recent first)
+            organizedExercises.sort((a: Workout, b: Workout) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
                 // Dispatch the organized history to Redux
                 dispatch(setExerciseHistory(organizedExercises));
             }
