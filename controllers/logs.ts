@@ -1,5 +1,5 @@
 import e, { Request, Response } from 'express';
-import { allSetsDelete, datesGetAll, historyGet, logEdit, logGet, orderChange, prsGet, setDelete, setNumberUpdate, toLogAdd } from '../models/logs';
+import { allSetsDelete, datesGetAll, historyGet, logEdit, logGet, orderChange, prsGet, prUpdate, setDelete, setNumberUpdate, toLogAdd } from '../models/logs';
 
 interface User {
     id: number
@@ -7,12 +7,12 @@ interface User {
 
 
 export const addToLog = async (req: Request, res: Response) => {
-   const { date, exercise_id, set_number, weight, reps, exercise_order } = req.body;
-   
+   const { id, date, exercise_id, set_number, weight, weight_lbs, reps, exercise_order, PR } = req.body;
+   console.log(req.body);
    const user_id = (req.user as User).id;
    
     try {
-        const result = await toLogAdd(date, user_id, exercise_id, set_number, weight, reps, exercise_order);
+        const result = await toLogAdd(id, date, user_id, exercise_id, set_number, weight, weight_lbs, reps, exercise_order, PR);
         console.log(result);
         if (result) {
             res.status(201).json({ set: result})
@@ -143,3 +143,17 @@ export const deleteAllSets = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal Server Error' })
     }
 }
+
+export const updatePr = async (req: Request, res: Response) => {
+    const set_id = req.body.set_id;
+    const pr = req.body.pr;
+    try {
+        const result = await prUpdate(pr, set_id);
+        if (result) {
+            res.status(201).json({ message: "PR updated" })
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' })
+    }
+}
+

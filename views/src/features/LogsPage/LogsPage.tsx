@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { selectLogsLoading, selectSelectedDate, setSelectedDate } from "../../redux-store/LogsSlice";
+import { selectLogsLoading, selectSelectedDate, selectWorkout, setSelectedDate } from "../../redux-store/LogsSlice";
 import { adjustDate, formatDate } from "../../utilities/utilities";
 import { useDispatch } from "react-redux";
 import { FaAngleLeft, FaAngleRight, FaPlus } from "react-icons/fa6";
@@ -33,6 +33,7 @@ export const LogsPage = () => {
     const [showViewDay, setShowViewDay] = useState(false);
     const [showCopyDay, setShowCopyDay] = useState(false);
     const dateStringLong = formatDate(selectedDate).length > 10;
+    const workout = useSelector(selectWorkout);
 
     return (
         <div className="w-full xl:pl-0 pl-16 relative flex justify-center min-h-screen">
@@ -40,18 +41,16 @@ export const LogsPage = () => {
                 <div className=" sticky top-0 w-full  bg-darkestPurple flex justify-center ">
                     <button
                         onClick={() => handleAdjustDate('back')}
-                        className={` ${dateStringLong ? "xs:top-5 top-5" : "top-2"} p-3 flex justify-center absolute left-12 xs:left-24 sm:left-44 md:left-52 lg:left-72 md:top-3 text-lightestPurple text-2xl`}
+                        className={` ${dateStringLong ? "xs:top-5 top-5" : "top-2"} z-50 p-3 flex justify-center absolute left-12 xs:left-24 sm:left-44 md:left-52 lg:left-72 md:top-3 text-lightestPurple text-2xl`}
                     >
                         <FaAngleLeft />
                     </button>
 
                     <Header text={formatDate(selectedDate)} />
 
-
-
                     <button
                         onClick={() => handleAdjustDate('forward')}
-                        className={`${dateStringLong ? "xs:top-5 top-5" : "top-2"} absolute p-3 right-12 xs:right-24 sm:right-44 md:right-52 lg:right-72 md:top-3 text-lightestPurple text-2xl`}
+                        className={`${dateStringLong ? "xs:top-5 top-5" : "top-2"} z-50 absolute p-3 right-12 xs:right-24 sm:right-44 md:right-52 lg:right-72 md:top-3 text-lightestPurple text-2xl`}
                     >
                         <FaAngleRight />
                     </button>
@@ -63,14 +62,11 @@ export const LogsPage = () => {
                         </div>
                     ) : (
                         <>
-
-                            <Log
+                               <Log
                                 setShowEditExercise={setShowEditExercise}
-                            />
+                            /> 
                         </>
                     )}
-
-
 
                     <div>
                         <button

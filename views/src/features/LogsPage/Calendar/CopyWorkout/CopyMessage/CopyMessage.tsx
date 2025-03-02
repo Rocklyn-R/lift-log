@@ -1,11 +1,13 @@
 import { useSelector } from "react-redux";
 import { OverlayWindow } from "../../../../../components/OverlayWIndow";
-import { selectSelectedDate, selectWorkout, selectWorkoutToCopy, setDateToCopy, setWorkoutOnDate, setWorkoutToCopy } from "../../../../../redux-store/LogsSlice";
+import { selectHistory, selectSelectedDate, selectWorkout, selectWorkoutToCopy, setDateToCopy, setWorkoutOnDate, setWorkoutToCopy } from "../../../../../redux-store/LogsSlice";
 import { formatDateForHistory } from "../../../../../utilities/utilities";
 import { Button } from "../../../../../components/Button";
 import { useDispatch } from "react-redux";
-import { addSetToLog } from "../../../../../api/logs";
+import { addSetToLog, updatePR } from "../../../../../api/logs";
 import { addExerciseToWorkout } from "../../../../../redux-store/LogsSlice";
+import { v4 as uuidv4 } from 'uuid';
+import { findPRsOnCopy } from "../../../../../utilities/utilities";
 
 
 interface CopyMessageProps {
@@ -18,15 +20,19 @@ export const CopyMessage: React.FC<CopyMessageProps> = ({ setShowCopyMessage, se
     const dispatch = useDispatch();
     const workoutToCopy = useSelector(selectWorkoutToCopy);
     const workout = useSelector(selectWorkout);
-
+    const history = useSelector(selectHistory);
+    
     const handleCancel = () => {
         setShowCopyMessage(false);
         setShowCopyDay(true);
     }
 
     const handleSelectCopy = async () => {
+        console.log(workoutToCopy);
+        const setIds = findPRsOnCopy(workoutToCopy, selectedDate)
+        console.log(setIds);
         for (const exercise of workoutToCopy) {
-
+            console.log(exercise);
             const exerciseOrder = (() => {
                 const foundExercise = workout.find(item => item.exercise_id === exercise.exercise_id);
                 if (foundExercise) {
@@ -50,23 +56,50 @@ export const CopyMessage: React.FC<CopyMessageProps> = ({ setShowCopyMessage, se
                 })();
 
                 //const setNumber = exercise.sets.indexOf(set) + 1; // Set number (1-based index)
-                const setWeight = Number(set.weight);
+                const setWeightMetric = Number(set.weight);
+                const setWeightImperial = Number(set.weight_lbs);
+                const PR = setIds?.includes(set.set_id);
+                const setId = uuidv4();
+                
+                dispatch(addExerciseToWorkout({
+                    PR: PR,
+                    date: selectedDate,
+                    distance: null,
+                    exercise_id: exercise.exercise_id,
+                    exercise_name: exercise.exercise_name,
+                    exercise_order: exerciseOrder,
+                    id: setId,
+                    reps: set.reps,
+                    set_number: setNumber,
+                    time: null,
+                    weight: setWeightMetric,
+                    weight_lbs: setWeightImperial,
+                    PRsToRemove: setIds
+                }))
                 // Await the API call
                 const addSetResult = await addSetToLog(
+                    setId,
                     selectedDate,           // date
                     exercise.exercise_id,    // exercise_id
                     setNumber,               // set_number
-                    setWeight,              // weight
+                    setWeightMetric,              // weight
+                    setWeightImperial,
                     set.reps,                // reps
-                    exerciseOrder            // exercise_order
-                );
-                dispatch(addExerciseToWorkout(addSetResult));
-              /*  const newPRData = await getUpdatedPrs(exercise.exercise_id, selectedDate);
+                    exerciseOrder,            // exercise_order
+                    PR
+                    );
+                
+                
+                
+               /* const newPRData = await getUpdatedPrs(exercise.exercise_id, selectedDate);
                 newPRData.forEach((set: any) => {
                     dispatch(updatePr(set))
                 })*/
             }
         }
+        if (setIds.length > 0) {
+            setIds.forEach(set_id => updatePR(false, set_id))
+        };
         setShowCopyMessage(false);
         dispatch(setDateToCopy(""));
         dispatch(setWorkoutOnDate([]));

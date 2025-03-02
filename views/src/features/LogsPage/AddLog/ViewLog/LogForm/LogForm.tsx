@@ -2,23 +2,28 @@ import { useEffect, useState } from "react";
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { addSetToLog, deleteSet, editLog, getUpdatedPrs, updateSetNumber } from "../../../../../api/logs";
+import { addSetToLog, deleteSet, editLog, getUpdatedPrs, updatePR, updateSetNumber } from "../../../../../api/logs";
 import { Button } from "../../../../../components/Button";
 import { Loading } from "../../../../../components/Loading";
 import {
     addExerciseToWorkout,
     deleteSetUpdateSetNumbers,
     editSet,
+    selectHistory,
     selectSelectedDate,
     selectSelectedExercise,
     selectSelectedSet,
     selectWorkout,
     setSelectedSet,
+    updateHistoryOnDelete,
+    updateHistoryOnEdit,
+    updateHistoryOnInsert,
     updatePr
 } from "../../../../../redux-store/LogsSlice";
 import { selectUnitSystem } from "../../../../../redux-store/SettingsSlice";
-import { formatNumber } from "../../../../../utilities/utilities";
+import { findPRsOnDelete, findPRsOnInsert, findPRsOnUpdate, formatNumber } from "../../../../../utilities/utilities";
 import { SetData } from "./SetData/SetData";
+import { v4 as uuidv4 } from 'uuid';
 
 
 export const LogForm = () => {
@@ -38,7 +43,11 @@ export const LogForm = () => {
     const workout = useSelector(selectWorkout);
     const selectedSet = useSelector(selectSelectedSet);
     const unit_system = useSelector(selectUnitSystem);
+    const metric = unit_system === "Metric";
+    const history = useSelector(selectHistory)
     const [loadingSave, setLoadingSave] = useState(false);
+
+
 
     useEffect(() => {
         if (errorMessage) {
@@ -109,6 +118,7 @@ export const LogForm = () => {
     }
 
     const handleSaveSet = async () => {
+
         if (!weightInput && !repsInput) {
             setErrorMessage('Please enter a value for this set');
             return;
@@ -117,34 +127,56 @@ export const LogForm = () => {
         if (selectedExercise) {
             setLoadingSave(true);
             const findIndexOfExercise = workout.findIndex(exercise => exercise.exercise_id === selectedExercise.exercise_id);
+            const setId = uuidv4();
             const setNumber = (findIndexOfExercise === -1) ? 1 : workout[findIndexOfExercise].sets.length + 1;
-            const weightInputToAdd = weightInput ? Number(weightInput) : 0;
+            const weightInputMetric = weightInput
+                ? metric
+                    ? Number(weightInput)
+                    : Number((Number(weightInput) / 2.2).toFixed(2))
+                : 0;
+            const weightInputImperial = weightInput
+                ? metric
+                    ? Number((Number(weightInput) * 2.2).toFixed(2))
+                    : Number(weightInput)
+                : 0;
             const repsInputToAdd = repsInput ? repsInput : 0;
             const exercise_order = (findIndexOfExercise === -1) ? workout.length + 1 : workout[findIndexOfExercise].exercise_order;
-         /*   dispatch(addExerciseToWorkout({
-                PR: false,
+            const newSet = {
+                weight: weightInputMetric,
+                reps: repsInputToAdd,
+                date: selectedDate,
+                set_number: setNumber
+            };
+            const PRData = (findPRsOnInsert(history, newSet));
+            console.log(PRData);
+            const exerciseObject = {
+                PR: PRData.newPR,
                 date: selectedDate,
                 distance: null,
                 exercise_id: selectedExercise.exercise_id,
                 exercise_name: selectedExercise.exercise_name,
                 exercise_order: exercise_order,
-                id: null,
+                id: setId,
                 reps: repsInputToAdd,
                 set_number: setNumber,
                 time: null,
-                user_id: null,
-                weight: weightInputToAdd,
-                weight_lbs: 
-            }))*/
-            const addSetResult = await addSetToLog(selectedDate, selectedExercise.exercise_id, setNumber, weightInputToAdd, repsInputToAdd, exercise_order);
-            if (addSetResult) {
-                dispatch(addExerciseToWorkout(addSetResult));
-                setLoadingSave(false);
-                const newPRData = await getUpdatedPrs(selectedExercise.exercise_id, selectedDate);
-                newPRData.forEach((set: any) => {
-                    dispatch(updatePr(set))
-                })
+                weight: weightInputMetric,
+                weight_lbs: weightInputImperial,
             }
+            dispatch(addExerciseToWorkout({
+                ...exerciseObject, PRsToRemove: PRData.removePRsSetIds
+            }))
+
+            dispatch(updateHistoryOnInsert({
+                ...exerciseObject, removePRsSetIds: PRData.removePRsSetIds
+            }))
+            const addSetResult = await addSetToLog(setId, selectedDate, selectedExercise.exercise_id, setNumber, weightInputMetric, weightInputImperial, repsInputToAdd, exercise_order, PRData.newPR);
+            setLoadingSave(false);
+            if (PRData.removePRsSetIds.length > 0) {
+                console.log("Setting pr to false for ids:", PRData.removePRsSetIds);
+                PRData.removePRsSetIds.forEach(async (set_id) => await updatePR(false, set_id))
+            }
+
         }
 
     }
@@ -156,26 +188,72 @@ export const LogForm = () => {
 
     const updateSet = async () => {
         if (selectedExercise) {
-            const weightInputToAdd = weightInput ? Number(weightInput) : 0;
             const repsInputToAdd = repsInput ? repsInput : 0;
             if (selectedSet) {
                 let updateResult;
-                if (unit_system === 'Metric') {
-                    const weight_lbs = parseFloat((weightInputToAdd * 2.20462).toFixed(3));
-                    updateResult = await editLog(weightInputToAdd, repsInputToAdd, selectedSet?.set_id, weight_lbs);
+                const weightInputMetric = weightInput
+                    ? metric
+                        ? Number(weightInput)
+                        : Number((Number(weightInput) / 2.2).toFixed(2))
+                    : 0;
+                const weightInputImperial = weightInput
+                    ? metric
+                        ? Number((Number(weightInput) * 2.2).toFixed(2))
+                        : Number(weightInput)
+                    : 0;
+                updateResult = await editLog(weightInputMetric, repsInputToAdd, selectedSet?.set_id, weightInputImperial);
+                
+       
+               
+                const setObjectToUpdate = {
+                    weight: weightInputMetric,
+                    reps: repsInputToAdd,
+                    set_id: selectedSet.set_id,
+                    pr: selectedSet.pr
                 }
-            /*    if (unit_system === "imperial") {
-                    const weight = 
-                    updateResult = await editLog(weightInputToAdd, repsInputToAdd, selectedSet?.set_id, weight_lbs);
+                
+               /* const exerciseObject = {
+                    PR: PRData.newPR,
+                    date: selectedDate,
+                    distance: null,
+                    exercise_id: selectedExercise.exercise_id,
+                    exercise_name: selectedExercise.exercise_name,
+                    exercise_order: exercise_order,
+                    id: setId,
+                    reps: repsInputToAdd,
+                    set_number: setNumber,
+                    time: null,
+                    weight: weightInputMetric,
+                    weight_lbs: weightInputImperial,
                 }*/
-                if (updateResult) {
-                    const newPRData = await getUpdatedPrs(selectedExercise.exercise_id, selectedDate);
-                    newPRData.forEach((set: any) => {
-                        dispatch(updatePr(set))
-                    })
-                    dispatch(editSet(updateResult));
-                    dispatch(setSelectedSet(null));
+                const PRData = findPRsOnUpdate(history, setObjectToUpdate);
+                console.log(PRData);
+                const PR = PRData.setPRTrue.includes(selectedSet.set_id);
+                const exerciseObject = {
+                    PR: PR,
+                    date: selectedDate,
+                    distance: null,
+                    exercise_id: selectedExercise.exercise_id,
+                    exercise_name: selectedExercise.exercise_name,
+                    id: selectedSet.set_id,
+                    reps: repsInputToAdd,
+                    set_number: selectedSet.set_number,
+                    time: null,
+                    weight: weightInputMetric,
+                    weight_lbs: weightInputImperial,
+                    PRData: PRData
                 }
+                dispatch(editSet(exerciseObject));
+                dispatch(updateHistoryOnEdit(exerciseObject))
+                console.log(PRData);
+                if (PRData.setPRTrue.length > 0) {
+                    PRData.setPRTrue.forEach(async (set_id) => await updatePR(true, set_id))
+                }
+                if (PRData.setPRFalse.length > 0) {
+                    PRData.setPRFalse.forEach(async (set_id) => await updatePR(false, set_id))
+                }
+          
+                dispatch(setSelectedSet(null));
             }
             setEditMode(false);
         }
@@ -195,16 +273,17 @@ export const LogForm = () => {
                 })
             }
 
-            const setDeletion = await deleteSet(selectedSet.set_id);
+            const PRData = findPRsOnDelete(history, selectedSet.set_id);
+            dispatch(deleteSetUpdateSetNumbers({ ...selectedSet, PRData: PRData }));
+            dispatch(setSelectedSet(null));
+            dispatch(updateHistoryOnDelete({ set_id: selectedSet.set_id, PRData, date: selectedDate, set_number: selectedSet.set_number }))
 
-            if (setDeletion) {
-                const newPRData = await getUpdatedPrs(selectedExercise.exercise_id, selectedDate);
-                newPRData.forEach((set: any) => {
-                    dispatch(updatePr(set))
-                })
-                dispatch(deleteSetUpdateSetNumbers(selectedSet));
-                dispatch(setSelectedSet(null));
+            const setDeletion = await deleteSet(selectedSet.set_id);
+            if (PRData.length > 0) {
+                PRData.forEach(async (set_id) => await updatePR(true, set_id));
             }
+
+
         }
         setEditMode(false);
     }
@@ -305,12 +384,11 @@ export const LogForm = () => {
                         ) : (
                             <>
                                 <Button
-                                    disabled={loadingSave}
                                     onClick={() => handleSaveSet()}
                                     type="button"
                                     className="flex-grow flex items-center justify-center w-full"
                                 >
-                                  {loadingSave ? <Loading size="h-5 w-5 mx-2" /> : "Save"} 
+                                    Save
                                 </Button>
                                 <Button
 

@@ -1,3 +1,6 @@
+import e from "express";
+import { Workout } from "../types/types";
+
 export const getTodayDate = () => {
   const today = new Date();
   return today.toISOString().split("T")[0]; // Extract the YYYY-MM-DD part
@@ -104,3 +107,228 @@ export const getYearMonth = (date: Date) => {
   const month = String(date.getMonth() + 1).padStart(2, '0'); // Extracts the month (0-11, so add 1) and pads with leading zero if needed
   return `${year}-${month}`; // Format as 'YYYY-MM'
 }
+
+export interface SetData {
+  weight: number,
+  reps: number,
+  date: string
+}
+
+export const findPRsOnInsert = (historyArray: Workout[], newSet: SetData) => {
+  if (historyArray.length === 0) {
+    return { newPR: true, removePRsSetIds: [] };
+  }
+  const history = historyArray[0]
+  // Find the highest weight (ignoring sets where reps = 0)
+  const highestWeight = historyArray.reduce((maxWeight, history) => {
+    return history.sets.reduce((max, set) => {
+      const weight = parseFloat(set.weight);
+      return set.reps > 0 && weight > max ? weight : max;
+    }, maxWeight);
+  }, 0);
+
+  // Find the highest reps at the highest weight
+  const highestRepsAtHighestWeight = historyArray.reduce((maxReps, history) => {
+    return history.sets.reduce((max, set) => {
+      return parseFloat(set.weight) === highestWeight ? Math.max(max, set.reps) : max;
+    }, maxReps);
+  }, 0);
+
+  let newPR = false;
+  let removePRsSetIds = [];
+  console.log("Highest weight:", highestWeight);
+  console.log("Highest reps at highest weight:", highestRepsAtHighestWeight);
+  //Case 1: If the new set has the highest weight
+  if (newSet.weight > highestWeight) {
+    console.log("true")
+    newPR = true;
+  }
+  //Case 2: If the new set equals the highest weight but has more reps
+  if (newSet.weight === highestWeight && newSet.reps > highestRepsAtHighestWeight) {
+    newPR = true;
+  };
+  //Case 3: If the new set has a lower weight
+  if (newSet.weight < highestWeight) {
+    // Check if there is a higher weight with MORE reps than the new set
+    const search = historyArray.some(history =>
+      history.sets.some(set => Number(set.weight) >= newSet.weight && set.reps >= newSet.reps)
+    );
+    if (!search && newSet.reps > 0) {
+      newPR = true;
+    }
+  }
+
+  const existingPRsAtSameWeightAndReps = historyArray
+    .flatMap(history => history.sets) // Flatten all sets across historyArray
+    .filter(set => set.pr === true && Number(set.weight) === newSet.weight && set.reps === newSet.reps);
+
+  if (existingPRsAtSameWeightAndReps.length > 0) {
+    console.log(existingPRsAtSameWeightAndReps);
+    const historyDate = new Date(history.date);
+    const newSetDate = new Date(newSet.date);
+    if (historyDate > newSetDate) {
+      console.log("THIS")
+      newPR = true;
+      removePRsSetIds.push(existingPRsAtSameWeightAndReps[0].set_id)
+    }
+  }
+
+  const foundSets = historyArray
+    .flatMap(history => history.sets) // Flatten all sets across historyArray
+    .filter(set =>
+      (set.pr === true && Number(set.weight) < newSet.weight && set.reps <= newSet.reps) ||
+      (set.pr === true && Number(set.weight) === newSet.weight && set.reps < newSet.reps)
+    );
+
+  const setIdsToRemove = foundSets.map(set => set.set_id);
+  removePRsSetIds.push(...setIdsToRemove);
+
+  return {
+    newPR,
+    removePRsSetIds
+  }
+}
+
+export const findPRsOnCopy = (workoutToCopy: Workout[], selectedDate: string): string[] => {
+  const workoutToCopyDate = new Date(workoutToCopy[0].date);
+  const copyingToDate = new Date(selectedDate);
+  if (copyingToDate > workoutToCopyDate) {
+    return [];
+  } else {
+    const allPrSetIds = workoutToCopy.flatMap(exercises => exercises.sets).filter(set => set.pr === true).map(set => set.set_id);
+    return allPrSetIds;
+  }
+}
+
+export const findPRsOnDelete = (historyArray: Workout[], deletedSetId: string) => {
+  const allSets = historyArray.flatMap(workout => workout.sets);
+  // Filter sets that should be marked as PR
+  const setsToMarkAsPR = allSets.filter(set => {
+    return (
+      set.set_id !== deletedSetId &&  // Exclude deleted set from PR checks
+      set.reps > 0 &&
+      !allSets.some(y =>
+        y.set_id !== deletedSetId &&  // Ensure deleted set isn't used for comparison
+        (
+          (Number(y.weight) > Number(set.weight) && y.reps > set.reps) ||
+          (Number(y.weight) === Number(set.weight) && y.reps > set.reps) ||
+          (Number(y.weight) > Number(set.weight) && y.reps === set.reps) ||
+          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && y.set_id < set.set_id)
+        )
+      )
+    );
+  });
+
+  // Return an array of set_id's that need PR = true
+  return setsToMarkAsPR.map(set => set.set_id);
+}
+
+export interface UpdateSetData {
+  weight: number,
+  reps: number,
+  set_id: string,
+  pr: boolean
+}
+
+export const findPRsOnUpdate = (historyArray: Workout[], updatedSet: UpdateSetData) => {
+  const allSets = historyArray.flatMap(workout => workout.sets);
+  console.log(updatedSet.set_id);
+  // Create a copy of allSets with the updatedSet replacing the old version
+  const updatedSets = allSets.map(set =>
+    set.set_id === updatedSet.set_id ? {...updatedSet, pr: set.pr} : set
+  );
+
+  // Find sets that should be marked as PR
+  const setsToMarkAsPR = updatedSets.filter(set => {
+    return (
+      set.reps > 0 &&
+      set.pr === false &&
+      !updatedSets.some(y =>
+        y.set_id !== set.set_id && // Exclude self-comparison
+        (
+          (Number(y.weight) > Number(set.weight) && y.reps > set.reps) ||
+          (Number(y.weight) === Number(set.weight) && y.reps > set.reps) ||
+          (Number(y.weight) > Number(set.weight) && y.reps === set.reps) ||
+          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && y.set_id < set.set_id)
+        )
+      )
+    );
+  });
+
+  // Find sets that should have PR set to false
+  const setsToRemovePR = updatedSets.filter(set => {
+    return (
+      set.reps > 0 &&
+      set.pr === true &&
+      updatedSets.some(y =>
+        y.set_id !== set.set_id && // Exclude self-comparison
+        (
+          (Number(y.weight) > Number(set.weight) && y.reps > set.reps) ||
+          (Number(y.weight) === Number(set.weight) && y.reps > set.reps) ||
+          (Number(y.weight) > Number(set.weight) && y.reps === set.reps) ||
+          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && y.set_id < set.set_id)
+        )
+      )
+    );
+  });
+
+  // Convert arrays to sets for faster lookup
+  const setPRFalseIds = new Set(setsToRemovePR.map(set => set.set_id));
+
+  // Filter out any set_id in setPRTrue that also exists in setPRFalse
+  const filteredSetPRTrue = setsToMarkAsPR
+    .map(set => set.set_id)
+    .filter(set_id => !setPRFalseIds.has(set_id));
+
+  return {
+    setPRTrue: filteredSetPRTrue,
+    setPRFalse: setsToRemovePR.map(set => set.set_id),
+  };
+};
+
+const triggerLogic = `
+CREATE OR REPLACE FUNCTION update_pr_on_update()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Set PR = true for sets that qualify as a PR
+    UPDATE sets
+    SET "PR" = true
+    WHERE exercise_id = NEW.exercise_id
+      AND user_id = NEW.user_id
+      AND NOT EXISTS (
+          SELECT 1
+          FROM sets AS y
+          WHERE y.exercise_id = NEW.exercise_id
+            AND y.user_id = NEW.user_id
+            AND (
+                (y.weight > sets.weight AND y.reps > sets.reps AND y.reps > 0) OR
+                (y.weight = sets.weight AND y.reps > sets.reps AND y.reps > 0) OR
+               	(y.weight > sets.weight AND y.reps = sets.reps AND y.reps > 0) OR
+                (y.weight = sets.weight AND y.reps = sets.reps AND y.reps > 0 AND y.id < sets.id)
+            )
+      )
+       AND sets.reps > 0;
+
+    -- Set PR = false for sets that do not qualify as a PR
+    UPDATE sets
+    SET "PR" = false
+    WHERE exercise_id = NEW.exercise_id
+      AND user_id = NEW.user_id
+      AND EXISTS (
+          SELECT 1
+          FROM sets AS y
+          WHERE y.exercise_id = NEW.exercise_id
+            AND y.user_id = NEW.user_id
+            AND (
+                (y.weight > sets.weight AND y.reps > sets.reps) OR
+              	(y.weight > sets.weight AND y.reps = sets.reps) OR
+                (y.weight = sets.weight AND y.reps > sets.reps) OR
+                (y.weight = sets.weight AND y.reps = sets.reps AND y.id < sets.id)
+            )
+      );
+      
+
+    RETURN NEW; -- Returning NEW because it's an UPDATE trigger
+END;
+$$ LANGUAGE plpgsql;
+`

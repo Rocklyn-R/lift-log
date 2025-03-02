@@ -4,12 +4,15 @@ export const BASE_URL = process.env.NODE_ENV === 'production'
 
 
 export const addSetToLog = async (
+    id: string,
     date: string,
     exercise_id: number,
     set_number: number,
     weight: number,
+    weight_lbs: number,
     reps: number,
-    exercise_order: number
+    exercise_order: number,
+    PR: boolean
 ) => {
     try {
         const response = await fetch(`${BASE_URL}/add`, {
@@ -18,7 +21,7 @@ export const addSetToLog = async (
                 'Content-Type': 'application/json'
             },
             credentials: "include",
-            body: JSON.stringify({ date, exercise_id, set_number, weight, reps, exercise_order })
+            body: JSON.stringify({ id, date, exercise_id, set_number, weight, weight_lbs, reps, exercise_order, PR })
         })
         const data = await response.json();
         return data.set;
@@ -46,7 +49,7 @@ export const getLog = async (date: string) => {
 export const editLog = async (
     weight: number,
     reps: number,
-    set_id: number,
+    set_id: string,
     weight_lbs: number
 ) => {
     try {
@@ -65,7 +68,7 @@ export const editLog = async (
     }
 }
 
-export const deleteSet = async (set_id: number) => {
+export const deleteSet = async (set_id: string) => {
     try {
         const response = await fetch(`${BASE_URL}/delete`, {
             method: 'DELETE',
@@ -81,7 +84,7 @@ export const deleteSet = async (set_id: number) => {
     }
 }
 
-export const updateSetNumber = async (set_id: number) => {
+export const updateSetNumber = async (set_id: string) => {
     try {
         const response = await fetch(`${BASE_URL}/edit-set-number`, {
             method: 'PUT',
@@ -182,3 +185,20 @@ export const deleteAllSets = async (
         console.log(error);
     }
 }
+
+export const updatePR = async (pr: boolean ,set_id: string) => {
+    try {
+        const response = await fetch(`${BASE_URL}/pr-update`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({ pr, set_id })
+        })
+        return response.ok;
+    } catch (error) {
+        console.log(error);
+    }
+}
+

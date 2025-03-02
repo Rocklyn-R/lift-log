@@ -4,9 +4,10 @@ import { Exercises } from "../../ExerciseLibrary/Exercises/Exercises";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setExercises } from "../../../redux-store/LibrarySlice";
-import { selectSelectedCategory, selectSelectedExercise, setExerciseHistory, setSelectedCategory, setSelectedExercise, setSelectedSet } from "../../../redux-store/LogsSlice";
+import { selectSelectedCategory, selectSelectedExercise, selectWorkout, setExerciseHistory, setSelectedCategory, setSelectedExercise, setSelectedSet } from "../../../redux-store/LogsSlice";
 import { ViewLog } from "./ViewLog/ViewLog";
 import { MdArrowBackIos } from "react-icons/md";
+import { useEffect } from "react";
 
 interface AddLogProps {
     setShowAddExercise: (arg1: boolean) => void;
@@ -19,6 +20,7 @@ export const AddLog: React.FC<AddLogProps> = ({ setShowAddExercise }) => {
     const dispatch = useDispatch();
     const selectedCategory = useSelector(selectSelectedCategory);
     const selectedExercise = useSelector(selectSelectedExercise);
+    const workout = useSelector(selectWorkout);
 
 
     const handleShowExercises = () => {
@@ -95,6 +97,7 @@ export const AddLog: React.FC<AddLogProps> = ({ setShowAddExercise }) => {
 
             {showLogForm && (
                 <>
+                
                     <ViewLog
                     />
                 </>

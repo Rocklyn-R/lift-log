@@ -3,18 +3,21 @@ import db from "../config/db";
 
 
 export const toLogAdd = async (
+    id: string,
     date: string,
     user_id: number,
     exercise_id: number,
-    set_number: number,
+    set_number: string,
     weight: number,
+    weight_lbs: number,
     reps: number,
-    exercise_order: number
+    exercise_order: number,
+    PR: boolean
 ) => {
     const query = `
     WITH inserted_set AS (
-        INSERT INTO sets (date, user_id, exercise_id, set_number, weight, reps, exercise_order) 
-        VALUES ($1, $2, $3, $4, $5, $6, $7) 
+        INSERT INTO sets (id, date, user_id, exercise_id, set_number, weight, weight_lbs, reps, exercise_order, "PR") 
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
         RETURNING *
     )
     SELECT 
@@ -28,7 +31,7 @@ export const toLogAdd = async (
         inserted_set.exercise_id = exercise_library.id;`
     try {
         const result = await db.query(query, [
-            date, user_id, exercise_id, set_number, weight, reps, exercise_order
+            id, date, user_id, exercise_id, set_number, weight, weight_lbs, reps, exercise_order, PR
         ]);
         return result.rows[0];
     } catch (error) {
@@ -44,7 +47,8 @@ export const logGet = async (
     const query = `
     SELECT 
     sets.*, 
-    exercise_library.name AS exercise_name
+    exercise_library.name AS exercise_name,
+    sets.date::TEXT AS date 
 FROM 
     sets
 JOIN 
@@ -70,7 +74,7 @@ ORDER BY
 export const logEdit = async (
     weight: number,
     reps: number,
-    set_id: number,
+    set_id: string,
     user_id: number,
     weight_lbs: number
 ) => {
@@ -88,7 +92,7 @@ export const logEdit = async (
 }
 
 export const setDelete = async (
-    set_id: number,
+    set_id: string,
     user_id: number
 ) => {
     const query = `DELETE FROM sets WHERE id = $1 and user_id = $2
@@ -108,7 +112,7 @@ export const setDelete = async (
 
 
 export const setNumberUpdate = async (
-    set_id: number,
+    set_id: string,
     user_id: number
 ) => {
 
@@ -130,7 +134,8 @@ export const historyGet = async (
     const query = `
     SELECT 
     sets.*, 
-    exercise_library.name AS exercise_name
+    exercise_library.name AS exercise_name,
+    sets.date::TEXT AS date 
 FROM 
     sets
 JOIN 
@@ -207,9 +212,11 @@ export const datesGetAll = async (
     month: string,
     user_id: number
 ) => {
-    const query = `SELECT DISTINCT date
+    console.log(month);
+    const query = `SELECT DISTINCT TO_CHAR(date::DATE, 'YYYY-MM-DD') AS date
     FROM sets
-    WHERE date LIKE $1 || '%' AND user_id = $2`;
+    WHERE TO_CHAR(date::DATE, 'YYYY-MM') = $1 
+    AND user_id = $2;`;
     try {
         const result = await db.query(query, [
             month, user_id
@@ -234,3 +241,18 @@ export const allSetsDelete = async (exercise_id: number, user_id: number) => {
         throw error;
     }
 }
+
+export const prUpdate = async (pr: boolean, set_id: string) => {
+    console.log(pr);
+    const query = `UPDATE sets SET "PR" = $1 WHERE id = $2`;
+    try {
+        const result = await db.query(query, [
+            pr, set_id
+        ]);
+        return result.rows;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+} 
+

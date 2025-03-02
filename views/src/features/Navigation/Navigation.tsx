@@ -45,7 +45,7 @@ export const Navigation: React.FC<NavigationProps> = ({isOpen, setIsOpen}) => {
   } w-64 bg-darkestPurple text-lightestPurple z-50`}
 >*/
   return (
-    <div className="flex relative z-50 =">
+    <div className="flex relative z-50">
       {/* Sidebar */}
       <nav
         className={`dark:border-r-2 dark:border-mediumPurple z-50 fixed top-0 left-0 xl:static flex flex-col justify-between h-screen transition-width duration-300 ${isOpen ? 'w-64' : 'xl:w-64 w-16'

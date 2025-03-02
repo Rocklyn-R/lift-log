@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
 import { OverlayWindow } from "../../../../components/OverlayWIndow"
-import { selectDateToView, selectWorkoutOnDate, setDateToView, setWorkoutOnDate, setWorkoutToCopy } from "../../../../redux-store/LogsSlice"
-import { formatDateForHistory, formatNumber } from "../../../../utilities/utilities";
+import { selectDateToView, selectSelectedDate, selectWorkoutOnDate, setDateToView, setWorkoutOnDate, setWorkoutToCopy } from "../../../../redux-store/LogsSlice"
+import { findPRsOnCopy, formatDateForHistory, formatNumber } from "../../../../utilities/utilities";
 import { useWorkoutOnDayFetch } from "../../../../hooks/useWorkoutOnDayFetch";
 import { Workout, Set } from "../../../../types/types";
 import { MdArrowBackIos } from "react-icons/md";
@@ -28,6 +28,7 @@ export const CopyWorkout: React.FC<CopyWorkoutProps> = ({ setShowCalendar, setSh
     const workoutOnDate = useSelector(selectWorkoutOnDate);
     const [showCopyMessage, setShowCopyMessage] = useState(false);
     const unit_system = useSelector(selectUnitSystem);
+    const selectedDate = useSelector(selectSelectedDate);
 
     const handleCloseOverlay = () => {
         if (showCopyMessage) {
@@ -183,7 +184,7 @@ export const CopyWorkout: React.FC<CopyWorkoutProps> = ({ setShowCalendar, setSh
         clonedExercises.forEach(exercise => {
             exercise.sets.sort((a, b) => a.set_number - b.set_number);
         });
-
+      
         // Step 4: Update state and dispatch the reordered set
         setExercisesToCopy(clonedExercises);
         dispatch(setWorkoutToCopy(clonedExercises));
