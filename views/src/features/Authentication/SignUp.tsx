@@ -26,17 +26,21 @@ export const SignUp = () => {
     const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
+        setErrorMessage("")
         if (password !== repeatPassword) {
             setErrorMessage("Passwords don't match.")
+            setLoading(false);
             return;
         }
         try {
             const response = await createNewUser(firstName, lastName, email, password);
             if (response.error) {
                 if (response.error === 'User with this email already exists') {
-                    setErrorMessage("User with this email already exists. Try a different email.");
+                    setErrorMessage("User with this email already exists.");
+                    setLoading(false);
                 } else {
-                    setErrorMessage('Failed to sign up');
+                    setErrorMessage('Failed to sign up,');
+                    setLoading(false);
                 }
             } else if (response.user) {
                 await createSettings();
@@ -61,9 +65,9 @@ export const SignUp = () => {
         <div className="flex flex-col w-full h-screen">
             <Header text="Welcome to LiftLog" />
             <div className="bg-darkestPurple flex-grow flex items-center justify-center">
-                <div className="dark:bg-darkestPurple border-2 border-mediumPurple dark:text-lightestPurple bg-lightPurple h-fit p-8 rounded-lg shadow-lg w-96 flex flex-col">
+                <div className=" dark:bg-darkestPurple border-2 border-mediumPurple dark:text-lightestPurple bg-lightPurple h-fit p-8 rounded-lg shadow-lg w-96 flex flex-col">
                     <h2 className="text-2xl font-semibold text-center mb-6 dark:text-lightestPurple text-darkestPurple">Sign Up</h2>
-                    <form onSubmit={handleSignUp}>
+                    <form onSubmit={handleSignUp} className="relative">
                         <div className="mb-4">
                             <label htmlFor="first-name"></label>
                             <CustomTextInput
@@ -72,6 +76,7 @@ export const SignUp = () => {
                                 className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
                                 placeholder="First name"
                                 onChange={setFirstName}
+                                required={true}
                             />
                         </div>
                         <div className="mb-4">
@@ -82,6 +87,7 @@ export const SignUp = () => {
                                 className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
                                 placeholder="Last name"
                                 onChange={setLastName}
+                                required={true}
                             />
                         </div>
                         <div className="mb-4">
@@ -92,6 +98,7 @@ export const SignUp = () => {
                                 className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
                                 placeholder="E-mail"
                                 onChange={setEmail}
+                                required={true}
                             />
                         </div>
 
@@ -106,27 +113,30 @@ export const SignUp = () => {
                             onChange={(e) => {
                                 setPassword(e.target.value)
                             }}
+                            required={true}
                         />
 
 
                         <CustomPasswordInput
                             value={repeatPassword}
                             name="repeat-password"
-                            className="mb-4"
+                            className="mb-6"
                             placeholder="Repeat password"
                             onChange={(e) => {
                                 setRepeatPassword(e.target.value)
                             }}
+                            required={true}
                         />
 
-                        {errorMessage && <p className="mt-6 text-red-800">{errorMessage}</p>}
-                       
-                            <Button
-                                type="submit"
-                                className="flex justify-center w-full text-lg font-semibold p-3 hover:bg-darkPurple focus:outline-none focus:ring-2 focus:ring-darkPurple"
-                            >
-                               {loading ? <Loading size="w-7 h-7" /> : "Sign Up"}
-                            </Button>
+                        {errorMessage === "Passwords don't match." && <p className="absolute -bottom-[1.2rem] left-[4.5rem] font-semibold text-red-800">{errorMessage}</p>}
+                        {errorMessage === "Failed to sign up." && <p className="absolute -bottom-[1.2rem] left-[6rem] font-semibold text-red-800">{errorMessage}</p>}
+                        {errorMessage === "User with this email already exists." && <p className="w-full absolute -bottom-[1.2rem] left-[2.2rem] font-semibold text-red-800">{errorMessage}</p>}
+                        <Button
+                            type="submit"
+                            className="mb-4 flex justify-center w-full text-lg font-semibold p-3 hover:bg-darkPurple focus:outline-none focus:ring-2 focus:ring-darkPurple"
+                        >
+                            {loading ? <Loading size="w-7 h-7" /> : "Sign Up"}
+                        </Button>
                     </form>
 
                 </div>

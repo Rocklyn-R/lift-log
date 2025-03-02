@@ -20,13 +20,13 @@ export const SignIn = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    setErrorMessage("");
     try {
       // Make a POST request to your server's signup endpoint using fetch
       const response = await signInUser(email, password);
       if (response.error) {
         setErrorMessage('Incorrect email or password. Try again.');
         setLoading(false);
-        setEmail('');
         setPassword('');
         return;
       } else {
@@ -48,9 +48,9 @@ export const SignIn = () => {
       <Header text="Welcome to LiftLog" />
       <div className="flex-grow bg-darkestPurple flex items-center justify-center flex-col dark:text-lightestPurple">
         <div className="dark:bg-darkestPurple border-2 border-mediumPurple bg-lightPurple p-8 rounded-lg shadow-lg w-96">
-          <h2 className="text-2xl font-semibold text-center mb-6 dark:text-lightestPurple text-darkPurple">Sign In</h2>
+          <h2 className="text-2xl font-semibold text-center mb-6 dark:text-lightestPurple text-darkestPurple">Sign In</h2>
 
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleLogin} className="relative">
             {/* Username Field */}
             <div className="mb-4">
               <label htmlFor="username" className="block text-sm font-medium dark:text-lightestPurple0"></label>
@@ -59,22 +59,23 @@ export const SignIn = () => {
                 name="username"
                 placeholder="Email"
                 onChange={setEmail}
-                required
+                required={true}
               />
             </div>
 
             {/* Password Field */}
-            <div className="mb-6">
+            <div className="mb-8">
               <label htmlFor="password" className="block text-sm font-medium dark:text-lightestPurple"></label>
               <CustomPasswordInput
                 value={password}
                 name="password"
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
+                required={true}
               />
             </div>
 
-            {errorMessage && <p className="mt-6 text-red-800">{errorMessage}</p>}
+            {errorMessage && <p className="absolute bottom-[3.3rem] left-[0.8rem] font-semibold text-red-800">{errorMessage}</p>}
 
             <Button
               type="submit"

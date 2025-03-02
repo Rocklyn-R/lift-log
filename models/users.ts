@@ -11,6 +11,7 @@ export const userCreate = async (
         const result = await db.query(query, [first_name, last_name, email, password]);
         return result.rows[0];
     } catch (error) {
+        console.error;
         throw error;
     }
 }
