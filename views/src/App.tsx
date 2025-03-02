@@ -17,10 +17,12 @@ import { Settings } from './features/Settings/Settings';
 import { useSettingsFetch } from './hooks/useSettingsFetch';
 import { ForgotPassword } from './features/Authentication/ForgotPassword/ForgotPassword';
 import { ResetPassword } from './features/Authentication/ResetPassword/ResetPassword';
-import { selectTheme } from './redux-store/SettingsSlice';
+import { selectTheme, changeTheme } from './redux-store/SettingsSlice';
 import { useEffect } from 'react';
 import { ConfirmEmail } from './features/Authentication/ConfirmEmail/ConfirmEmail';
 import { useCategoriesFetch } from './hooks/useCatgoriesFetch';
+import { useDispatch } from 'react-redux';
+
 
 function App() {
   useUserFetch();
@@ -33,6 +35,7 @@ function App() {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [isOpen, setIsOpen] = useState(false);
   const theme = useSelector(selectTheme);
+  const dispatch = useDispatch()
 
       // Dynamically set the dark class on the HTML element
       useEffect(() => {
@@ -42,6 +45,13 @@ function App() {
           document.documentElement.classList.remove("dark");
         }
       }, [theme]);
+
+      useEffect(() => {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+            dispatch(changeTheme(savedTheme)); // Apply saved theme
+        }
+    }, [dispatch]);
   
 
   if (isLoading && !isAuthenticated) {

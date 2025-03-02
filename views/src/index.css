@@ -26,12 +26,17 @@ code {
   --dark-purple: #2C2C64;
   --light-purple: #BDBCDC;
   --lightest-purple: #ddddf7;
+  --inputBG: white;
+  --textColor: #001247;
 }
+
 
 /* Dark mode overrides */
 .dark {
   --darkest-purple: #ddddf7; /* Swap darkest with lightest */
   --lightest-purple: #001247; /* Swap lightest with darkest */
+  --inputBG: #001247;
+  --textColor: #ddddf7;
 }
 
 /* Base styles for the checkbox */
@@ -65,4 +70,13 @@ code {
   border: solid var(--lightest-purple); /* Checkmark color */
   border-width: 0 3px 3px 0;
   transform: rotate(45deg); /* Make the checkmark */
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--textColor) !important; /* Custom Text Color */
+  background-color: var(--inputBG) !important; /* Custom Background */
+  transition: background-color 5000s ease-in-out 0s !important; /* Prevent Flashing */
 }

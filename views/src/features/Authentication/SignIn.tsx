@@ -25,6 +25,7 @@ export const SignIn = () => {
       const response = await signInUser(email, password);
       if (response.error) {
         setErrorMessage('Incorrect email or password. Try again.');
+        setLoading(false);
         setEmail('');
         setPassword('');
         return;
@@ -46,7 +47,7 @@ export const SignIn = () => {
     <div className="flex flex-col w-full h-screen">
       <Header text="Welcome to LiftLog" />
       <div className="flex-grow bg-darkestPurple flex items-center justify-center flex-col dark:text-lightestPurple">
-        <div className="dark:bg-darkestPurple border-2 bg-white p-8 rounded-lg shadow-lg w-96">
+        <div className="dark:bg-darkestPurple border-2 border-mediumPurple bg-lightPurple p-8 rounded-lg shadow-lg w-96">
           <h2 className="text-2xl font-semibold text-center mb-6 dark:text-lightestPurple text-darkPurple">Sign In</h2>
 
           <form onSubmit={handleLogin}>
@@ -88,9 +89,9 @@ export const SignIn = () => {
             <a href="/forgot-password" className="text-sm dark:text-lightestPurple text-mediumPurple hover:underline">Forgot Password?</a>
           </div>
         </div>
-        <div className="flex flex-col p-4 items-center">
+        <div className="flex flex-col p-4 items-center text-lightestPurple">
           <span>or</span>
-          <Link className="text-darkestPurple dark:text-lightestPurple hover:underline text-xl p-4" to="/signup">Sign Up</Link>
+          <Link className="text-lightestPurple hover:underline text-xl p-4" to="/signup">Sign Up</Link>
         </div>
       </div>
     </div>

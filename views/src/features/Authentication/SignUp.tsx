@@ -60,8 +60,8 @@ export const SignUp = () => {
     return (
         <div className="flex flex-col w-full h-screen">
             <Header text="Welcome to LiftLog" />
-            <div className="dark:bg-darkestPurple flex-grow flex items-center justify-center">
-                <div className="dark:bg-darkestPurple dark:border-2 dark:text-lightestPurple bg-white h-fit p-8 rounded-lg shadow-lg w-96 flex flex-col">
+            <div className="bg-darkestPurple flex-grow flex items-center justify-center">
+                <div className="dark:bg-darkestPurple border-2 border-mediumPurple dark:text-lightestPurple bg-lightPurple h-fit p-8 rounded-lg shadow-lg w-96 flex flex-col">
                     <h2 className="text-2xl font-semibold text-center mb-6 dark:text-lightestPurple text-darkestPurple">Sign Up</h2>
                     <form onSubmit={handleSignUp}>
                         <div className="mb-4">
@@ -131,9 +131,9 @@ export const SignUp = () => {
 
                 </div>
             </div>
-            <div className="flex flex-col items-center pb-4 dark:text-lightestPurple">
+            <div className="flex flex-col items-center pb-4 bg-darkestPurple text-lightestPurple">
                 <span>or</span>
-                <Link className="dark:text-lightestPurple text-darkestPurple hover:underline text-xl p-4" to="/signin">Sign In</Link>
+                <Link className="text-lightestPurple hover:underline text-xl p-4" to="/signin">Sign In</Link>
             </div>
         </div>
     )

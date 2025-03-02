@@ -17,7 +17,7 @@ export const CustomTextInput: React.FC<CustomTextInput> = ({ required, className
           name={name}
           value={value}
           onChange={(e) => onChange(e.target.value)} 
-          className={`${className} dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 p-3 border-2 border-mediumPurple rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple`}
+          className={`${className} dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 p-3 border-2 border-mediumPurple rounded-md focus:outline-none focus:ring-1 focus:ring-darkPurple`}
           required={required}
         />
       </div>

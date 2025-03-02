@@ -34,6 +34,7 @@ export const Settings = () => {
     const handleUpdateTheme = async () => {
         dispatch(changeTheme(newTheme));
         setShowTheme(false);
+        localStorage.setItem("theme", newTheme);
         await updateTheme(newTheme);
     }
 

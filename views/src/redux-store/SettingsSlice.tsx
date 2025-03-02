@@ -4,7 +4,7 @@ import { RootState } from "./store";
 export const SettingsSlice = createSlice({
     name: "settings",
     initialState: {
-        theme: "Dark",
+        theme: "Light",
         unit_system: "Metric",
         settingsLoading: true,
         pending_email: null

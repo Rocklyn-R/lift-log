@@ -231,9 +231,7 @@ export const LogsSlice = createSlice({
             const { set_id, PRData, date, set_number } = action.payload;
             const foundIndex = state.exerciseHistory.findIndex(entry => entry.date === date);
             if (foundIndex !== -1) {
-                console.log("THIS THO?")
                 if (state.exerciseHistory[foundIndex].sets.length === 1) {
-                    console.log("THIS NOW NOW")
                     state.exerciseHistory.splice(foundIndex, 1);
                 } else {
                     const setIndex = state.exerciseHistory[foundIndex].sets.findIndex(set => set.set_id === set_id);
