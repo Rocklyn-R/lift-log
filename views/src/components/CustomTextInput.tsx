@@ -1,4 +1,4 @@
-interface CustomTextInput {
+interface CustomTextInputProps {
     value: string;
     onChange: (value: string) => void;
     placeholder: string;
@@ -7,7 +7,7 @@ interface CustomTextInput {
     required?: boolean
 }
 
-export const CustomTextInput: React.FC<CustomTextInput> = ({ required, className = "w-full", name, placeholder, value, onChange }) => {
+export const CustomTextInput: React.FC<CustomTextInputProps> = ({ required, className = "w-full", name, placeholder, value, onChange }) => {
     return (
       <div className="relative flex items-center justify-center w-full">
         {/* Input Field */}
@@ -17,7 +17,7 @@ export const CustomTextInput: React.FC<CustomTextInput> = ({ required, className
           name={name}
           value={value}
           onChange={(e) => onChange(e.target.value)} 
-          className={`${className} dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 p-3 border-2 border-mediumPurple rounded-md focus:outline-none focus:ring-1 focus:ring-darkPurple`}
+          className={`${className} dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 p-3 border-2 border-mediumPurple focus:outline-none rounded-md`}
           required={required}
         />
       </div>

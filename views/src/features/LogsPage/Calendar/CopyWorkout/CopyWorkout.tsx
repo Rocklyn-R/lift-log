@@ -221,7 +221,7 @@ export const CopyWorkout: React.FC<CopyWorkoutProps> = ({ setShowCalendar, setSh
                                 <div key={index} className="w-full">
                                     {exercise.sets.length > 0 && (
                                         <>
-                                            <div className="border-t-2 dark:bg-darkPurple bg-lightPurple p-2 flex items-center w-full justify-between border-b-2 border-lightPurple">
+                                            <div className="border-t-2 dark:bg-darkPurple bg-lightPurple p-2 flex items-center w-full justify-between border-b-2 dark:border-mediumPurple border-lightPurple">
                                                 <h3 className="font-semibold text-lg">{exercise.exercise_name}</h3>
                                                 <input
                                                     checked={checkForAllSetsChecked(exercise)}

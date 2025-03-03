@@ -70,7 +70,7 @@ export const ShowWorkout: React.FC<ShowWorkoutProps> = ({ setShowViewDay, setSho
                             <div key={index} >
                                 {exercise.sets.length > 0 && (
                                     <>
-                                        <h3 className={`${index > 0 && "border-t-2"} dark:bg-darkPurple p-2 border-b-2 border-lightPurple font-semibold text-lg`}>{exercise.exercise_name}</h3>
+                                        <h3 className={`${index > 0 && "border-t-2"} dark:bg-darkPurple p-2 border-b-2 dark:border-mediumPurple border-lightPurple font-semibold text-lg`}>{exercise.exercise_name}</h3>
                                         <div className="p-3">
                                             {exercise.sets.map((set, index) => (
                                                 <div key={index} className="p-2 grid grid-cols-3 text-center items-center">

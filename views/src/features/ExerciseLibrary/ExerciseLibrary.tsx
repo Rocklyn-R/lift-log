@@ -4,11 +4,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Exercises } from "./Exercises/Exercises";
 import { MdArrowBackIos } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AddExercise } from "./AddExercise/AddExercise";
 import { Loading } from "../../components/Loading";
 import { useSelector } from "react-redux";
-import { selectCategories, selectLibraryLoading } from "../../redux-store/LibrarySlice";
+import { selectLibraryLoading } from "../../redux-store/LibrarySlice";
 
 
 export const ExerciseLibrary = () => {

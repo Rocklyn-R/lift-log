@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getCategories } from "../../../api/exercises";
-import { Loading } from "../../../components/Loading";
 import { selectCategories, setCategories } from "../../../redux-store/LibrarySlice";
 import { setSelectedCategory } from "../../../redux-store/LogsSlice";
 import { Category } from "../../../types/types";
@@ -16,7 +15,6 @@ interface ExerciseCategoriesProps {
 export const ExerciseCategories: React.FC<ExerciseCategoriesProps> = ({ source, handleShowExercises }) => {
     const categories = useSelector(selectCategories);
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -24,7 +22,6 @@ export const ExerciseCategories: React.FC<ExerciseCategoriesProps> = ({ source, 
             const exerciseCategories = await getCategories();
             if (exerciseCategories) {
                 dispatch(setCategories(exerciseCategories))
-                setLoading(false);
             }
         }
         categoriesFetch();

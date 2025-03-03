@@ -41,7 +41,7 @@ export const CustomNumberInput: React.FC<CustomNumberInputProps> = ({
           {/* Increment Button */}
           <button
             onClick={handleDecrement}
-            className={`${disabledDecrement ? "dark:opacity-75 opacity-55" : "dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:bg-darkPurple"} text-lightestPurple bg-darkestPurple dark:bg-darkPurple absolute border-2 left-0 top-1/2 transform -translate-y-1/2 px-1 py-3 rounded-l-md `}
+            className={`${disabledDecrement ? "dark:opacity-75 opacity-55" : "dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:bg-darkPurple"} text-lightestPurple bordr-2 border-mediumPurple bg-darkestPurple dark:bg-darkPurple absolute border-2 left-0 top-1/2 transform -translate-y-1/2 px-1 py-3 rounded-l-md `}
             disabled={disabledDecrement}
           >
             <FaAngleDown />
@@ -53,12 +53,12 @@ export const CustomNumberInput: React.FC<CustomNumberInputProps> = ({
             min={min}
             max={max}
             onChange={handleInputChange}
-            className="dark:bg-lightPurple bg-whitestPurple border-2 px-8 h-11 w-24 text-xl text-center border-mediumPurple rounded-md focus:outline-none focus:ring-2 focus:ring-mediumPurple ring-2 ring-mediumPurple"
+            className="dark:bg-lightPurple bg-whitestPurple border-2 px-8 h-11 w-24 text-xl text-center border-mediumPurple rounded-md focus:outline-none ring-mediumPurple"
           />
           {/* Decrement Button */}
           <button
             onClick={handleIncrement}
-            className={`${disabledIncrement ? "dark:opacity-75 opacity-65" : "dark:hover:bg-lightestPurple dark:hover:text-darkestPurple  hover:bg-darkPurple"} absolute border-2 bg-darkestPurple dark:bg-darkPurple right-0 top-1/2 transform -translate-y-1/2 px-1 py-3 rounded-r-md text-lightestPurple`}
+            className={`${disabledIncrement ? "dark:opacity-75 opacity-65" : "dark:hover:bg-lightestPurple dark:hover:text-darkestPurple  hover:bg-darkPurple"} absolute border-2 border-mediumPurple bg-darkestPurple dark:bg-darkPurple right-0 top-1/2 transform -translate-y-1/2 px-1 py-3 rounded-r-md text-lightestPurple`}
             disabled={disabledIncrement}
           >
             <FaAngleUp />

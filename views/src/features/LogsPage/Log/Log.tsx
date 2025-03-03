@@ -5,7 +5,9 @@ import { setWorkout, selectSelectedDate, selectWorkout, setSelectedExercise, upd
 import { DndContext, MeasuringStrategy, DragEndEvent, TouchSensor, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { SortableLog } from "./SortableLog/SortableLog";
-
+import { useState } from "react";
+import { DeleteLog } from "./DeleteLog/DeleteLog";
+import { Workout } from "../../../types/types";
 
 interface LogProps {
     setShowEditExercise: (arg0: boolean) => void;
@@ -15,10 +17,15 @@ export const Log: React.FC<LogProps> = ({ setShowEditExercise }) => {
     const selectedDate = useSelector(selectSelectedDate);
     const dispatch = useDispatch();
     const workout = useSelector(selectWorkout);
-
+    const [showDeleteMessage, setShowDeleteMessage] = useState(false);
+    const [exerciseToDelete, setExerciseToDelete] = useState<Workout | null>(null);
 
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
+        if (document.querySelector(".delete-menu:hover")) {
+            console.log("LOG THIS");
+            return;
+        }
         if (over && active.id !== over.id) {
             const oldIndex = workout.findIndex(item => item.exercise_id === active.id);
             const newIndex = workout.findIndex(item => item.exercise_id === over.id);
@@ -46,14 +53,16 @@ export const Log: React.FC<LogProps> = ({ setShowEditExercise }) => {
         useSensor(MouseSensor), // For desktop
         useSensor(TouchSensor, {
             activationConstraint: {
-                delay: 250, // Delay before drag starts
+                delay: 0, // Delay before drag starts
                 tolerance: 5, // Allow small movements before activating drag
             }
         }) // For mobile
     );
 
+
+
     return (
-        <div className="space-y-4 dark:text-lightestPurple text-darkPurple font-semibold xs:w-3/4 sm:w-1/2 md:w-2/5 lg:w-1/3">
+        <div className="space-y-4 h-full dark:text-lightestPurple text-darkPurple font-semibold xs:w-3/4 sm:w-1/2 md:w-2/5 lg:w-1/3">
             <DndContext
                 sensors={sensors}
                 onDragEnd={handleDragEnd}
@@ -63,12 +72,22 @@ export const Log: React.FC<LogProps> = ({ setShowEditExercise }) => {
                         <SortableLog
                             key={exercise.exercise_id}
                             exercise={exercise}
+                            showDeleteMessage={showDeleteMessage}
+                            setShowDeleteMessage={setShowDeleteMessage}
+                            setExerciseToDelete={setExerciseToDelete}
+                            exerciseToDelete={exerciseToDelete}
                         />
                     ))}
                 </SortableContext>
 
             </DndContext>
-
+            {showDeleteMessage && (
+                <DeleteLog
+                    setShowDeleteMessage={setShowDeleteMessage}
+                    exercise={exerciseToDelete}
+                    setExerciseToDelete={setExerciseToDelete}
+                />
+            )}
         </div>
     );
 } 

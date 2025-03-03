@@ -7,7 +7,7 @@ import { Button } from "../../../components/Button";
 import { checkForUserEmail, sendResetEmail } from "../../../api/users";
 
 
-export const ForgotPassword = ({ }) => {
+export const ForgotPassword = () => {
     const [email, setEmail] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [pending, setPending] = useState(false);
@@ -24,7 +24,7 @@ export const ForgotPassword = ({ }) => {
              setPending(false);
          }
          if (emailCheckResult === "User found") {
-             const resetEmail = await sendResetEmail(lowerCaseEmail);
+             await sendResetEmail(lowerCaseEmail);
              setPending(false);
              setSuccessMessage(true)
          }

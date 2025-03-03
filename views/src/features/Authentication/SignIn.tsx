@@ -60,6 +60,7 @@ export const SignIn = () => {
                 placeholder="Email"
                 onChange={setEmail}
                 required={true}
+                className="focus:ring-1 ring-mediumPurple w-full"
               />
             </div>
 

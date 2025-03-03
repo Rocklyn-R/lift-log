@@ -28,7 +28,8 @@ module.exports = {
         xs: {'min': '450px', 'max': '639px'}, // Custom xs breakpoint
         'h-sm': { raw: '(max-height: 640px)' }, // Small height screens
         'h-md': { raw: '(min-height: 641px)' }, // Medium height screens
-        'h-lg': { raw: '(min-height: 769px)' }, // Large height screens // Add your desired breakpoint value here
+        'h-lg': { raw: '(max-height: 700px)' }, // Large height screens // Add your desired breakpoint value here
+        'xsh-sm': { raw: '(min-width: 300px) and (max-width: 639px) and (max-height: 700px)' },
       },
       spacing: {
         '028': '0.31rem',

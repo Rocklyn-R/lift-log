@@ -9,7 +9,7 @@ import { createSettings } from "../../api/settings";
 import { Link } from "react-router-dom";
 import { CustomPasswordInput } from "../../components/CustomPasswordInput";
 import { Loading } from "../../components/Loading";
-import { copyDefaultsToLibrary, getDefaultExercises } from "../../api/exercises";
+import { copyDefaultsToLibrary } from "../../api/exercises";
 import { CustomTextInput } from "../../components/CustomTextInput";
 
 export const SignUp = () => {
@@ -73,7 +73,7 @@ export const SignUp = () => {
                             <CustomTextInput
                                 value={firstName}
                                 name="first-name"
-                                className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
+                                className="focus:ring-1 w-full ring-darkPurple"
                                 placeholder="First name"
                                 onChange={setFirstName}
                                 required={true}
@@ -84,7 +84,7 @@ export const SignUp = () => {
                             <CustomTextInput
                                 value={lastName}
                                 name="last-name"
-                                className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
+                                className="focus:ring-1 w-full ring-darkPurple"
                                 placeholder="Last name"
                                 onChange={setLastName}
                                 required={true}
@@ -95,7 +95,7 @@ export const SignUp = () => {
                             <CustomTextInput
                                 value={email}
                                 name="email"
-                                className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
+                                className="focus:ring-1 w-full ring-darkPurple"
                                 placeholder="E-mail"
                                 onChange={setEmail}
                                 required={true}

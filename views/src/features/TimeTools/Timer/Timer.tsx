@@ -117,7 +117,7 @@ export const Timer = () => {
         lightPurple: '#BDBCDC',
         lightestPurple: '#ddddf7',
         mediumPurple: '#454399',
-        whitePurple: '#DDDAF3' */
+        whitePurple: '#DDDAF3' #0c0121*/
     return (
         <div className="h-[60vh] justify-center w-full flex flex-col items-center relative">
             {showEditTimer ? (
@@ -135,7 +135,7 @@ export const Timer = () => {
                             text={formatTime()}
                             styles={buildStyles({
                                 textColor: "#282b54",
-                                pathColor: dark ? "#282b54" : "#07043d",
+                                pathColor: dark ? "#282b54" : "#0c0121",
                                 trailColor: dark ? "#ddddf7" : "#fffcff",
                                 textSize: "16px",
                                 //strokeLinecap: '#DDDAF3'
@@ -149,7 +149,7 @@ export const Timer = () => {
                             setShowEditTimer(true)
                             pauseTimer();
                         }}
-                        className="dark:bg-darkPurple dark:border-2 dark:border-mediumPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple text-4xl text-lightestPurple bg-darkestPurple border-mediumPurple dark:text-lightestPurple absolute right-5 sm:right-1/6 md:right-1/4 top-8 md:top-10 hover:bg-darkPurple hover:shadow-lg p-2 rounded-full"
+                        className="xsh-sm:top-3 xsh-sm:right-3 xsh-sm:text-2xl dark:bg-darkPurple dark:border-2 dark:border-mediumPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple text-4xl text-lightestPurple bg-darkestPurple border-mediumPurple dark:text-lightestPurple absolute right-5 sm:right-1/6 md:right-1/4 top-8 md:top-10 hover:bg-darkPurple hover:shadow-lg p-2 rounded-full"
                     >
                         <LuTimer className="" />
                     </button>

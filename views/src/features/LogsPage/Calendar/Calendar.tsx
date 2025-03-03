@@ -109,11 +109,11 @@ export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action, set
                                 }}
                                 key={index}
                                 className={`font-semibold flex justify-center items-center w-9 h-9 sm:w-10 sm:h-10 ${dayIndex > 0 && dayIndex <= totalDays ? "cursor-pointer" : "text-transparent"
-                                    } p-2 rounded-full transition ${highlightedDates.includes(dayString) ? "border-2 rounded-full dark:hover:bg-lightestPurple dark:bg-darkPurple dark:hover:text-darkestPurple dark:border-mediumPurple hover:bg-lightPurple border-mediumPurple" : ""
+                                    } p-2 rounded-full transition ${highlightedDates.includes(dayString) && selectedDate !== dayString ? "border-2 rounded-full dark:hover:bg-lightestPurple dark:hover:text-darkestPurple dark:bg-darkPurple dark:border-mediumPurple hover:bg-lightPurple border-mediumPurple" : ""
                                     }
                                     ${
                                         selectedDate === dayString 
-                                            ? "dark:bg-lightestPurple bg-darkestPurple dark:text-darkestPurple text-lightestPurple" 
+                                            ? "dark:bg-lightestPurple bg-darkestPurple dark:text-darkestPurple text-lightestPurple border-2 dark:border-mediumPurple border-darkestPurple dark:hover:bg-lightestPurple hover:bg-darkestPurple" 
                                             : ""
                                     }`}
                             >

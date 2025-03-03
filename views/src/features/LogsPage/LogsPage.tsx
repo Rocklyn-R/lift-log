@@ -35,9 +35,11 @@ export const LogsPage = () => {
     const dateStringLong = formatDate(selectedDate).length > 10;
     const workout = useSelector(selectWorkout);
 
+
+
     return (
-        <div className="w-full xl:pl-0 pl-16 relative flex justify-center min-h-screen">
-            <div className="w-full flex flex-col items-center min-h-screen">
+        <div className="w-full h-full xl:pl-0 pl-16 relative flex justify-center min-h-screen">
+            <div className="w-full h-full flex flex-col items-center min-h-screen">
                 <div className=" sticky top-0 w-full  bg-darkestPurple flex justify-center ">
                     <button
                         onClick={() => handleAdjustDate('back')}
@@ -55,7 +57,7 @@ export const LogsPage = () => {
                         <FaAngleRight />
                     </button>
                 </div>
-                <div className={`flex flex-col items-center w-full space-y-4 mt-4`}>
+                <div className={`flex h-full flex-col items-center w-full space-y-4 mt-4`}>
                     {isLoading ? (
                         <div className="dark:bg-darkestPurple flex flex-col items-center justify-center h-screen bg-lightestPurple">
                             <Loading />

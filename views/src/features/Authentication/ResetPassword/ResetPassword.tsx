@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { checkToken, createNewPasswordWithToken } from "../../../api/users";
 import { Button } from "../../../components/Button";
@@ -17,7 +16,6 @@ export const ResetPassword = () => {
     const [passwordRepeat, setPasswordRepeat] = useState("");
     const [pending, setPending] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const dispatch = useDispatch();
     const [userId, setUserId] = useState<string | null>(null)
     const [successMessage, setSuccessMessage] = useState(false);
 

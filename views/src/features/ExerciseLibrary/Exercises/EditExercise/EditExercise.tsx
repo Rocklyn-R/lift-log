@@ -1,12 +1,10 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { editExercise, selectCategories, selectExercises } from "../../../../redux-store/LibrarySlice";
 import { CustomSelect } from "../../../../components/CustomSelect";
 import { Button } from "../../../../components/Button";
-import { OverlayWindow } from "../../../../components/OverlayWIndow";
 import { SelectedExercise } from "../../../../types/types";
 import { updateExercise } from "../../../../api/exercises";
-import e from "express";
 import { useDispatch } from "react-redux";
 import { CustomTextInput } from "../../../../components/CustomTextInput";
 
@@ -23,11 +21,9 @@ export const EditExercise: React.FC<EditExerciseProps> = ({ setExerciseToUpdate,
     const categories = useSelector(selectCategories);
     console.log(categories);
     const types = [{ name: "Weight and Reps", id: 1 }, { name: "Weight and Time", id: 2 }, { name: "Distance and Time", id: 3 }]
-    const [nameError, setNameError] = useState("");
     const [categoryError, setCategoryError] = useState("");
     const [typeError, setTypeError] = useState("");
     const [showSuccessMessage, setShowSucessMessage] = useState(false);
-    const exercises = useSelector(selectExercises);
     const dispatch = useDispatch();
 
     const handleUpdateExercise = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -69,8 +65,9 @@ export const EditExercise: React.FC<EditExerciseProps> = ({ setExerciseToUpdate,
                             className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
                             placeholder="Name"
                             onChange={setName}
+                            required
                         />
-                        {!name && <span className="absolute -bottom-5 right-0 px-2 text-sm rounded-md">{nameError}</span>}
+                        {!name && <span className="absolute -bottom-5 right-0 px-2 text-sm rounded-md"></span>}
                     </div>
                     <div className="mb-4 relative">
                         <label>Category</label>

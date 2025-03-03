@@ -49,7 +49,7 @@ export const Settings = () => {
                 </div>
             ) : (
                 <div className=" md:text-base text-xs w-full flex justify-center h-full">
-                    <div className=" dark:bg-darkestPurple rounded-none sm:rounded-md border-mediumPurple bg-lightestPurple lg:w-1/3 md:w-2/3 sm:w-3/4 w-full h-fit p-4">
+                    <div className=" dark:bg-darkestPurple rounded-none sm:rounded-md border-mediumPurple bg-lightestPurple lg:w-1/3 md:w-2/3 sm:w-3/4 w-full h-fit py-4 sm:py-4 sm:px-4">
                         {/* Theme Settings */}
                         <div className="relative dark:bg-darkestPurple mb-4 flex flex-col items-start w-full rounded-none border-y-2 sm:border-2 border-mediumPurple sm:rounded-md p-2 sm:p-4 bg-lightestPurple">
 

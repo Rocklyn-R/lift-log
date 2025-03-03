@@ -18,6 +18,7 @@ export const UserSettings = () => {
     const [showUsername, setShowUserName] = useState(false);
     const [showEditPassword, setShowEditPassword] = useState(false);
     const [newPassword, setNewPassword] = useState("");
+    const [newPasswordRepeat, setNewPasswordRepeat] = useState("")
     const [oldPassword, setOldPassword] = useState("");
     const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
     const [statusMessage, setStatusMessage] = useState("");
@@ -29,9 +30,17 @@ export const UserSettings = () => {
     const handleUpdatePassword = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoadingPasswordUpdate(true);
+        setPasswordErrorMessage("");
+        if (newPassword !== newPasswordRepeat) {
+            setPasswordErrorMessage("Passwords don't match.");
+            setLoadingPasswordUpdate(false);
+            return;
+        }
         const passwordUpdated = await updateUserPassword(oldPassword, newPassword);
+        console.log(passwordUpdated)
         setOldPassword('');
         setNewPassword('');
+        setNewPasswordRepeat('');
         if (passwordUpdated === 'Success') {
             setStatusMessage('Password successfully changed!');
             setTimeout(() => {
@@ -39,7 +48,7 @@ export const UserSettings = () => {
             }, 2000);
             setLoadingPasswordUpdate(false);
         } else if (passwordUpdated === 'Old password incorrect') {
-            setPasswordErrorMessage('Current password incorrect!');
+            setPasswordErrorMessage('Current password incorrect.');
             setLoadingPasswordUpdate(false);
         } else {
             setStatusMessage('An error ocurred');
@@ -121,13 +130,13 @@ export const UserSettings = () => {
                         onClose={() => setShowEditPassword(false)}
                         headerText="Change Password"
                         className=" dark:bg-darkestPurple w-full xs:w-3/4 sm:w-1/2 md:w-1/3 lg-w-1/4"
-                        className2="p-4 items-center dark:bg-darkestPurple space-y-4 flex justify-center items-center w-full"
+                        className2=" p-4 items-center dark:bg-darkestPurple space-y-4 flex justify-center items-center w-full"
                     >
                         {statusMessage === 'Password successfully changed!' ? (
                             <span className="dark:text-lightestPurple font-semibold">{statusMessage}</span>
                         ) : (
                             <>
-                                <form className="" onSubmit={handleUpdatePassword}>
+                                <form className="relative w-fit" onSubmit={handleUpdatePassword}>
                                     <CustomPasswordInput
                                         name="password 1"
                                         value={oldPassword}
@@ -142,7 +151,15 @@ export const UserSettings = () => {
                                         placeholder="New password"
                                         required={true}
                                     />
-                                    <div className="flex space-x-4 mt-6">
+                                       <CustomPasswordInput
+                                        name="password 3"
+                                        value={newPasswordRepeat}
+                                        onChange={(e) => setNewPasswordRepeat(e.target.value)}
+                                        placeholder="Repeat new password"
+                                        required={true}
+                                    />
+                                    {passwordErrorMessage && <p className="absolute text-red-800 font-semibold text-center w-full">{passwordErrorMessage}</p>}
+                                    <div className="flex space-x-4 mt-6 justify-center">
                                         <Button disabled={loadingPasswordUpdate} width="w-24" onClick={() => setShowEditPassword(false)} type="button">Cancel</Button>
                                         <Button width="w-24" disabled={loadingPasswordUpdate} type="submit">{loadingPasswordUpdate ? <Loading size="w-6 h-6" /> : "Save"} </Button>
                                     </div>

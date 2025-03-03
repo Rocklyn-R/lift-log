@@ -50,7 +50,7 @@ export const ConfirmEmail = () => {
             }
         }
         confirmEmail();
-    }, [])
+    })
 
     if (loading) {
         return (

@@ -101,9 +101,10 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
                         <CustomTextInput
                             value={name}
                             name="name"
-                            className="dark:bg-darkPurple dark:text-lightestPurple mt-2 p-3 w-full border-2 border-mediumPurple rounded-md focus:outline-none focus:ring-2 focus:ring-darkPurple"
+                            className="dark:bg-darkPurple dark:text-lightestPurple mt-2 p-3 w-full border-2 border-mediumPurple rounded-md focus:outline-none"
                             placeholder="Name"
                             onChange={setName}
+                            required={true}
                         />
                         {!name && <span className="absolute -bottom-5 right-0 px-2 text-sm rounded-md">{nameError}</span>}
                     </div>
