@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
 import { reorderExercises } from "../../../api/logs";
-import { setWorkout, selectSelectedDate, selectWorkout, setSelectedExercise, updateExerciseOrder } from "../../../redux-store/LogsSlice"
+import { setWorkout, selectSelectedDate, selectWorkout, setSelectedExercise, updateExerciseOrder, selectSelectedExercise } from "../../../redux-store/LogsSlice"
 import { DndContext, MeasuringStrategy, DragEndEvent, TouchSensor, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { SortableLog } from "./SortableLog/SortableLog";
@@ -18,7 +18,7 @@ export const Log: React.FC<LogProps> = ({ setShowEditExercise }) => {
     const dispatch = useDispatch();
     const workout = useSelector(selectWorkout);
     const [showDeleteMessage, setShowDeleteMessage] = useState(false);
-    const [exerciseToDelete, setExerciseToDelete] = useState<Workout | null>(null);
+    const selectedExercise = useSelector(selectSelectedExercise);
 
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
@@ -74,8 +74,7 @@ export const Log: React.FC<LogProps> = ({ setShowEditExercise }) => {
                             exercise={exercise}
                             showDeleteMessage={showDeleteMessage}
                             setShowDeleteMessage={setShowDeleteMessage}
-                            setExerciseToDelete={setExerciseToDelete}
-                            exerciseToDelete={exerciseToDelete}
+                            exerciseToDelete={selectedExercise ? selectedExercise : null}
                         />
                     ))}
                 </SortableContext>
@@ -84,8 +83,7 @@ export const Log: React.FC<LogProps> = ({ setShowEditExercise }) => {
             {showDeleteMessage && (
                 <DeleteLog
                     setShowDeleteMessage={setShowDeleteMessage}
-                    exercise={exerciseToDelete}
-                    setExerciseToDelete={setExerciseToDelete}
+                    exercise={selectedExercise}
                 />
             )}
         </div>

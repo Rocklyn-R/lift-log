@@ -256,3 +256,17 @@ export const prUpdate = async (pr: boolean, set_id: string) => {
     }
 } 
 
+export const exerciseDeleteFromLog = async (exercise_id: number, user_id: number, date: string) => {
+    const query = `DELETE FROM sets 
+    WHERE exercise_id = $1 AND user_id = $2 AND date = $3`;
+    try {
+        const result = await db.query(query, [
+            exercise_id, user_id, date
+        ]);
+        return result.rows;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+

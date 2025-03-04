@@ -202,3 +202,18 @@ export const updatePR = async (pr: boolean ,set_id: string) => {
     }
 }
 
+export const deleteExerciseFromLog = async (exercise_id: number, date: string) => {
+    try {
+        const response = await fetch(`${BASE_URL}/delete-log-exercise`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({ exercise_id, date })
+        })
+        return response.ok;
+    } catch (error) {
+        console.log(error);
+    }
+}

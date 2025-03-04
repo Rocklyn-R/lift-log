@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { selectLogsLoading, selectSelectedDate, selectWorkout, setSelectedDate } from "../../redux-store/LogsSlice";
+import { selectLogsLoading, selectSelectedDate, setSelectedDate } from "../../redux-store/LogsSlice";
 import { adjustDate, formatDate } from "../../utilities/utilities";
 import { useDispatch } from "react-redux";
 import { FaAngleLeft, FaAngleRight, FaPlus } from "react-icons/fa6";
@@ -14,12 +14,15 @@ import { ShowWorkout } from "./Calendar/ShowWorkout/ShowWorkout";
 import { CopyWorkout } from "./Calendar/CopyWorkout/CopyWorkout";
 import { Header } from "../../components/Header";
 import { Loading } from "../../components/Loading";
+import { setSelectedCategory, setSelectedSet, setSelectedExercise, setExerciseHistory } from "../../redux-store/LogsSlice";
+import { setExercises  } from "../../redux-store/LibrarySlice";
 
 
 export const LogsPage = () => {
     const selectedDate = useSelector(selectSelectedDate);
     const dispatch = useDispatch();
     const isLoading = useSelector(selectLogsLoading);
+
 
     const handleAdjustDate = (direction: 'back' | 'forward') => {
         const newDate = adjustDate(direction, selectedDate);
@@ -33,7 +36,22 @@ export const LogsPage = () => {
     const [showViewDay, setShowViewDay] = useState(false);
     const [showCopyDay, setShowCopyDay] = useState(false);
     const dateStringLong = formatDate(selectedDate).length > 10;
-    const workout = useSelector(selectWorkout);
+
+
+
+
+
+    const closeAddExercise = () => {
+        setShowAddExercise(false);
+        dispatch(setExercises([]));
+        dispatch(setSelectedCategory(""));
+        dispatch(setSelectedExercise(null));
+        dispatch(setSelectedSet(null));
+        dispatch(setExerciseHistory([]));
+    }
+
+
+
 
 
 
@@ -107,7 +125,7 @@ export const LogsPage = () => {
             )}
             {showAddExercise && (
                 <AddLog
-                    setShowAddExercise={setShowAddExercise}
+                closeAddExercise={closeAddExercise}
                 />
             )}
 

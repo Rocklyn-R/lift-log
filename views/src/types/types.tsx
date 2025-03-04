@@ -17,6 +17,7 @@ export interface SelectedExercise {
     exercise_name: string,
     category_name: string,
     type_name: string,
+    exercise_order: number
 }
 
 export interface Workout {

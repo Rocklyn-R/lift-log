@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { act } from "react";
+import { deleteExercise } from "../api/exercises";
 import { SelectedExercise, Workout, SelectedSet } from "../types/types";
 import { getTodayDate } from "../utilities/utilities";
 import { RootState } from "./store";
@@ -135,7 +136,7 @@ export const LogsSlice = createSlice({
                     state.workout.splice(foundIndex, 1);
                 }
             }
-          
+
         },
         setExerciseHistory: (state, action) => {
             state.exerciseHistory = action.payload;
@@ -198,34 +199,34 @@ export const LogsSlice = createSlice({
                     pr: PR,
                     weight_lbs: weight_lbs
                 })
-             } else {
-                    const newEntry = {
-                        exercise_id: exercise_id,
-                        date: date,
-                        exercise_name: exercise_name,
-                        exercise_order: exercise_order,
-                        sets: [{
-                            weight: weight,
-                            reps: reps,
-                            set_number: set_number,
-                            set_id: id,
-                            pr: PR,
-                            weight_lbs: weight_lbs
-                        }]
-                    };
-                
-                    // Find the correct insertion index to maintain order (most recent to least recent)
-                    const insertIndex = state.exerciseHistory.findIndex(workout => new Date(workout.date) < new Date(date));
-                
-                    if (insertIndex === -1) {
-                        // If no smaller date is found, the new entry is the oldest, so push to the end
-                        state.exerciseHistory.push(newEntry);
-                    } else {
-                        // Insert at the correct position to keep the array sorted
-                        state.exerciseHistory.splice(insertIndex, 0, newEntry);
-                    }
+            } else {
+                const newEntry = {
+                    exercise_id: exercise_id,
+                    date: date,
+                    exercise_name: exercise_name,
+                    exercise_order: exercise_order,
+                    sets: [{
+                        weight: weight,
+                        reps: reps,
+                        set_number: set_number,
+                        set_id: id,
+                        pr: PR,
+                        weight_lbs: weight_lbs
+                    }]
+                };
+
+                // Find the correct insertion index to maintain order (most recent to least recent)
+                const insertIndex = state.exerciseHistory.findIndex(workout => new Date(workout.date) < new Date(date));
+
+                if (insertIndex === -1) {
+                    // If no smaller date is found, the new entry is the oldest, so push to the end
+                    state.exerciseHistory.push(newEntry);
+                } else {
+                    // Insert at the correct position to keep the array sorted
+                    state.exerciseHistory.splice(insertIndex, 0, newEntry);
                 }
-                
+            }
+
         },
         updateHistoryOnDelete: (state, action) => {
             const { set_id, PRData, date, set_number } = action.payload;
@@ -247,20 +248,21 @@ export const LogsSlice = createSlice({
                         }
                     })
                 }
-              
+
                 if (PRData.length > 0) {
                     state.exerciseHistory.forEach(historyItem => {
                         historyItem.sets.forEach(set => {
-                        if (PRData.includes(set.set_id)) {
-                            set.pr = true;
-                        }})
+                            if (PRData.includes(set.set_id)) {
+                                set.pr = true;
+                            }
+                        })
                     })
                 }
             }
-          
+
         },
         updateHistoryOnEdit: (state, action) => {
-           const { PRData } = action.payload
+            const { PRData } = action.payload
             const PRsToRemove = PRData.setPRFalse;
             const PRsToAdd = PRData.setPRTrue;
             const { date, weight, reps, id } = action.payload
@@ -287,8 +289,14 @@ export const LogsSlice = createSlice({
                         });
                     });
                 }
-                
-               
+
+
+            }
+        },
+        deleteExerciseFromWorkout: (state, action) => {
+            const foundIndex = state.workout.findIndex(exercise => exercise.exercise_id === action.payload.exercise_id);
+            if (foundIndex !== -1) {
+                state.workout.splice(foundIndex, 1)
             }
         }
     }
@@ -314,7 +322,8 @@ export const {
     setLogsLoading,
     updateHistoryOnInsert,
     updateHistoryOnDelete,
-    updateHistoryOnEdit
+    updateHistoryOnEdit,
+    deleteExerciseFromWorkout
 } = LogsSlice.actions;
 
 export const selectSelectedDate = (state: RootState) => state.logs.selectedDate;

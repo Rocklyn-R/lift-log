@@ -4,16 +4,17 @@ import { Exercises } from "../../ExerciseLibrary/Exercises/Exercises";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setExercises } from "../../../redux-store/LibrarySlice";
-import { selectSelectedCategory, selectSelectedExercise, selectWorkout, setExerciseHistory, setSelectedCategory, setSelectedExercise, setSelectedSet } from "../../../redux-store/LogsSlice";
+import { selectSelectedCategory, selectSelectedDate, selectSelectedExercise, selectWorkout, setExerciseHistory, setSelectedCategory, setSelectedExercise, setSelectedSet, updateExerciseOrder } from "../../../redux-store/LogsSlice";
 import { ViewLog } from "./ViewLog/ViewLog";
 import { MdArrowBackIos } from "react-icons/md";
 import { useEffect } from "react";
+import { reorderExercises } from "../../../api/logs";
 
 interface AddLogProps {
-    setShowAddExercise: (arg1: boolean) => void;
+    closeAddExercise: () => void;
 }
 
-export const AddLog: React.FC<AddLogProps> = ({ setShowAddExercise }) => {
+export const AddLog: React.FC<AddLogProps> = ({ closeAddExercise }) => {
     const [showCategories, setShowCategories] = useState(true);
     const [showExercises, setShowExercises] = useState(false);
     const [showLogForm, setShowLogForm] = useState(false);
@@ -21,6 +22,7 @@ export const AddLog: React.FC<AddLogProps> = ({ setShowAddExercise }) => {
     const selectedCategory = useSelector(selectSelectedCategory);
     const selectedExercise = useSelector(selectSelectedExercise);
     const workout = useSelector(selectWorkout);
+    const selectedDate = useSelector(selectSelectedDate);
 
 
     const handleShowExercises = () => {
@@ -40,16 +42,28 @@ export const AddLog: React.FC<AddLogProps> = ({ setShowAddExercise }) => {
         setShowLogForm(true);
     }
 
+    const changeExerciseOrder = () => {
+        const exerciseInWorkout = workout.find(exercise => exercise.exercise_id === selectedExercise?.exercise_id);
+        console.log(exerciseInWorkout);
+        if (!exerciseInWorkout) {
+            workout.forEach(async (exercise, index) => {
+                const newOrder = index + 1;
+                const orderChange = await reorderExercises(newOrder, selectedDate, exercise.exercise_id);
+                if (orderChange) {
+                    const newExercise = {
+                        exercise_id: exercise.exercise_id,
+                        exercise_order: newOrder
+                    }
+                    dispatch(updateExerciseOrder(newExercise))
+                }
+            })
+        }
+     
+    }
+
     const handleCloseOverlay = () => {
-        setShowAddExercise(false);
-        setShowExercises(false);
-        setShowCategories(true);
-        setShowLogForm(false);
-        dispatch(setExercises([]));
-        dispatch(setSelectedCategory(""));
-        dispatch(setSelectedExercise(null));
-        dispatch(setSelectedSet(null));
-        dispatch(setExerciseHistory([]));
+        closeAddExercise();
+        
     }
 
     const handleNavigateBack = () => {

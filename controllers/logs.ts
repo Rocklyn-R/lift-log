@@ -1,5 +1,5 @@
 import e, { Request, Response } from 'express';
-import { allSetsDelete, datesGetAll, historyGet, logEdit, logGet, orderChange, prsGet, prUpdate, setDelete, setNumberUpdate, toLogAdd } from '../models/logs';
+import { allSetsDelete, datesGetAll, exerciseDeleteFromLog, historyGet, logEdit, logGet, orderChange, prsGet, prUpdate, setDelete, setNumberUpdate, toLogAdd } from '../models/logs';
 
 interface User {
     id: number
@@ -157,3 +157,17 @@ export const updatePr = async (req: Request, res: Response) => {
     }
 }
 
+export const deleteExerciseFromLog = async (req: Request, res: Response) => {
+    const date = req.body.date;
+    const exercise_id = req.body.exercise_id;
+    const user_id = (req.user as User).id;
+
+    try {
+        const result = await exerciseDeleteFromLog(exercise_id, user_id, date);
+        if (result) {
+            res.status(201).json({ message: "Exercise successfully deleted" })
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' })
+    }
+}
