@@ -127,9 +127,9 @@ export const Timer = () => {
                 <div className="flex items-start z-20 relative">
                     {/* Wrapper div for background color */}
                     <div
-                        className="absolute inset-0 rounded-full border-2 dark:border-mediumPurple bg-[#BDBCDC] dark:bg-[#BDBCDC] " // background color inside circle
+                        className="absolute mx-2 inset-0 rounded-full border-2 dark:border-mediumPurple bg-[#BDBCDC] dark:bg-[#BDBCDC]" // background color inside circle
                     ></div>
-                    <div className="flex items-start z-20 border-2 border-mediumPurple rounded-full font-robotoMono font-bold">
+                    <div className="flex mx-2 items-start z-20 border-2 border-mediumPurple rounded-full font-robotoMono font-bold">
                         <CircularProgressbar
                             value={percentage}
                             text={formatTime()}
@@ -148,8 +148,9 @@ export const Timer = () => {
                         onClick={() => {
                             setShowEditTimer(true)
                             pauseTimer();
+                            console.log("SHOWING")
                         }}
-                        className="xsh-sm:top-3 xsh-sm:right-3 xsh-sm:text-2xl dark:bg-darkPurple dark:border-2 dark:border-mediumPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple text-4xl text-lightestPurple bg-darkestPurple border-mediumPurple dark:text-lightestPurple absolute right-5 sm:right-1/6 md:right-1/4 top-8 md:top-10 hover:bg-darkPurple hover:shadow-lg p-2 rounded-full"
+                        className="absolute top-10 right-4 md:top-14 sm:right-1/6 md:right-1/4 xsh-sm:top-3 xsh-sm:right-3 xsh-sm:text-2xl dark:bg-darkPurple dark:border-2 dark:border-mediumPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple text-4xl text-lightestPurple bg-darkestPurple border-mediumPurple dark:text-lightestPurple hover:bg-darkPurple hover:shadow-lg p-2 rounded-full z-50"
                     >
                         <LuTimer className="" />
                     </button>

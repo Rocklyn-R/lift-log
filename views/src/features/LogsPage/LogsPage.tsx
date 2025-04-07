@@ -23,7 +23,6 @@ export const LogsPage = () => {
     const dispatch = useDispatch();
     const isLoading = useSelector(selectLogsLoading);
 
-
     const handleAdjustDate = (direction: 'back' | 'forward') => {
         const newDate = adjustDate(direction, selectedDate);
         dispatch(setSelectedDate(newDate));
@@ -61,7 +60,7 @@ export const LogsPage = () => {
                 <div className=" sticky top-0 w-full  bg-darkestPurple flex justify-center ">
                     <button
                         onClick={() => handleAdjustDate('back')}
-                        className={` ${dateStringLong ? "xs:top-5 top-5" : "top-2"} z-50 p-3 flex justify-center absolute left-12 xs:left-24 sm:left-44 md:left-52 lg:left-72 md:top-3 text-lightestPurple text-2xl`}
+                        className={` ${dateStringLong ? "xs:top-5 top-5" : "top-3"} z-50 p-3 flex justify-center absolute left-12 xs:left-24 sm:left-44 md:left-52 lg:left-72 md:top-3 text-lightestPurple text-2xl`}
                     >
                         <FaAngleLeft />
                     </button>
@@ -70,14 +69,14 @@ export const LogsPage = () => {
 
                     <button
                         onClick={() => handleAdjustDate('forward')}
-                        className={`${dateStringLong ? "xs:top-5 top-5" : "top-2"} z-50 absolute p-3 right-12 xs:right-24 sm:right-44 md:right-52 lg:right-72 md:top-3 text-lightestPurple text-2xl`}
+                        className={`${dateStringLong ? "xs:top-5 top-5" : "top-3"} z-50 absolute p-3 right-12 xs:right-24 sm:right-44 md:right-52 lg:right-72 md:top-3 text-lightestPurple text-2xl`}
                     >
                         <FaAngleRight />
                     </button>
                 </div>
                 <div className={`flex h-full flex-col items-center w-full space-y-4 mt-4`}>
                     {isLoading ? (
-                        <div className="dark:bg-darkestPurple flex flex-col items-center justify-center h-screen bg-lightestPurple">
+                        <div className="dark:bg-darkestPurple flex flex-col items-center mt-20 h-screen bg-lightestPurple">
                             <Loading />
                         </div>
                     ) : (
