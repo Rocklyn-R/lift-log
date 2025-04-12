@@ -34,6 +34,8 @@ export const Navigation: React.FC<NavigationProps> = ({isOpen, setIsOpen}) => {
       setSelectedTab('Settings');
     } else if (pathname.includes('/clock')) {
       setSelectedTab("Time")
+    } else if (pathname.includes('/liftbot')) {
+      setSelectedTab("LiftBot")
     }
     // Add more conditions as per your routes
   }, [location]);
@@ -100,6 +102,19 @@ export const Navigation: React.FC<NavigationProps> = ({isOpen, setIsOpen}) => {
               }}
             >
               Time Tools
+            </Link>
+          </li>
+          <li>
+            <Link
+             to="/liftbot"
+             className={`${selectedTab === 'LiftBot' ? 'bg-darkPurple border-y-2 dark:border-mediumPurple border-transparent' : 'border-transparent dark:hover:bg-lightestPurple dark:hover:text-darkestPurple'} block py-4 px-4 dark:hover:border-y-2 border-y-2 hover:bg-darkPurple`}
+             onClick={() => {
+               setSelectedTab('LiftBot')
+               dispatch(setSelectedDate(getTodayDate()));
+               setIsOpen(false);
+             }}
+            >
+              LiftBot
             </Link>
           </li>
           <li>

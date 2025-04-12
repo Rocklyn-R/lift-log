@@ -22,6 +22,7 @@ import { useEffect } from 'react';
 import { ConfirmEmail } from './features/Authentication/ConfirmEmail/ConfirmEmail';
 import { useCategoriesFetch } from './hooks/useCatgoriesFetch';
 import { useDispatch } from 'react-redux';
+import { LiftBot } from './features/LiftBot/LiftBot';
 
 
 function App() {
@@ -111,6 +112,10 @@ function App() {
                 <Route
                   path="/settings"
                   element={<Settings />}
+                />
+                <Route 
+                  path="/liftbot"
+                  element={<LiftBot />}
                 />
               </>
             )}
