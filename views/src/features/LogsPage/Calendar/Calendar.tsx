@@ -27,10 +27,10 @@ export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action, set
         setLoading(true);
         const monthString = getYearMonth(currentDate)
         const fetchDates = async () => {
-            console.log(monthString);
+        
             const datesResult = await getAllDates(monthString);
             if (datesResult) {
-                console.log(datesResult);
+         
                 const dateStrings = datesResult.map((item: any) => 
                     new Date(item.date).toISOString().split("T")[0] // Convert to YYYY-MM-DD
                 );

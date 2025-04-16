@@ -28,11 +28,11 @@ export const CopyMessage: React.FC<CopyMessageProps> = ({ setShowCopyMessage, se
     }
 
     const handleSelectCopy = async () => {
-        console.log(workoutToCopy);
+ 
         const setIds = findPRsOnCopy(workoutToCopy, selectedDate)
-        console.log(setIds);
+     
         for (const exercise of workoutToCopy) {
-            console.log(exercise);
+ 
             const exerciseOrder = (() => {
                 const foundExercise = workout.find(item => item.exercise_id === exercise.exercise_id);
                 if (foundExercise) {

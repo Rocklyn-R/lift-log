@@ -214,7 +214,14 @@ export const findPRsOnDelete = (historyArray: Workout[], deletedSetId: string) =
    const sortedHistory = [...historyArray].sort((a, b) => 
    new Date(a.date).getTime() - new Date(b.date).getTime()
  );
-  const allSets = sortedHistory.flatMap(workout => workout.sets);
+ console.log(sortedHistory);
+ const allSets = sortedHistory.flatMap(workout =>
+  workout.sets.map(set => ({
+    ...set,
+    date: workout.date // attach workout's date to each set
+  }))
+);
+
   // Filter sets that should be marked as PR
   const setsToMarkAsPR = allSets.filter(set => {
     return (
@@ -226,11 +233,13 @@ export const findPRsOnDelete = (historyArray: Workout[], deletedSetId: string) =
           (Number(y.weight) > Number(set.weight) && y.reps > set.reps) ||
           (Number(y.weight) === Number(set.weight) && y.reps > set.reps) ||
           (Number(y.weight) > Number(set.weight) && y.reps === set.reps) ||
-          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && y.set_id < set.set_id)
+          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && new Date(y.date).getTime() < new Date(set.date).getTime())
         )
       )
     );
   });
+
+
 
   // Return an array of set_id's that need PR = true
   return setsToMarkAsPR.map(set => set.set_id);
@@ -244,11 +253,17 @@ export interface UpdateSetData {
 }
 
 export const findPRsOnUpdate = (historyArray: Workout[], updatedSet: UpdateSetData) => {
-  const allSets = historyArray.flatMap(workout => workout.sets);
+
+
+  const allSets = historyArray.flatMap(workout => 
+    workout.sets.map(set => ({
+      ...set,
+      date: workout.date
+    })));
   console.log(updatedSet.set_id);
   // Create a copy of allSets with the updatedSet replacing the old version
   const updatedSets = allSets.map(set =>
-    set.set_id === updatedSet.set_id ? {...updatedSet, pr: set.pr} : set
+    set.set_id === updatedSet.set_id ? {...updatedSet, date: set.date, pr: set.pr} : set
   );
 
   // Find sets that should be marked as PR
@@ -261,8 +276,8 @@ export const findPRsOnUpdate = (historyArray: Workout[], updatedSet: UpdateSetDa
         (
           (Number(y.weight) > Number(set.weight) && y.reps > set.reps) ||
           (Number(y.weight) === Number(set.weight) && y.reps > set.reps) ||
-          (Number(y.weight) > Number(set.weight) && y.reps === set.reps) ||
-          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && y.set_id < set.set_id)
+          (Number(y.weight) > Number(set.weight) && y.reps === set.reps) || 
+          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && new Date(y.date).getTime() < new Date(set.date).getTime())
         )
       )
     );
@@ -279,7 +294,7 @@ export const findPRsOnUpdate = (historyArray: Workout[], updatedSet: UpdateSetDa
           (Number(y.weight) > Number(set.weight) && y.reps > set.reps) ||
           (Number(y.weight) === Number(set.weight) && y.reps > set.reps) ||
           (Number(y.weight) > Number(set.weight) && y.reps === set.reps) ||
-          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && y.set_id < set.set_id)
+          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && new Date(y.date).getTime() < new Date(set.date).getTime())
         )
       )
     );
@@ -299,49 +314,3 @@ export const findPRsOnUpdate = (historyArray: Workout[], updatedSet: UpdateSetDa
   };
 };
 
-const triggerLogic = `
-CREATE OR REPLACE FUNCTION update_pr_on_update()
-RETURNS TRIGGER AS $$
-BEGIN
-    -- Set PR = true for sets that qualify as a PR
-    UPDATE sets
-    SET "PR" = true
-    WHERE exercise_id = NEW.exercise_id
-      AND user_id = NEW.user_id
-      AND NOT EXISTS (
-          SELECT 1
-          FROM sets AS y
-          WHERE y.exercise_id = NEW.exercise_id
-            AND y.user_id = NEW.user_id
-            AND (
-                (y.weight > sets.weight AND y.reps > sets.reps AND y.reps > 0) OR
-                (y.weight = sets.weight AND y.reps > sets.reps AND y.reps > 0) OR
-               	(y.weight > sets.weight AND y.reps = sets.reps AND y.reps > 0) OR
-                (y.weight = sets.weight AND y.reps = sets.reps AND y.reps > 0 AND y.id < sets.id)
-            )
-      )
-       AND sets.reps > 0;
-
-    -- Set PR = false for sets that do not qualify as a PR
-    UPDATE sets
-    SET "PR" = false
-    WHERE exercise_id = NEW.exercise_id
-      AND user_id = NEW.user_id
-      AND EXISTS (
-          SELECT 1
-          FROM sets AS y
-          WHERE y.exercise_id = NEW.exercise_id
-            AND y.user_id = NEW.user_id
-            AND (
-                (y.weight > sets.weight AND y.reps > sets.reps) OR
-              	(y.weight > sets.weight AND y.reps = sets.reps) OR
-                (y.weight = sets.weight AND y.reps > sets.reps) OR
-                (y.weight = sets.weight AND y.reps = sets.reps AND y.id < sets.id)
-            )
-      );
-      
-
-    RETURN NEW; -- Returning NEW because it's an UPDATE trigger
-END;
-$$ LANGUAGE plpgsql;
-`
