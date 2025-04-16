@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { emailChangeConfirm, pendingEmailSet, settingsCreate, settingsGet, themeSet, unitSystemSet } from '../models/settings';
+import { effortScaleSet, emailChangeConfirm, pendingEmailSet, settingsCreate, settingsGet, themeSet, unitSystemSet } from '../models/settings';
 import nodemailer from 'nodemailer';
 import { randomUUID } from 'crypto';
 
@@ -43,6 +43,20 @@ export const setUnitSystem = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal Server Error' })
     }
 }
+
+export const setEffortScale = async (req: Request, res: Response) => {
+    const user_id = (req.user as User).id;
+    const { effort_scale } = req.body;
+    try {
+        const result = await effortScaleSet(effort_scale, user_id);
+        if (result) {
+            res.status(201).json({ message: "Effort scale successfully updated" })
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' })
+    }
+}
+
 
 export const setTheme = async (req: Request, res: Response) => {
     const user_id = (req.user as User).id;

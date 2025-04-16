@@ -1,4 +1,4 @@
-import { confirmEmailChange, createSettings, getSettings, setPendingEmail, setTheme, setUnitSystem } from '../controllers/settings';
+import { confirmEmailChange, createSettings, getSettings, setEffortScale, setPendingEmail, setTheme, setUnitSystem } from '../controllers/settings';
 import express from 'express';
 import { changeUserPassword } from '../controllers/users';
 
@@ -9,6 +9,8 @@ settingsRouter.post('/', createSettings);
 settingsRouter.get('/', getSettings);
 
 settingsRouter.put('/unit-system', setUnitSystem);
+
+settingsRouter.put('/effort-scale', setEffortScale);
 
 settingsRouter.put('/change-password', changeUserPassword);
 

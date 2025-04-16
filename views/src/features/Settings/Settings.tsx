@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { MdOutlineEdit } from "react-icons/md";
 import { CustomSelect } from "../../components/CustomSelect";
 import { FaCheck, FaX } from "react-icons/fa6";
-import { updateTheme, updateUnitSystem } from "../../api/settings";
+import { updateEffortScale, updateTheme, updateUnitSystem } from "../../api/settings";
 import { useDispatch } from "react-redux";
-import { changeTheme, changeUnitSystem, selectSettingsLoading, selectTheme, selectUnitSystem } from "../../redux-store/SettingsSlice";
+import { changeEffortScale, changeTheme, changeUnitSystem, selectEffortScale, selectSettingsLoading, selectTheme, selectUnitSystem } from "../../redux-store/SettingsSlice";
 import { useSelector } from "react-redux";
 import { Loading } from "../../components/Loading";
 import { UserSettings } from "./UserSettings/UserSettings";
@@ -20,6 +20,9 @@ export const Settings = () => {
     const [showUnitSystem, setShowUnitSystem] = useState(false);
     const dispatch = useDispatch();
     const isLoading = useSelector(selectSettingsLoading);
+    const effortScale = useSelector(selectEffortScale);
+    const [effortScaleValue, setEffortScaleValue] = useState(effortScale);
+    const [showEffortScale, setShowEffortScale] = useState(false);
 
     const handleChangeUnitSystem = async () => {
         dispatch(changeUnitSystem(unitSystemValue));
@@ -38,6 +41,11 @@ export const Settings = () => {
         await updateTheme(newTheme);
     }
 
+    const handleChangeEffortScale = async () => {
+        dispatch(changeEffortScale(effortScaleValue));
+        setShowUnitSystem(true);
+        await updateEffortScale(effortScaleValue);
+    }
 
 
     return (
@@ -62,7 +70,7 @@ export const Settings = () => {
                                             options={[{ id: 1, name: "Light" }, { id: 2, name: "Dark" }]}
                                             onChange={(theme) => setNewTheme(theme)}
                                             value={newTheme}
-                                            className="w-[5.5rem]"
+                                            className="w-[5.5rem] mt-2"
                                         />
                                         <div className="flex space-x-2 items-center">
                                             <button onClick={() => {
@@ -94,7 +102,7 @@ export const Settings = () => {
                                             options={[{ id: 1, name: "Metric" }, { id: 2, name: "Imperial" }]}
                                             onChange={(system) => setUnitSystemValue(system)}
                                             value={unitSystemValue}
-                                            className="w-[6.7rem]"
+                                            className="w-[6.7rem] mt-2"
                                         />
                                         <div className="flex space-x-2 items-center">
                                             <button onClick={handleChangeUnitSystem} className="mt-2  border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><FaCheck className="text-xl" /></button>
@@ -109,6 +117,35 @@ export const Settings = () => {
                                     <div className="flex w-full justify-between items-center">
                                         <span className="flex items-center justify-center rounded-md border-2 border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 bg-white">{unitSystemValue}</span>
                                         <button onClick={() => setShowUnitSystem(true)} className="mt-2 dark:border-mediumPurple flex items-center justify-center text-lightestPurple bg-darkestPurple hover:bg-darkPurple border-transparent dark:text-lightestPurple p-1 sm:p-3 border-2 rounded-full dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple"><MdOutlineEdit className="text-xl" /></button>
+                                    </div>
+                                )}
+
+                            </div>
+                        </div>
+                         <div className="mb-4 sm:border-2 border-y-2 border-mediumPurple bg-lightestPurple sm:p-4 p-2 rounded-none sm:rounded-md dark:bg-darkestPurple">
+                            <h2 className="text-lg font-bold mb-2 dark:text-lightestPurple">Effort Scale</h2>
+                            <div className="flex items-center w-full justify-between text-darkestPurple space-x-4">
+                                {showEffortScale ? (
+                                    <>
+                                        <CustomSelect
+                                            options={[{ id: 1, name: "RPE" }, { id: 2, name: "RIR" }]}
+                                            onChange={(scale) => setEffortScaleValue(scale)}
+                                            value={effortScaleValue}
+                                            className="w-[6.7rem] mt-2"
+                                        />
+                                        <div className="flex space-x-2 items-center">
+                                            <button onClick={handleChangeEffortScale} className="mt-2  border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><FaCheck className="text-xl" /></button>
+                                            <button onClick={() => {
+                                                setEffortScaleValue(effortScale);
+                                                setShowEffortScale(false);
+                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple dark:text-lightestPurple border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><FaX className="text-lg" /></button>
+                                        </div>
+
+                                    </>
+                                ) : (
+                                    <div className="flex w-full justify-between items-center">
+                                        <span className="flex items-center justify-center rounded-md border-2 border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 bg-white">{effortScaleValue}</span>
+                                        <button onClick={() => setShowEffortScale(true)} className="mt-2 dark:border-mediumPurple flex items-center justify-center text-lightestPurple bg-darkestPurple hover:bg-darkPurple border-transparent dark:text-lightestPurple p-1 sm:p-3 border-2 rounded-full dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple"><MdOutlineEdit className="text-xl" /></button>
                                     </div>
                                 )}
 

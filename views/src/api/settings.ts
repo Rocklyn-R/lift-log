@@ -50,6 +50,22 @@ export const updateUnitSystem = async (unit_system: string) => {
     }
 }
 
+export const updateEffortScale = async (effort_scale: string) => {
+    try {
+        const response = await fetch(`${BASE_URL}/effort-scale`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({ effort_scale })
+        })
+        return response.ok
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const updateUserPassword = async (oldPassword: string, newPassword: string) => {
     try {
         const response = await fetch(`${BASE_URL}/change-password`, {

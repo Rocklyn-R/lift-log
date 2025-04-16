@@ -36,6 +36,18 @@ export const unitSystemSet = async (unit_system: "Metric" | "Imperial", user_id:
     }
 }
 
+export const effortScaleSet = async (effort_scale: "RPE" | "RIR", user_id: number) => {
+    const query = `UPDATE settings SET effort_scale = $1
+    WHERE user_id = $2`;
+    try {
+        const result = await db.query(query, [effort_scale, user_id]);
+        return result;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
 export const themeSet = async (theme: "Light" | "Dark", user_id: number) => {
     const query = `UPDATE settings SET theme = $1
     WHERE user_id = $2`;
