@@ -10,7 +10,10 @@ export const getUserLogs = async (
   sets.exercise_order,
   sets."PR",
   sets.weight,
-  sets.reps
+  sets.reps,
+  sets."RPE",
+  sets."RIR",
+  sets.notes
 FROM sets
 JOIN exercise_library ON sets.exercise_id = exercise_library.id
 WHERE sets.user_id = $1
