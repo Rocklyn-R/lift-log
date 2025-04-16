@@ -24,7 +24,10 @@ export const useWorkoutOnDayFetch = (setLoading: (loading: boolean) => void) => 
                             set_number: set.set_number,
                             set_id: set.id,
                             pr: set.PR,
-                            weight_lbs: set.weight_lbs
+                            weight_lbs: set.weight_lbs,
+                            rpe: set.RPE,
+                            rir: set.RIR,
+                            notes: set.notes
                         });
                     } else {
                         // If the exercise is not found, create a new Workout object
@@ -39,7 +42,10 @@ export const useWorkoutOnDayFetch = (setLoading: (loading: boolean) => void) => 
                                 set_number: set.set_number,
                                 set_id: set.id,
                                 pr: set.PR,
-                                weight_lbs: set.weight_lbs
+                                weight_lbs: set.weight_lbs,
+                                rpe: set.RPE,
+                                rir: set.RIR,
+                                notes: set.notes
                             }]
                         });
                     }

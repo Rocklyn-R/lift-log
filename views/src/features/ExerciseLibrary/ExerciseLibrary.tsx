@@ -21,7 +21,7 @@ export const ExerciseLibrary = () => {
         }
     }
     const [showAddExercise, setShowAddExercise] = useState(false);
-
+    
 
 
 

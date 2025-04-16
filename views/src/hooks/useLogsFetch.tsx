@@ -14,6 +14,7 @@ export const useLogsFetch = () => {
     useEffect(() => {
         const fetchWorkoutData = async () => {
             const workoutFetchResults = await getLog(selectedDate);
+            console.log(workoutFetchResults);
             if (workoutFetchResults) {
                 const workoutArray = workoutFetchResults.reduce((acc: Workout[], set: any) => {
                     // Find if the exercise already exists in the workout array
@@ -27,7 +28,10 @@ export const useLogsFetch = () => {
                             set_number: set.set_number,
                             set_id: set.id,
                             pr: set.PR,
-                            weight_lbs: set.weight_lbs
+                            weight_lbs: set.weight_lbs,
+                            rir: set.RIR,
+                            rpe: set.RPE,
+                            notes: set.notes
                         });
                     } else {
                         // If the exercise is not found, create a new Workout object
@@ -42,7 +46,10 @@ export const useLogsFetch = () => {
                                 set_number: set.set_number,
                                 set_id: set.id,
                                 pr: set.PR,
-                                weight_lbs: set.weight_lbs
+                                weight_lbs: set.weight_lbs,
+                                rir: set.RIR,
+                                rpe: set.RPE,
+                                notes: set.notes
                             }]
                         });
                     }

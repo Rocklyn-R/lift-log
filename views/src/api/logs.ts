@@ -217,3 +217,36 @@ export const deleteExerciseFromLog = async (exercise_id: number, date: string) =
         console.log(error);
     }
 }
+
+export const updateNotes = async (id: string, notes: string, rir: string, rpe: string) => {
+    try {
+        const response = await fetch(`${BASE_URL}/notes`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({ id, notes, rir, rpe })
+        })
+        return response.ok;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getNotes = async (id: string) => {
+    try {
+        const response = await fetch(`${BASE_URL}/notes`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({ id })
+        })
+        const data = await response.json();
+        return data.notesData;
+    } catch (error) {
+        console.log(error);
+    }
+}

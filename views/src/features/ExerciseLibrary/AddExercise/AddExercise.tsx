@@ -115,7 +115,7 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
                             value={category}
                             onChange={(selectedCategory) => setCategory(selectedCategory)}
                             placeholder="Select Category"
-                            className="w-full"
+                            className="w-full mt-2"
                         />
                         <span className="absolute -bottom-5 right-0 px-2 text-sm rounded-md">{categoryError}</span>
                     </div>
@@ -126,7 +126,7 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
                             value={type}
                             onChange={(selectedType) => setType(selectedType)}
                             placeholder="Select Type"
-                            className="w-full"
+                            className="w-full mt-2"
                         />
                         <span className="absolute -bottom-5 right-0 px-2 text-sm rounded-md">{typeError}</span>
                     </div>

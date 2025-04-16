@@ -76,7 +76,7 @@ export const EditExercise: React.FC<EditExerciseProps> = ({ setExerciseToUpdate,
                             value={category}
                             onChange={(selectedCategory) => setCategory(selectedCategory)}
                             placeholder="Select Category"
-                            className="w-full"
+                            className="w-full mt-2"
                         />
                         <span className="absolute -bottom-5 right-0 px-2 text-sm rounded-md">{categoryError}</span>
                     </div>
@@ -88,7 +88,7 @@ export const EditExercise: React.FC<EditExerciseProps> = ({ setExerciseToUpdate,
                             onChange={(selectedType) => {setType(selectedType)
                             console.log(selectedType)}}
                             placeholder="Select Type"
-                            className="w-full"
+                            className="w-full mt-2"
                         />
                         <span className="absolute -bottom-5 right-0 px-2 text-sm rounded-md">{typeError}</span>
                     </div>

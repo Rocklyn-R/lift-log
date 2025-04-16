@@ -1,3 +1,4 @@
+import { ChatCompletionsPage } from "openai/resources/chat";
 import db from "../config/db";
 
 
@@ -65,6 +66,7 @@ ORDER BY
         const result = await db.query(query, [
             user_id, date
         ]);
+        console.log(result.rows)
         return result.rows;
     } catch (error) {
         throw error;
@@ -270,3 +272,30 @@ export const exerciseDeleteFromLog = async (exercise_id: number, user_id: number
     }
 }
 
+export const notesUpdate = async (id: string, user_id: number, notes: string, rir: string, rpe: string) => {
+    const query = `UPDATE sets 
+    SET notes = $1, "RIR" = $2, "RPE" = $3 
+    WHERE id = $4 and user_id = $5;`
+    try {
+        const result = await db.query(query, [
+            notes, rir, rpe, id, user_id
+        ]);
+        return result;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+export const notesGet = async (id: string, user_id: number) => {
+    const query = `SELECT "RPE", "RIR", notes 
+    FROM sets 
+    WHERE id = $1 AND user_id = $2`
+    try {
+        const result = await db.query(query, [id, user_id]);
+        return result.rows;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}

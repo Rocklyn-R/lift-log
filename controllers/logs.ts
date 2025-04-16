@@ -1,5 +1,5 @@
 import e, { Request, Response } from 'express';
-import { allSetsDelete, datesGetAll, exerciseDeleteFromLog, historyGet, logEdit, logGet, orderChange, prsGet, prUpdate, setDelete, setNumberUpdate, toLogAdd } from '../models/logs';
+import { allSetsDelete, datesGetAll, exerciseDeleteFromLog, historyGet, logEdit, logGet, notesGet, notesUpdate, orderChange, prsGet, prUpdate, setDelete, setNumberUpdate, toLogAdd } from '../models/logs';
 
 interface User {
     id: number
@@ -166,6 +166,32 @@ export const deleteExerciseFromLog = async (req: Request, res: Response) => {
         const result = await exerciseDeleteFromLog(exercise_id, user_id, date);
         if (result) {
             res.status(201).json({ message: "Exercise successfully deleted" })
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' })
+    }
+}
+
+export const updateNotes = async (req: Request, res: Response) => {
+    const { notes, id, rir, rpe } = req.body;
+    const user_id = (req.user as User).id;
+    try {
+        const result = await notesUpdate(id, user_id, notes, rir, rpe);
+        if (result) {
+            res.status(201).json({ message: "Notes successfully saved" })
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' })
+    }
+}
+
+export const getNotes = async (req: Request, res: Response) => {
+    const { id } = req.body;
+    const user_id = (req.user as User).id;
+    try {
+        const result = await notesGet(id, user_id);
+        if (result) {
+            res.status(201).json({ notesData: result })
         }
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' })

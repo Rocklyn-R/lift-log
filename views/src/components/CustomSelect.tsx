@@ -1,7 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 
+type SelectOption = string | { id: string | number; name: string };
+
+
 interface CustomSelectProps {
-    options: { id: string | number; name: string }[]; // Options array
+    options: SelectOption[]
     value: string; // Current selected value
     onChange: (selectedValue: string) => void; // Handler for selection
     placeholder?: string; // Placeholder text
@@ -39,7 +42,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
 
 
     return (
-        <div ref={selectRef} className={`relative ${className} mt-2 `}>
+        <div ref={selectRef} className={`relative ${className}`}>
             {/* Hidden Input for Required Validation */}
             <input
                 type="text"
@@ -71,15 +74,21 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
 
             {isOpen && (
                 <div className="text-darkestPurple absolute z-10 -mt-1 w-full dark:bg-darkPurple dark:text-lightestPurple bg-white border-b-2 border-x-2 border-mediumPurple rounded-b-md shadow-lg max-h-[25vh] overflow-y-auto ">
-                    {options.map((option) => (
-                        <div
-                            key={option.id}
-                            onClick={() => handleSelect(option.name)}
-                            className="p-3 font-semibold dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:bg-lightPurple cursor-pointer "
-                        >
-                            {option.name}
-                        </div>
-                    ))}
+                    {options.map((option) => {
+                        const value = typeof option === "object" && "id" in option ? option.id : option;
+                        const label = typeof option === "object" && "name" in option ? option.name : option;
+
+                        return (
+                            <div
+                                key={value}
+                                onClick={() => handleSelect(label)}
+                                className="p-3 font-semibold dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:bg-lightPurple cursor-pointer"
+                            >
+                                {label}
+                            </div>
+                        );
+                    })}
+
                 </div>
             )}
         </div>

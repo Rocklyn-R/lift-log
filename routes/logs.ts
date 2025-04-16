@@ -1,5 +1,5 @@
 import express from 'express';
-import { addToLog, changeOrder, deleteAllSets, deleteExerciseFromLog, deleteSet, editLog, getAllDates, getHistory, getLog, getPrs, updatePr, updateSetNumber } from '../controllers/logs';
+import { addToLog, changeOrder, deleteAllSets, deleteExerciseFromLog, deleteSet, editLog, getAllDates, getHistory, getLog, getNotes, getPrs, updateNotes, updatePr, updateSetNumber } from '../controllers/logs';
 
 const logsRouter = express.Router();
 
@@ -8,6 +8,10 @@ logsRouter.post('/add', addToLog);
 logsRouter.get('/', getLog);
 
 logsRouter.put('/edit', editLog);
+
+logsRouter.put('/notes', updateNotes);
+
+logsRouter.get('/notes', getNotes);
 
 logsRouter.delete('/delete', deleteSet);
 

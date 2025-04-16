@@ -40,7 +40,10 @@ export const DeleteLog: React.FC<DeleteLogProps> = ({ setShowDeleteMessage, exer
                             set_number: set.set_number,
                             set_id: set.id,
                             pr: set.PR,
-                            weight_lbs: set.weight_lbs
+                            weight_lbs: set.weight_lbs,
+                            rir: set.RIR,
+                            rpe: set.RPE,
+                            notes: set.notes
                         });
                     } else {
                         // Create a new exercise object
@@ -56,7 +59,10 @@ export const DeleteLog: React.FC<DeleteLogProps> = ({ setShowDeleteMessage, exer
                                     set_number: set.set_number,
                                     set_id: set.id,
                                     pr: set.PR,
-                                    weight_lbs: set.weight_lbs
+                                    weight_lbs: set.weight_lbs,
+                                    rir: set.RIR,
+                                    rpe: set.RPE,
+                                    notes: set.notes
                                 },
                             ],
                         });

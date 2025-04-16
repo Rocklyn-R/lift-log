@@ -62,7 +62,7 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exerciseToDelete, show
                         }}
                         className={`delete-menu p-2 rounded-full cursor-pointer box-border border-2  
               dark:hover:bg-lightestPurple dark:hover:text-darkestPurple dark:hover:border-mediumPurple hover:border-mediumPurple hover:bg-lightPurple
-              ${exerciseToDelete?.exercise_id === exercise.exercise_id ? "border-2 dark:border-mediumPurple dark:text-darkestPurple dark:bg-lightestPurple border-mediumPurple bg-lightPurple" : "border-transparent"}`}
+              ${exerciseToDelete?.exercise_id === exercise.exercise_id && showDeleteMessage ? "border-2 dark:border-mediumPurple dark:text-darkestPurple dark:bg-lightestPurple border-mediumPurple bg-lightPurple" : "border-transparent"}`}
                     >
                         <MdDeleteOutline className="w-5 h-5" />
                     </div>

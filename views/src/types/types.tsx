@@ -17,7 +17,7 @@ export interface SelectedExercise {
     exercise_name: string,
     category_name: string,
     type_name: string,
-    exercise_order: number
+    exercise_order: number,
 }
 
 export interface Workout {
@@ -34,7 +34,10 @@ export interface Set {
     set_number: number,
     set_id: string,
     pr: boolean,
-    weight_lbs: string
+    weight_lbs: string,
+    notes: string,
+    rir: string,
+    rpe: string
 }
 
 
