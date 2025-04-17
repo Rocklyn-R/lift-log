@@ -126,10 +126,8 @@ export const sendResetEmail = async (email: string) => {
 
 export const checkToken = async (token: string) => {
     try {
-        console.log(token);
         const response = await fetch(`${BASE_URL}/user/reset-password/check-token?token=${token}`);
         const data = await response.json();
-        console.log(data);
         return data;
         } catch (error) {
             console.error(error)

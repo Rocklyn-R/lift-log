@@ -44,7 +44,6 @@ export const AddLog: React.FC<AddLogProps> = ({ closeAddExercise }) => {
 
     const changeExerciseOrder = () => {
         const exerciseInWorkout = workout.find(exercise => exercise.exercise_id === selectedExercise?.exercise_id);
-        console.log(exerciseInWorkout);
         if (!exerciseInWorkout) {
             workout.forEach(async (exercise, index) => {
                 const newOrder = index + 1;

@@ -8,12 +8,10 @@ interface User {
 
 export const addToLog = async (req: Request, res: Response) => {
    const { id, date, exercise_id, set_number, weight, weight_lbs, reps, exercise_order, PR } = req.body;
-   console.log(req.body);
    const user_id = (req.user as User).id;
    
     try {
         const result = await toLogAdd(id, date, user_id, exercise_id, set_number, weight, weight_lbs, reps, exercise_order, PR);
-        console.log(result);
         if (result) {
             res.status(201).json({ set: result})
         }

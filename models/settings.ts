@@ -83,8 +83,6 @@ export const emailChangeConfirm = async (pending_email_token: string) => {
         if (validateToken.rows.length === 0) {
             return [];
         } else if (validateToken.rows[0].pending_email === null) {
-            console.log("THIS")
-            console.log(validateToken.rows[0].pending_email)
             return validateToken.rows;
         } else {
             const pendingEmailResult = await db.query(getQuery, [pending_email_token]);

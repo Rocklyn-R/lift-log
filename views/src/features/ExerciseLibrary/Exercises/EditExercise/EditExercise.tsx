@@ -19,7 +19,6 @@ export const EditExercise: React.FC<EditExerciseProps> = ({ setExerciseToUpdate,
     const [category, setCategory] = useState(exercise.category_name);
     const [type, setType] = useState(exercise.type_name);
     const categories = useSelector(selectCategories);
-    console.log(categories);
     const types = [{ name: "Weight and Reps", id: 1 }, { name: "Weight and Time", id: 2 }, { name: "Distance and Time", id: 3 }]
     const [categoryError, setCategoryError] = useState("");
     const [typeError, setTypeError] = useState("");
@@ -86,7 +85,7 @@ export const EditExercise: React.FC<EditExerciseProps> = ({ setExerciseToUpdate,
                             options={types}
                             value={type}
                             onChange={(selectedType) => {setType(selectedType)
-                            console.log(selectedType)}}
+                            }}
                             placeholder="Select Type"
                             className="w-full mt-2"
                         />

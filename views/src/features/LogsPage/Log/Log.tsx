@@ -23,7 +23,7 @@ export const Log: React.FC<LogProps> = ({ setShowEditExercise }) => {
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
         if (document.querySelector(".delete-menu:hover")) {
-            console.log("LOG THIS");
+      
             return;
         }
         if (over && active.id !== over.id) {

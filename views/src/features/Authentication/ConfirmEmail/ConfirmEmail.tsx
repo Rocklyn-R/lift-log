@@ -21,10 +21,8 @@ export const ConfirmEmail = () => {
     useEffect(() => {
         const confirmEmail = async () => {
             const response = await confirmNewEmail(token!);
-            console.log(response);
             if (response.length > 0) {
                 if (response[0].pending_email !== null) {
-                    console.log(response)
                     setNewEmail(response[0].pending_email);
                     setSuccessMessage("Your email has been updated!");
                     dispatch(setUserEmail(response[0].pending_email));

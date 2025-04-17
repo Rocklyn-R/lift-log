@@ -37,7 +37,7 @@ export const UserSettings = () => {
             return;
         }
         const passwordUpdated = await updateUserPassword(oldPassword, newPassword);
-        console.log(passwordUpdated)
+    
         setOldPassword('');
         setNewPassword('');
         setNewPasswordRepeat('');
@@ -65,7 +65,7 @@ export const UserSettings = () => {
         dispatch(setPendingEmail(newEmail));
         setShowUserName(false); 
         const confirmationEmail = await sendConfirmationEmail(newEmail);
-        console.log(confirmationEmail);
+    
     }
 
     return (

@@ -148,7 +148,6 @@ export const LogForm = () => {
                 set_number: setNumber
             };
             const PRData = (findPRsOnInsert(history, newSet));
-            console.log(PRData);
             const exerciseObject = {
                 PR: PRData.newPR,
                 date: selectedDate,
@@ -173,7 +172,6 @@ export const LogForm = () => {
             const addSetResult = await addSetToLog(setId, selectedDate, selectedExercise.exercise_id, setNumber, weightInputMetric, weightInputImperial, repsInputToAdd, exercise_order, PRData.newPR);
             setLoadingSave(false);
             if (PRData.removePRsSetIds.length > 0) {
-                console.log("Setting pr to false for ids:", PRData.removePRsSetIds);
                 PRData.removePRsSetIds.forEach(async (set_id) => await updatePR(false, set_id))
             }
 
@@ -227,7 +225,7 @@ export const LogForm = () => {
                     weight_lbs: weightInputImperial,
                 }*/
                 const PRData = findPRsOnUpdate(history, setObjectToUpdate);
-                console.log(PRData);
+            
                 const PR = PRData.setPRTrue.includes(selectedSet.set_id);
                 const exerciseObject = {
                     PR: PR,
@@ -245,7 +243,7 @@ export const LogForm = () => {
                 }
                 dispatch(editSet(exerciseObject));
                 dispatch(updateHistoryOnEdit(exerciseObject))
-                console.log(PRData);
+            
                 if (PRData.setPRTrue.length > 0) {
                     PRData.setPRTrue.forEach(async (set_id) => await updatePR(true, set_id))
                 }

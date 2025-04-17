@@ -188,7 +188,7 @@ export const LogsSlice = createSlice({
             const { exercise_id, exercise_name, exercise_order } = action.payload;
             const { weight, reps, set_number, id, PR, weight_lbs, RIR, RPE, notes } = action.payload
             const date = action.payload.date;
-            console.log(action.payload.removePRsSetIds);
+
             const setIdsToUpdate = action.payload.removePRsSetIds; // Array of set_ids to update
             state.exerciseHistory.forEach(history => {
                 history.sets.forEach(set => {

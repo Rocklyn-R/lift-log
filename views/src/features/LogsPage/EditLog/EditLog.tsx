@@ -16,9 +16,9 @@ export const EditLog: React.FC<EditLogProps> = ({ setShowEditExercise }) => {
     const selectedDate = useSelector(selectSelectedDate);
 
     const changeExerciseOrder = () => {
-        console.log(selectedExercise)
+     
         const exerciseInWorkout = workout.find(exercise => exercise.exercise_id === selectedExercise?.exercise_id);
-        console.log(exerciseInWorkout);
+   
         if (!exerciseInWorkout) {
             workout.forEach(async (exercise, index) => {
                 const newOrder = index + 1;

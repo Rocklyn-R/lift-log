@@ -69,7 +69,6 @@ export const Timer = () => {
         if (isRunning) {
             clearInterval(intervalId);
             startTimer();
-            console.log("this")
         }
     }, [isRunning, startTimer])
 
@@ -148,7 +147,7 @@ export const Timer = () => {
                         onClick={() => {
                             setShowEditTimer(true)
                             pauseTimer();
-                            console.log("SHOWING")
+                        
                         }}
                         className="absolute top-10 right-4 md:top-14 sm:right-1/6 md:right-1/4 xsh-sm:top-3 xsh-sm:right-3 xsh-sm:text-2xl dark:bg-darkPurple dark:border-2 dark:border-mediumPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple text-4xl text-lightestPurple bg-darkestPurple border-mediumPurple dark:text-lightestPurple hover:bg-darkPurple hover:shadow-lg p-2 rounded-full z-50"
                     >

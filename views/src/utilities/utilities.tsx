@@ -136,11 +136,11 @@ export const findPRsOnInsert = (historyArray: Workout[], newSet: SetData) => {
 
   let newPR = false;
   let removePRsSetIds = [];
-  console.log("Highest weight:", highestWeight);
-  console.log("Highest reps at highest weight:", highestRepsAtHighestWeight);
+
+  
   //Case 1: If the new set has the highest weight
   if (newSet.weight > highestWeight) {
-    console.log("true")
+
     newPR = true;
   }
   //Case 2: If the new set equals the highest weight but has more reps
@@ -174,9 +174,6 @@ export const findPRsOnInsert = (historyArray: Workout[], newSet: SetData) => {
     const historyDate = new Date(existingPRsAtSameWeightAndReps[0].date);
     const newSetDate = new Date(newSet.date);
     if (historyDate > newSetDate) {
-      console.log(historyDate)
-      console.log(newSetDate)
-      console.log("THIS")
       newPR = true;
       removePRsSetIds.push(existingPRsAtSameWeightAndReps[0].set_id)
     }
@@ -214,7 +211,6 @@ export const findPRsOnDelete = (historyArray: Workout[], deletedSetId: string) =
    const sortedHistory = [...historyArray].sort((a, b) => 
    new Date(a.date).getTime() - new Date(b.date).getTime()
  );
- console.log(sortedHistory);
  const allSets = sortedHistory.flatMap(workout =>
   workout.sets.map(set => ({
     ...set,
@@ -260,7 +256,6 @@ export const findPRsOnUpdate = (historyArray: Workout[], updatedSet: UpdateSetDa
       ...set,
       date: workout.date
     })));
-  console.log(updatedSet.set_id);
   // Create a copy of allSets with the updatedSet replacing the old version
   const updatedSets = allSets.map(set =>
     set.set_id === updatedSet.set_id ? {...updatedSet, date: set.date, pr: set.pr} : set

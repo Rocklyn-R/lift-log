@@ -148,7 +148,6 @@ export const Exercises: React.FC<ExercisesProps> = ({ source, handleShowCategori
                                                         setShowEditExercise(true);
                                                         setOpenDropdown(null);
                                                         setExerciseToUpdate(exercise);
-                                                        console.log(exercise);
                                                     }}
                                                     className="flex justify-between items-center rounded-t-[.25rem] w-full text-left px-4 py-2 text-md dark:text-lightestPurple font-semibold text-darkestPurple dark:hover:bg-darkPurple hover:bg-lightPurple cursor-pointer"
                                                 >

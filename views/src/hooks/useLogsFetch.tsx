@@ -14,7 +14,7 @@ export const useLogsFetch = () => {
     useEffect(() => {
         const fetchWorkoutData = async () => {
             const workoutFetchResults = await getLog(selectedDate);
-            console.log(workoutFetchResults);
+       
             if (workoutFetchResults) {
                 const workoutArray = workoutFetchResults.reduce((acc: Workout[], set: any) => {
                     // Find if the exercise already exists in the workout array

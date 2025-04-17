@@ -27,7 +27,7 @@ export const Notes: React.FC<NotesProps> = ({ closeNotes, set }) => {
  
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [isScrollable, setIsScrollable] = useState(false);
-    console.log(set);
+
     const rpeToRirMap: Record<string, string> = {
         "10": "0",
         "9.5": "0.5",

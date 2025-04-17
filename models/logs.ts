@@ -66,7 +66,6 @@ ORDER BY
         const result = await db.query(query, [
             user_id, date
         ]);
-        console.log(result.rows)
         return result.rows;
     } catch (error) {
         throw error;
@@ -214,7 +213,6 @@ export const datesGetAll = async (
     month: string,
     user_id: number
 ) => {
-    console.log(month);
     const query = `SELECT DISTINCT TO_CHAR(date::DATE, 'YYYY-MM-DD') AS date
     FROM sets
     WHERE TO_CHAR(date::DATE, 'YYYY-MM') = $1 

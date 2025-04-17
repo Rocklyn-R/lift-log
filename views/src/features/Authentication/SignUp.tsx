@@ -45,7 +45,6 @@ export const SignUp = () => {
             } else if (response.user) {
                 await createSettings();
                 const defaultAdds = await copyDefaultsToLibrary();
-                console.log(defaultAdds);
 
                 dispatch(setIsAuthenticated(true));
                 setErrorMessage("");
