@@ -229,7 +229,8 @@ export const findPRsOnDelete = (historyArray: Workout[], deletedSetId: string) =
           (Number(y.weight) > Number(set.weight) && y.reps > set.reps) ||
           (Number(y.weight) === Number(set.weight) && y.reps > set.reps) ||
           (Number(y.weight) > Number(set.weight) && y.reps === set.reps) ||
-          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && new Date(y.date).getTime() < new Date(set.date).getTime())
+          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && new Date(y.date).getTime() < new Date(set.date).getTime()) ||
+          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && new Date(y.date).getTime() === new Date(set.date).getTime() && y.set_number < set.set_number)
         )
       )
     );
@@ -245,7 +246,8 @@ export interface UpdateSetData {
   weight: number,
   reps: number,
   set_id: string,
-  pr: boolean
+  pr: boolean,
+  set_number: number
 }
 
 export const findPRsOnUpdate = (historyArray: Workout[], updatedSet: UpdateSetData) => {
@@ -272,7 +274,8 @@ export const findPRsOnUpdate = (historyArray: Workout[], updatedSet: UpdateSetDa
           (Number(y.weight) > Number(set.weight) && y.reps > set.reps) ||
           (Number(y.weight) === Number(set.weight) && y.reps > set.reps) ||
           (Number(y.weight) > Number(set.weight) && y.reps === set.reps) || 
-          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && new Date(y.date).getTime() < new Date(set.date).getTime())
+          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && new Date(y.date).getTime() < new Date(set.date).getTime()) ||
+          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && new Date(y.date).getTime() === new Date(set.date).getTime() && y.set_number < set.set_number)
         )
       )
     );
@@ -289,7 +292,8 @@ export const findPRsOnUpdate = (historyArray: Workout[], updatedSet: UpdateSetDa
           (Number(y.weight) > Number(set.weight) && y.reps > set.reps) ||
           (Number(y.weight) === Number(set.weight) && y.reps > set.reps) ||
           (Number(y.weight) > Number(set.weight) && y.reps === set.reps) ||
-          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && new Date(y.date).getTime() < new Date(set.date).getTime())
+          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && new Date(y.date).getTime() < new Date(set.date).getTime()) ||
+          (Number(y.weight) === Number(set.weight) && y.reps === set.reps && new Date(y.date).getTime() === new Date(set.date).getTime() && y.set_number < set.set_number)
         )
       )
     );

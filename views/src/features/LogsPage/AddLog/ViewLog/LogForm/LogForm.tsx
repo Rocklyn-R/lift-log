@@ -207,7 +207,8 @@ export const LogForm = () => {
                     weight: weightInputMetric,
                     reps: repsInputToAdd,
                     set_id: selectedSet.set_id,
-                    pr: selectedSet.pr
+                    pr: selectedSet.pr,
+                    set_number: selectedSet.set_number
                 }
                 
                /* const exerciseObject = {

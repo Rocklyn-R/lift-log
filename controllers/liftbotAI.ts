@@ -1,80 +1,14 @@
 import { Request, Response } from "express";
 import openai from "../config/openAI";
-import { getUserLogs } from "models/liftbotAI";
+import { exerciseMatchFind, getPRData, getUserLogs } from "models/liftbotAI";
 import fs from "fs";
 import path from "path";
+import { needsSpecificExercise, needsWorkoutContext } from "../AI/liftbot/classifiers/classifiers";
+import { formatLogsForPromptByLift, formatPRsForPrompt, groupLogsByDateAndCombineSets } from "../AI/utilities/utilities";
 
 interface User {
   id: number
 }
-
-// Helper function
-const needsWorkoutContext = async (message: string): Promise<boolean> => {
-  const check = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
-    messages: [
-      {
-        role: "system",
-        content: `
-          You are a strict classifier.
-          
-          Your job is to determine whether a user's question requires access to their personal workout logs to be answered accurately and usefully.
-          
-          This includes:
-          - questions about specific lifts (e.g., "Is my squat improving?")
-          - questions asking about performance, history, progress, trends, or comparisons
-          - any question that refers to "my lifts", "my progress", "have I improved", etc.
-          
-          If the question would benefit from looking at the user's past workout data, respond with "yes". Otherwise, respond with "no".
-          
-          ONLY reply with "yes" or "no". No explanations.
-          `.trim(),
-      },
-      {
-        role: "user",
-        content: message,
-      },
-    ],
-  });
-
-  const raw = check.choices[0].message?.content?.trim().toLowerCase();
-
-
-  return raw === "yes";
-
-};
-
-export const formatLogsForPrompt = (logs: any[], effortScale: "RIR" | "RPE") => {
-  const grouped: Record<string, any[]> = {};
-
-  // Group logs by date + exercise
-  logs.forEach((log) => {
-    const date = new Date(log.date).toDateString();
-    const key = `${date} - ${log.exercise_name}`;
-    if (!grouped[key]) grouped[key] = [];
-    grouped[key].push(log);
-  });
-
-  // Generate markdown tables per group
-  return Object.entries(grouped)
-    .map(([header, sets]) => {
-      const tableRows = sets
-        .map((s) => {
-          const weight = `${parseFloat(s.weight).toFixed(1).replace(/\.0$/, "")}kg`;
-          const reps = `${s.reps} reps`;
-          const rpeOrRir = effortScale === "RIR" ? s.RIR : s.RPE;
-          const effort = rpeOrRir ?? "-";
-          const notes = s.notes ?? "-";
-          const pr = s.PR ? "🏆" : "";
-
-          return `| ${s.set_number} | ${weight} | ${reps} | ${effort} | ${notes} | ${pr} |`;
-        })
-        .join("\n");
-
-      return `### ${header}\n\n| Set | Weight | Reps | ${effortScale} | Notes | PR |\n|-----|--------|------|------|--------|----|\n${tableRows}`;
-    })
-    .join("\n\n");
-};
 
 
 export const getLiftBotReply = async (req: Request, res: Response) => {
@@ -95,30 +29,52 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
       res.status(400).json({ error: "No user message found in messages array." });
       return;
     }
-    console.log(needsContext)
+
     const shouldUseContext = needsContext ? needsContext : await needsWorkoutContext(latestUserMessage);
-    console.log(shouldUseContext);
 
     let systemPrompt = "You are LiftBot, a friendly strength training assistant.";
-
+    console.log(shouldUseContext);
     if (shouldUseContext) {
-      //console.log("Needs context");
-      const recentLogs = await getUserLogs(user_id);
-      const formattedLogs = formatLogsForPrompt(recentLogs, effort_scale);
-      console.log(formattedLogs);
-      const today = new Date();
-      const formattedToday = today.toDateString(); // "Sun Apr 13 2025"
+      const liftsToFind = await needsSpecificExercise(latestUserMessage)
+      console.log(liftsToFind);
+      if (liftsToFind.type !== "general") {
+        const results = [];
+        for (const lift of liftsToFind.lifts) {
+          const matched = await exerciseMatchFind(lift, user_id);
+          results[lift] = matched;
+        }
 
-      // Load .md file and inject variables
-      const promptTemplate = fs.readFileSync(
-        path.join(__dirname, "../AIPrompts/LiftBot_Hypertrophy.md"),
-        "utf-8"
-      );
+        const allExerciseIds = Object.values(results).flat().map(exercise => exercise.id);
+        const allLogs = await getUserLogs(user_id, allExerciseIds);
+        const groupedLogs = groupLogsByDateAndCombineSets(allLogs);
+        const PRData = await getPRData(user_id, allExerciseIds);
+        //for (const [lift, matches] of Object.entries(results))
+        const logsByLift: Record<string, any[]> = {};
+        const PRsByLift: Record<string, any[]> = {};
+        for (const [lift, matches] of Object.entries(results)) {
+          const ids = matches.map(m => m.id);
+          logsByLift[lift] = groupedLogs.filter(log => ids.includes(log.exercise_id));
+          PRsByLift[lift] = PRData.filter(log => ids.includes(log.exercise_id))
+        }
+        console.log(PRsByLift);
+        const formattedLogs = formatLogsForPromptByLift(logsByLift, effort_scale);
 
-      systemPrompt = promptTemplate
-        .replace(/{{TODAY}}/g, formattedToday)
-        .replace(/{{EFFORT_SCALE}}/g, effort_scale)
-        .replace(/{{FORMATTED_LOGS}}/g, formattedLogs);
+        const formattedPRs = formatPRsForPrompt(PRsByLift);
+        const systemPromptTemplate = fs.readFileSync(
+          path.join(__dirname, "../AI/liftbot/prompts/LiftBot_Hypertrophy.md"),
+          "utf-8"
+        );
+
+        const today = new Date().toDateString(); // "Thu Apr 18 2025"
+
+        systemPrompt = systemPromptTemplate
+          .replace(/{{TODAY}}/g, today)
+          .replace(/{{EFFORT_SCALE}}/g, effort_scale)
+          .replace(/{{FORMATTED_LOGS}}/g, formattedLogs)
+          .replace(/{{FORMATTED_PRS}}/g, formattedPRs);
+
+
+      }
 
     } else {
       systemPrompt = `
