@@ -13,7 +13,7 @@ interface User {
 
 export const getLiftBotReply = async (req: Request, res: Response) => {
   try {
-    const { messages, needsContext, effort_scale } = req.body;
+    const { messages, needsContext, effort_scale, unit_system } = req.body;
     const user_id = (req.user as User).id;
 
     if (!messages || !Array.isArray(messages)) {
@@ -57,9 +57,9 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
           PRsByLift[lift] = PRData.filter(log => ids.includes(log.exercise_id))
         }
         console.log(PRsByLift);
-        const formattedLogs = formatLogsForPromptByLift(logsByLift, effort_scale);
+        const formattedLogs = formatLogsForPromptByLift(logsByLift, effort_scale, unit_system);
 
-        const formattedPRs = formatPRsForPrompt(PRsByLift);
+        const formattedPRs = formatPRsForPrompt(PRsByLift, unit_system);
         const systemPromptTemplate = fs.readFileSync(
           path.join(__dirname, "../AI/liftbot/prompts/LiftBot_Hypertrophy.md"),
           "utf-8"
@@ -70,10 +70,16 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
         systemPrompt = systemPromptTemplate
           .replace(/{{TODAY}}/g, today)
           .replace(/{{EFFORT_SCALE}}/g, effort_scale)
+          .replace(/{{UNIT_SYSTEM}}/g, unit_system)
           .replace(/{{FORMATTED_LOGS}}/g, formattedLogs)
           .replace(/{{FORMATTED_PRS}}/g, formattedPRs);
 
 
+      } else {
+        //Give liftbot 2 months of logs with only top sets of each exercise.
+        //Give liftbot summary of all PRs in last 2 months
+        //Group exercises by muscle group and note any stagnating muscle group
+        //Note training consistency and gaps in training.
       }
 
     } else {

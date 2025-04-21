@@ -29,7 +29,8 @@ export const groupLogsByDateAndCombineSets = (logs: any[]) => {
 
     groupedByDate[dateKey].sets.push({
       set_number: log.set_number,
-      weight: parseFloat(log.weight),
+      weight_in_kg: parseFloat(log.weight_in_kg),
+      weight_in_lbs: parseFloat(log.weight_in_lbs),
       reps: log.reps,
       PR: log.PR,
       RPE: log.RPE ?? "-",
@@ -44,7 +45,8 @@ export const groupLogsByDateAndCombineSets = (logs: any[]) => {
 
 export const formatLogsForPromptByLift = (
   logsByLift: Record<string, any[]>,
-  effortScale: "RPE" | "RIR"
+  effortScale: "RPE" | "RIR",
+  unit_system: string
 ): string => {
   const markdownChunks: string[] = [];
 
@@ -61,7 +63,8 @@ export const formatLogsForPromptByLift = (
 
       const tableRows = session.sets
         .map((set: any) => {
-          const weight = `${parseFloat(set.weight).toFixed(1).replace(/\.0$/, "")}kg`;
+          const metric = unit_system === "Metric";
+          const weight = metric ? `${parseFloat(set.weight_in_kg).toFixed(1).replace(/\.0$/, "")}kg` :  `${parseFloat(set.weight_in_lbs).toFixed(1).replace(/\.0$/, "")}lbs`;
           const reps = `${set.reps}`;
           const effort = set[effortScale] ?? "-";
           const notes = set.notes ?? "-";
@@ -79,7 +82,10 @@ export const formatLogsForPromptByLift = (
 };
 
 
-export const formatPRsForPrompt = (PRsByLift: Record<string, any[]>): string => {
+export const formatPRsForPrompt = (
+  PRsByLift: Record<string, any[]>,
+  unit_system: string
+): string => {
   return Object.entries(PRsByLift)
     .map(([exercise, prs]) => {
       if (prs.length === 0) {
@@ -90,7 +96,8 @@ export const formatPRsForPrompt = (PRsByLift: Record<string, any[]>): string => 
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
         .map(pr => {
           const date = new Date(pr.date).toDateString().slice(4); // e.g. "Apr 11 2025"
-          const weight = `${parseFloat(pr.weight_in_kg).toFixed(1).replace(/\.0$/, "")}kg`;
+          const metric = unit_system === "Metric";
+          const weight = metric ? `${parseFloat(pr.weight_in_kg).toFixed(1).replace(/\.0$/, "")}kg` : `${parseFloat(pr.weight_in_lbs).toFixed(1).replace(/\.0$/, "")}lbs`;
           const reps = pr.reps;
           const rpe = pr.RPE ?? "-";
           const notes = pr.notes ?? "-";

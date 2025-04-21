@@ -5,7 +5,7 @@ import { sendMessage } from "../../api/liftbot";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useSelector } from "react-redux";
-import { selectEffortScale } from "../../redux-store/SettingsSlice";
+import { selectEffortScale, selectUnitSystem } from "../../redux-store/SettingsSlice";
 
 
 export const LiftBot = () => {
@@ -16,6 +16,7 @@ export const LiftBot = () => {
     const [waitingForResponse, setWaitingForResponse] = useState(false);
     const [needsContext, setNeedsContext] = useState(false);
     const effortScale = useSelector(selectEffortScale);
+    const unit_system = useSelector(selectUnitSystem);
 
     const handleSend = async () => {
         if (!input.trim()) return;
@@ -32,7 +33,7 @@ export const LiftBot = () => {
         }));
       
         // Simulate AI response (replace this with your API call)
-        const data = await sendMessage(gptFormattedMessages, needsContext, effortScale);
+        const data = await sendMessage(gptFormattedMessages, needsContext, effortScale, unit_system);
        setTimeout(() => {
             setMessages(prev => [...prev, { sender: "ai", text: data.reply }]);
             if (!needsContext) {

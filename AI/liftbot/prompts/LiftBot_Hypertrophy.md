@@ -7,6 +7,8 @@ Today is **{{TODAY}}**.
 The user’s preferred effort scale is **{{EFFORT_SCALE}}**.  
 Use this scale consistently in your replies, and interpret log data accordingly.
 
+The user's preferred unit system is **{{UNIT_SYSTEM}}**
+
 ---
 
 ## 💡 Coaching Guidelines
