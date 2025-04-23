@@ -11,7 +11,7 @@ import timerRouter from "./routes/timers";
 import settingsRouter from "./routes/settings";
 import { RedisStore } from 'connect-redis';
 import { createClient } from 'redis';
-import liftbotRouter from 'routes/liftbotAI';
+import liftbotRouter from './routes/liftbotAI';
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
 }
