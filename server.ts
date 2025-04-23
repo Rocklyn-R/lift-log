@@ -15,6 +15,7 @@ import liftbotRouter from './routes/liftbotAI';
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
 }
+import trainingProfileRouter from './routes/training_profile';
 
 
 const app = express();
@@ -113,6 +114,7 @@ app.use(session({
  app.use('/timer', timerRouter);
  app.use('/settings', settingsRouter);
  app.use('/liftbot', liftbotRouter);
+ app.use('/training-profile', trainingProfileRouter);
 
  app.listen(PORT, () => {
     console.log(`Server running on port: ${PORT}`)

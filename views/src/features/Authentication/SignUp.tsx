@@ -11,6 +11,7 @@ import { CustomPasswordInput } from "../../components/CustomPasswordInput";
 import { Loading } from "../../components/Loading";
 import { copyDefaultsToLibrary } from "../../api/exercises";
 import { CustomTextInput } from "../../components/CustomTextInput";
+import { createTrainingProfile } from "../../api/training_profile";
 
 export const SignUp = () => {
     const [firstName, setFirstName] = useState("");
@@ -44,6 +45,7 @@ export const SignUp = () => {
                 }
             } else if (response.user) {
                 await createSettings();
+                await createTrainingProfile();
                 const defaultAdds = await copyDefaultsToLibrary();
 
                 dispatch(setIsAuthenticated(true));

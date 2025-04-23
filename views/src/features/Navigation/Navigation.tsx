@@ -36,6 +36,8 @@ export const Navigation: React.FC<NavigationProps> = ({isOpen, setIsOpen}) => {
       setSelectedTab("Time")
     } else if (pathname.includes('/liftbot')) {
       setSelectedTab("LiftBot")
+    } else if (pathname.includes('/training-profile')) {
+      setSelectedTab("Training Profile")
     }
     // Add more conditions as per your routes
   }, [location]);
@@ -89,6 +91,19 @@ export const Navigation: React.FC<NavigationProps> = ({isOpen, setIsOpen}) => {
               }}
             >
               Exercise Library
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/training-profile"
+              className={`${selectedTab === 'Training Profile' ? 'bg-darkPurple border-y-2 dark:border-mediumPurple border-transparent' : 'border-transparent dark:hover:bg-lightestPurple dark:hover:text-darkestPurple'} block py-4 px-4 dark:hover:border-y-2 border-y-2 hover:bg-darkPurple`}
+              onClick={() => {
+                setSelectedTab('Training Profile')
+                dispatch(setSelectedDate(getTodayDate()));
+                setIsOpen(false);
+              }}
+            >
+              Training Profile
             </Link>
           </li>
           <li>

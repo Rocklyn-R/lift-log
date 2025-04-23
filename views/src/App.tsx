@@ -23,12 +23,15 @@ import { ConfirmEmail } from './features/Authentication/ConfirmEmail/ConfirmEmai
 import { useCategoriesFetch } from './hooks/useCatgoriesFetch';
 import { useDispatch } from 'react-redux';
 import { LiftBot } from './features/LiftBot/LiftBot';
+import { TrainingProfile } from './features/TrainingProfile/TrainingProfile';
+import { useTrainingProfileFetch } from './hooks/useTrainingGoalsFetch';
 
 
 function App() {
   useUserFetch();
   useLogsFetch();
   useTimerFetch();
+  useTrainingProfileFetch();
   useSettingsFetch();
   useCategoriesFetch();
 
@@ -116,6 +119,10 @@ function App() {
                 <Route 
                   path="/liftbot"
                   element={<LiftBot />}
+                />
+                <Route 
+                  path="/training-profile"
+                  element={<TrainingProfile />}
                 />
               </>
             )}
