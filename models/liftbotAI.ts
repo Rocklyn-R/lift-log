@@ -145,3 +145,69 @@ export const exerciseMatchFind = async (partialName: string, user_id: number) =>
     throw error;
   }
 };
+
+export const getGeneralLogs = async (user_id: number) => {
+  const query = `SELECT 
+  exercise_library.name as exercise_name,
+    exercise_categories.name AS category_name,
+sets.date,
+sets.set_number,
+sets.exercise_order,
+sets."PR",
+sets.weight as weight_in_kg,
+sets.weight_lbs as weight_in_lbs,
+sets.reps,
+sets."RPE",
+sets."RIR",
+sets.notes,
+sets.exercise_id
+FROM sets
+JOIN exercise_library ON sets.exercise_id = exercise_library.id
+JOIN exercise_categories ON exercise_library.category = exercise_categories.id
+WHERE sets.user_id = $1 AND sets.exercise_order = 1 AND sets.set_number = 1
+AND sets.date >= CURRENT_DATE - INTERVAL '2 months'
+ORDER BY sets.date DESC, sets.exercise_order ASC, sets.set_number ASC;
+  `;
+  try {
+    const result = await db.query(query, [
+      user_id
+    ]);
+    return result.rows;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export const getGeneralPRData = async (user_id: number) => {
+  const query = `
+  SELECT exercise_library.name AS exercise_name,
+  exercise_categories.name AS category_name,
+  sets.date,
+  sets.set_number,
+  sets."PR",
+  sets.weight as weight_in_kg,
+  sets.weight_lbs as weight_in_lbs,
+  sets.reps,
+  sets."RPE",
+  sets."RIR",
+  sets.notes,
+  sets.exercise_id
+  FROM sets
+  JOIN exercise_library ON sets.exercise_id = exercise_library.id
+  JOIN exercise_categories ON exercise_library.category = exercise_categories.id
+  WHERE sets.user_id = $1 AND sets."PR" = $2
+AND sets.date >= CURRENT_DATE - INTERVAL '1 months'
+ORDER BY sets.date DESC, sets.exercise_order ASC, sets.set_number ASC;
+  `
+  try {
+    const result = await db.query(query, [
+      user_id,
+      true
+    ]);
+    return result.rows;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}

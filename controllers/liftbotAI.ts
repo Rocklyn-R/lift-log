@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import openai from "../config/openAI";
-import { exerciseMatchFind, getPRData, getUserLogs } from "models/liftbotAI";
+import { exerciseMatchFind, getGeneralLogs, getGeneralPRData, getPRData, getUserLogs } from "models/liftbotAI";
 import fs from "fs";
 import path from "path";
 import { needsSpecificExercise, needsWorkoutContext } from "../AI/liftbot/classifiers/classifiers";
-import { formatLogsForPromptByLift, formatPRsForPrompt, groupLogsByDateAndCombineSets } from "../AI/utilities/utilities";
+import { formatGeneralLogsForPrompt, formatGeneralPRsForPrompt, formatLogsForPromptByLift, formatPRsForPrompt, groupLogsByDateAndCombineSets } from "../AI/utilities/utilities";
 
 interface User {
   id: number
@@ -20,7 +20,7 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
       res.status(400).json({ error: "Message is required." });
       return;
     }
-
+    const today = new Date().toDateString(); // "Thu Apr 18 2025"
     const latestUserMessage = messages
       .slice()
       .reverse()
@@ -36,8 +36,9 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
     console.log(shouldUseContext);
     if (shouldUseContext) {
       const liftsToFind = await needsSpecificExercise(latestUserMessage)
-      console.log(liftsToFind);
+      console.log(liftsToFind.type);
       if (liftsToFind.type !== "general") {
+        
         const results = [];
         for (const lift of liftsToFind.lifts) {
           const matched = await exerciseMatchFind(lift, user_id);
@@ -56,30 +57,51 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
           logsByLift[lift] = groupedLogs.filter(log => ids.includes(log.exercise_id));
           PRsByLift[lift] = PRData.filter(log => ids.includes(log.exercise_id))
         }
-        console.log(PRsByLift);
+
         const formattedLogs = formatLogsForPromptByLift(logsByLift, effort_scale, unit_system);
 
-        const formattedPRs = formatPRsForPrompt(PRsByLift, unit_system);
+        const formattedPRs = formatPRsForPrompt(PRsByLift, effort_scale, unit_system);
+
         const systemPromptTemplate = fs.readFileSync(
-          path.join(__dirname, "../AI/liftbot/prompts/LiftBot_Hypertrophy.md"),
+          path.join(__dirname, "../AI/liftbot/prompts/LiftBot_Hypertrophy_Specific.md"),
           "utf-8"
         );
 
-        const today = new Date().toDateString(); // "Thu Apr 18 2025"
+
 
         systemPrompt = systemPromptTemplate
           .replace(/{{TODAY}}/g, today)
           .replace(/{{EFFORT_SCALE}}/g, effort_scale)
           .replace(/{{UNIT_SYSTEM}}/g, unit_system)
+          .replace(/{{LIFT_NAMES}}/g, liftsToFind.lifts.map((name: string) => `- ${name}`).join('\n'))
           .replace(/{{FORMATTED_LOGS}}/g, formattedLogs)
           .replace(/{{FORMATTED_PRS}}/g, formattedPRs);
 
 
       } else {
+        const generalLogs = await getGeneralLogs(user_id);
+        const generalPRData = await getGeneralPRData(user_id);
+        const formattedGeneralLogs = formatGeneralLogsForPrompt(generalLogs, effort_scale, unit_system);
+        const formattedGeneralPRs = formatGeneralPRsForPrompt(generalPRData, effort_scale, unit_system);
+        //console.log(formattedGeneralLogs);
+      
+        const systemPromptTemplate = fs.readFileSync(
+          path.join(__dirname, "../AI/liftbot/prompts/LiftBot_Hypertrophy_General.md"),
+          "utf-8"
+        );
+        //console.log(generalLogs);
+        //const organizedPRData = organizeGeneralData(generalPRData, effort_scale, unit_system);
+        //console.log(organizedPRData);
         //Give liftbot 2 months of logs with only top sets of each exercise.
         //Give liftbot summary of all PRs in last 2 months
         //Group exercises by muscle group and note any stagnating muscle group
         //Note training consistency and gaps in training.
+        systemPrompt = systemPromptTemplate
+          .replace(/{{TODAY}}/g, today)
+          .replace(/{{EFFORT_SCALE}}/g, effort_scale)
+          .replace(/{{UNIT_SYSTEM}}/g, unit_system)
+          .replace(/{{FORMATTED_LOGS}}/g, formattedGeneralLogs)
+          .replace(/{{FORMATTED_PRS}}/g, formattedGeneralPRs);
       }
 
     } else {

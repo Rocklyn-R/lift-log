@@ -15,12 +15,12 @@ If any specific lifts are mentioned, extract the exact names of those lifts **as
 
 ### Instructions
 
-You must always return a JSON object with two fields:
+You must always return a JSON object with two fields in the following format:
 
 ```json
 {
   "type": "single" | "multiple" | "general",
-  "lifts": string[]
+  "lifts": string[array of lowercase exercise names exactly as written by the user]
 }
 ```
 
@@ -83,4 +83,7 @@ You must always return a JSON object with two fields:
 
 ---
 
-Respond **only** with the JSON object. Do not explain your answer.
+Rules:
+- Do not modify exercise names — include them as written by the user.
+- Do not include explanations.
+- Respond **only** with the JSON object. Do not explain your answer.

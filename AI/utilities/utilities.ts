@@ -84,6 +84,7 @@ export const formatLogsForPromptByLift = (
 
 export const formatPRsForPrompt = (
   PRsByLift: Record<string, any[]>,
+  effort_scale: string,
   unit_system: string
 ): string => {
   return Object.entries(PRsByLift)
@@ -97,15 +98,113 @@ export const formatPRsForPrompt = (
         .map(pr => {
           const date = new Date(pr.date).toDateString().slice(4); // e.g. "Apr 11 2025"
           const metric = unit_system === "Metric";
+          const effortValue = effort_scale === "RPE" ? pr.RPE : pr.RIR;
           const weight = metric ? `${parseFloat(pr.weight_in_kg).toFixed(1).replace(/\.0$/, "")}kg` : `${parseFloat(pr.weight_in_lbs).toFixed(1).replace(/\.0$/, "")}lbs`;
           const reps = pr.reps;
-          const rpe = pr.RPE ?? "-";
           const notes = pr.notes ?? "-";
-          return `| ${date} | ${weight} | ${reps} | ${rpe} | ${notes} |`;
+          return `| ${date} | ${weight} | ${reps} | ${effortValue} | ${notes} |`;
         })
         .join("\n");
 
-      return `### ${exercise}\n\n| Date | Weight | Reps | RPE | Notes |\n|------|--------|------|-----|-------|\n${rows}`;
+      return `### ${exercise}\n\n| Date | Weight | Reps | ${effort_scale} | Notes |\n|------|--------|------|-----|-------|\n${rows}`;
     })
     .join("\n\n");
+};
+
+
+export const formatGeneralLogsForPrompt = (
+  logs: any[],
+  effort_scale: "RPE" | "RIR",
+  unit_system: "Metric" | "Imperial"
+): string => {
+  if (!logs.length) return "No recent logs found.";
+
+  const metric = unit_system === "Metric";
+
+  // Step 1: Group logs by category > exercise
+  const grouped: Record<string, Record<string, any[]>> = {};
+  for (const log of logs) {
+    const category = log.category_name;
+    const exercise = log.exercise_name;
+    if (!grouped[category]) grouped[category] = {};
+    if (!grouped[category][exercise]) grouped[category][exercise] = [];
+    grouped[category][exercise].push(log);
+  }
+
+  // Step 2: Format each group
+  const sections: string[] = [];
+
+  for (const [category, exercises] of Object.entries(grouped)) {
+    sections.push(`## ${category}\n`);
+
+    for (const [exercise, entries] of Object.entries(exercises)) {
+      const header = `### ${exercise}`;
+      const tableHeader = `| Date | Weight | Reps | ${effort_scale} | Notes |`;
+      const divider = `|------|--------|------|-----|-------|`;
+
+      const rows = entries.map((log) => {
+        const date = new Date(log.date).toDateString().slice(4); // "Apr 14 2025"
+        const weight = metric
+          ? `${parseFloat(log.weight_in_kg).toFixed(1).replace(/\.0$/, "")}kg`
+          : `${parseFloat(log.weight_in_lbs).toFixed(1).replace(/\.0$/, "")}lbs`;
+        const reps = log.reps;
+        const effort = log[effort_scale] ?? "-";
+        const notes = log.notes ?? "-";
+
+        return `| ${date} | ${weight} | ${reps} | ${effort} | ${notes} |`;
+      });
+
+      sections.push([header, "", tableHeader, divider, ...rows, ""].join("\n"));
+    }
+  }
+
+  return sections.join("\n");
+};
+
+
+export const formatGeneralPRsForPrompt = (
+  logs: any[],
+  effort_scale: "RPE" | "RIR",
+  unit_system: "Metric" | "Imperial"
+): string => {
+  if (!logs.length) return "No PRs found in the past 2-3 months.";
+
+  const metric = unit_system === "Metric";
+
+  // Group logs by exercise name
+  const grouped: Record<string, any[]> = {};
+  for (const log of logs) {
+    const exercise = log.exercise_name;
+    if (!grouped[exercise]) grouped[exercise] = [];
+    grouped[exercise].push(log);
+  }
+
+  const sections: string[] = [];
+
+  for (const [exercise, sets] of Object.entries(grouped)) {
+    const rows = sets.map((set) => {
+      const date = new Date(set.date).toDateString().slice(4); // Format like "Apr 11 2025"
+      const weight = metric
+        ? `${parseFloat(set.weight_in_kg).toFixed(1).replace(/\.0$/, "")}kg`
+        : `${parseFloat(set.weight_in_lbs).toFixed(1).replace(/\.0$/, "")}lbs`;
+      const reps = set.reps;
+      const effort = set[effort_scale] ?? "-";
+      const notes = set.notes ?? "-";
+
+      return `| ${date} | ${weight} | ${reps} | ${effort} | ${notes} |`;
+    });
+
+    const table = [
+      `### ${exercise}`,
+      "",
+      `| Date | Weight | Reps | ${effort_scale} | Notes |`,
+      `|------|--------|------|-----|-------|`,
+      ...rows,
+      ""
+    ].join("\n");
+
+    sections.push(table);
+  }
+
+  return sections.join("\n");
 };
