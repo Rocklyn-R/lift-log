@@ -7,7 +7,10 @@ export const sendMessage = async (
     messages: { role: string; content: string }[], 
     needsContext: boolean, 
     effort_scale: string,
-    unit_system: string
+    unit_system: string,
+    training_goal: string,
+    body_composition_goal: string,
+    injuries: string
 ) => {
  try {
         const response = await fetch(`${BASE_URL}/`, {
@@ -16,7 +19,15 @@ export const sendMessage = async (
                 'Content-Type': 'application/json'
             },
             credentials: "include",
-            body: JSON.stringify({ messages, needsContext, effort_scale, unit_system })
+            body: JSON.stringify({ 
+                messages, 
+                needsContext, 
+                effort_scale, 
+                unit_system,
+                training_goal,
+                body_composition_goal,
+                injuries
+             })
         })
         const data = await response.json();
         return data;

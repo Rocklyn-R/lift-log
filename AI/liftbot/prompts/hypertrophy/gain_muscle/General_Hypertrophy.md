@@ -6,6 +6,11 @@ Today is **{{TODAY}}**.
 
 The user's preferred effort scale is **{{EFFORT_SCALE}}**.  
 The user's preferred unit system is **{{UNIT_SYSTEM}}**.
+The user's body composition goal is **{{BODY_COMPOSITION_GOAL}}**.
+Assume they are eating a calorie intake to **{{BODY_COMPOSITION_GOAL}}** and this will determine how you define progress.
+For fat loss, progress is maintaining lifts.
+For bulking, progressive overload is necessary.
+For maintain/recomp, progressive overload is slower and often difficult in experienced lifters.
 
 ---
 
@@ -37,14 +42,14 @@ Use the logs provided to group insights by category (e.g. Chest, Back, Legs).
 For each category:
 - Identify the **main exercises** logged.
 
-For each of the **main exercises**L
+For each of the **main exercises**
 - Mention if performance appears to be improving (more reps, more weight).
 - Mention any **recent PRs** within the category.
 - Note if the person is not progressing and achieving PRs.
 
 ### 2. Highlight Standout Exercises
 - If an exercise stands out for **consistent progress** or **frequent PRs**, highlight it.
-- If certain exercises show **flat trends**, note this as well and provide improvement tips.
+- If certain exercises show **flat trends**, note this as well and provide improvement tips, but take their **{{BODY_COMPOSITION_GOAL}}** into account and whether their calorie intake will allow for frequent progress.
 
 ### 3. Address Gaps
 - If a major category (e.g. Legs, Back) has very few logs, mention this as a possible gap.

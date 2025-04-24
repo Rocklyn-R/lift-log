@@ -13,9 +13,17 @@ interface User {
 
 export const getLiftBotReply = async (req: Request, res: Response) => {
   try {
-    const { messages, needsContext, effort_scale, unit_system } = req.body;
+    const {
+      messages,
+      needsContext,
+      effort_scale,
+      unit_system,
+      training_goal,
+      body_composition_goal,
+      injuries
+    } = req.body;
     const user_id = (req.user as User).id;
-
+    console.log(body_composition_goal);
     if (!messages || !Array.isArray(messages)) {
       res.status(400).json({ error: "Message is required." });
       return;
@@ -38,7 +46,7 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
       const liftsToFind = await needsSpecificExercise(latestUserMessage)
       console.log(liftsToFind.type);
       if (liftsToFind.type !== "general") {
-        
+
         const results = [];
         for (const lift of liftsToFind.lifts) {
           const matched = await exerciseMatchFind(lift, user_id);
@@ -63,53 +71,73 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
         const formattedPRs = formatPRsForPrompt(PRsByLift, effort_scale, unit_system);
 
         const systemPromptTemplate = fs.readFileSync(
-          path.join(__dirname, "../AI/liftbot/prompts/LiftBot_Hypertrophy_Specific.md"),
+          path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/Specific_Hypertrophy.md"),
           "utf-8"
         );
-
-
 
         systemPrompt = systemPromptTemplate
           .replace(/{{TODAY}}/g, today)
           .replace(/{{EFFORT_SCALE}}/g, effort_scale)
+          .replace(/{{BODY_COMPOSITION_GOAL}}/, body_composition_goal)
           .replace(/{{UNIT_SYSTEM}}/g, unit_system)
           .replace(/{{LIFT_NAMES}}/g, liftsToFind.lifts.map((name: string) => `- ${name}`).join('\n'))
           .replace(/{{FORMATTED_LOGS}}/g, formattedLogs)
           .replace(/{{FORMATTED_PRS}}/g, formattedPRs);
-
-
       } else {
         const generalLogs = await getGeneralLogs(user_id);
         const generalPRData = await getGeneralPRData(user_id);
         const formattedGeneralLogs = formatGeneralLogsForPrompt(generalLogs, effort_scale, unit_system);
         const formattedGeneralPRs = formatGeneralPRsForPrompt(generalPRData, effort_scale, unit_system);
-        //console.log(formattedGeneralLogs);
-      
+
         const systemPromptTemplate = fs.readFileSync(
-          path.join(__dirname, "../AI/liftbot/prompts/LiftBot_Hypertrophy_General.md"),
+          path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/gain_muscle/General_Hypertrophy.md"),
           "utf-8"
         );
-        //console.log(generalLogs);
-        //const organizedPRData = organizeGeneralData(generalPRData, effort_scale, unit_system);
-        //console.log(organizedPRData);
-        //Give liftbot 2 months of logs with only top sets of each exercise.
-        //Give liftbot summary of all PRs in last 2 months
-        //Group exercises by muscle group and note any stagnating muscle group
-        //Note training consistency and gaps in training.
+
         systemPrompt = systemPromptTemplate
           .replace(/{{TODAY}}/g, today)
           .replace(/{{EFFORT_SCALE}}/g, effort_scale)
+          .replace(/{{BODY_COMPOSITION_GOAL}}/, body_composition_goal)
           .replace(/{{UNIT_SYSTEM}}/g, unit_system)
           .replace(/{{FORMATTED_LOGS}}/g, formattedGeneralLogs)
           .replace(/{{FORMATTED_PRS}}/g, formattedGeneralPRs);
       }
 
     } else {
-      systemPrompt = `
-      You are LiftBot, a friendly strength training assistant.
-      
-      You are free to give helpful, evidence-based general advice about strength training, workouts, recovery, and progression. The user has NOT provided any workout data, so answer their question generally and helpfully without referencing any specific data.
-      `.trim();
+      if (body_composition_goal === "Lose Fat") {
+        const systemPromptTemplate = fs.readFileSync(
+          path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/fat_loss/NoContext_FatLoss.md"),
+          "utf-8"
+        );
+
+        systemPrompt = systemPromptTemplate
+          .replace(/{{TODAY}}/g, today)
+          .replace(/{{EFFORT_SCALE}}/g, effort_scale)
+          .replace(/{{UNIT_SYSTEM}}/g, unit_system)
+          .replace(/{{INJURIES}}/g, injuries)
+
+      } else if (body_composition_goal === "Maintain / Recomp") {
+        const systemPromptTemplate = fs.readFileSync(
+          path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/recomp/NoContext_Recomp.md"),
+          "utf-8"
+        );
+
+        systemPrompt = systemPromptTemplate
+          .replace(/{{TODAY}}/g, today)
+          .replace(/{{EFFORT_SCALE}}/g, effort_scale)
+          .replace(/{{UNIT_SYSTEM}}/g, unit_system)
+          .replace(/{{INJURIES}}/g, injuries)
+      } else {
+        const systemPromptTemplate = fs.readFileSync(
+          path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/NoContext_Hypertrophy.md"),
+          "utf-8"
+        );
+        systemPrompt = systemPromptTemplate
+          .replace(/{{TODAY}}/g, today)
+          .replace(/{{EFFORT_SCALE}}/g, effort_scale)
+          .replace(/{{UNIT_SYSTEM}}/g, unit_system)
+      }
+
     }
 
 
