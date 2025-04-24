@@ -69,38 +69,97 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
         const formattedLogs = formatLogsForPromptByLift(logsByLift, effort_scale, unit_system);
 
         const formattedPRs = formatPRsForPrompt(PRsByLift, effort_scale, unit_system);
+        if (body_composition_goal === "Lose Fat") {
+          const systemPromptTemplate = fs.readFileSync(
+            path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/fat_loss/Specific_FatLoss.md"),
+            "utf-8"
+          );
 
-        const systemPromptTemplate = fs.readFileSync(
-          path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/Specific_Hypertrophy.md"),
-          "utf-8"
-        );
+          systemPrompt = systemPromptTemplate
+            .replace(/{{TODAY}}/g, today)
+            .replace(/{{EFFORT_SCALE}}/g, effort_scale)
+            .replace(/{{UNIT_SYSTEM}}/g, unit_system)
+            .replace(/{{LIFT_NAMES}}/g, liftsToFind.lifts.map((name: string) => `- ${name}`).join('\n'))
+            .replace(/{{FORMATTED_LOGS}}/g, formattedLogs)
+            .replace(/{{FORMATTED_PRS}}/g, formattedPRs);
 
-        systemPrompt = systemPromptTemplate
-          .replace(/{{TODAY}}/g, today)
-          .replace(/{{EFFORT_SCALE}}/g, effort_scale)
-          .replace(/{{BODY_COMPOSITION_GOAL}}/, body_composition_goal)
-          .replace(/{{UNIT_SYSTEM}}/g, unit_system)
-          .replace(/{{LIFT_NAMES}}/g, liftsToFind.lifts.map((name: string) => `- ${name}`).join('\n'))
-          .replace(/{{FORMATTED_LOGS}}/g, formattedLogs)
-          .replace(/{{FORMATTED_PRS}}/g, formattedPRs);
+        } else if (body_composition_goal === "Maintain / Recomp") {
+          const systemPromptTemplate = fs.readFileSync(
+            path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/recomp/Specific_Recomp.md"),
+            "utf-8"
+          );
+
+          systemPrompt = systemPromptTemplate
+            .replace(/{{TODAY}}/g, today)
+            .replace(/{{EFFORT_SCALE}}/g, effort_scale)
+            .replace(/{{UNIT_SYSTEM}}/g, unit_system)
+            .replace(/{{LIFT_NAMES}}/g, liftsToFind.lifts.map((name: string) => `- ${name}`).join('\n'))
+            .replace(/{{FORMATTED_LOGS}}/g, formattedLogs)
+            .replace(/{{FORMATTED_PRS}}/g, formattedPRs);
+
+        } else {
+          const systemPromptTemplate = fs.readFileSync(
+            path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/gain_muscle/Specific_GainMuscle.md"),
+            "utf-8"
+          );
+
+          systemPrompt = systemPromptTemplate
+            .replace(/{{TODAY}}/g, today)
+            .replace(/{{EFFORT_SCALE}}/g, effort_scale)
+            .replace(/{{BODY_COMPOSITION_GOAL}}/, body_composition_goal)
+            .replace(/{{UNIT_SYSTEM}}/g, unit_system)
+            .replace(/{{LIFT_NAMES}}/g, liftsToFind.lifts.map((name: string) => `- ${name}`).join('\n'))
+            .replace(/{{FORMATTED_LOGS}}/g, formattedLogs)
+            .replace(/{{FORMATTED_PRS}}/g, formattedPRs);
+        }
       } else {
         const generalLogs = await getGeneralLogs(user_id);
         const generalPRData = await getGeneralPRData(user_id);
         const formattedGeneralLogs = formatGeneralLogsForPrompt(generalLogs, effort_scale, unit_system);
         const formattedGeneralPRs = formatGeneralPRsForPrompt(generalPRData, effort_scale, unit_system);
 
-        const systemPromptTemplate = fs.readFileSync(
-          path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/gain_muscle/General_Hypertrophy.md"),
-          "utf-8"
-        );
+        if (body_composition_goal === "Lose Fat") {
 
-        systemPrompt = systemPromptTemplate
-          .replace(/{{TODAY}}/g, today)
-          .replace(/{{EFFORT_SCALE}}/g, effort_scale)
-          .replace(/{{BODY_COMPOSITION_GOAL}}/, body_composition_goal)
-          .replace(/{{UNIT_SYSTEM}}/g, unit_system)
-          .replace(/{{FORMATTED_LOGS}}/g, formattedGeneralLogs)
-          .replace(/{{FORMATTED_PRS}}/g, formattedGeneralPRs);
+          const systemPromptTemplate = fs.readFileSync(
+            path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/fat_loss/General_FatLoss.md"),
+            "utf-8"
+          );
+
+          systemPrompt = systemPromptTemplate
+            .replace(/{{TODAY}}/g, today)
+            .replace(/{{EFFORT_SCALE}}/g, effort_scale)
+            .replace(/{{BODY_COMPOSITION_GOAL}}/, body_composition_goal)
+            .replace(/{{UNIT_SYSTEM}}/g, unit_system)
+            .replace(/{{FORMATTED_LOGS}}/g, formattedGeneralLogs)
+            .replace(/{{FORMATTED_PRS}}/g, formattedGeneralPRs);
+        } else if (body_composition_goal === "Maintain / Recomp") {
+
+          const systemPromptTemplate = fs.readFileSync(
+            path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/recomp/General_Recomp.md"),
+            "utf-8"
+          );
+
+          systemPrompt = systemPromptTemplate
+            .replace(/{{TODAY}}/g, today)
+            .replace(/{{EFFORT_SCALE}}/g, effort_scale)
+            .replace(/{{BODY_COMPOSITION_GOAL}}/, body_composition_goal)
+            .replace(/{{UNIT_SYSTEM}}/g, unit_system)
+            .replace(/{{FORMATTED_LOGS}}/g, formattedGeneralLogs)
+            .replace(/{{FORMATTED_PRS}}/g, formattedGeneralPRs);
+        } else {
+          const systemPromptTemplate = fs.readFileSync(
+            path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/gain_muscle/General_GainMuscle.md"),
+            "utf-8"
+          );
+
+          systemPrompt = systemPromptTemplate
+            .replace(/{{TODAY}}/g, today)
+            .replace(/{{EFFORT_SCALE}}/g, effort_scale)
+            .replace(/{{BODY_COMPOSITION_GOAL}}/, body_composition_goal)
+            .replace(/{{UNIT_SYSTEM}}/g, unit_system)
+            .replace(/{{FORMATTED_LOGS}}/g, formattedGeneralLogs)
+            .replace(/{{FORMATTED_PRS}}/g, formattedGeneralPRs);
+        }
       }
 
     } else {
@@ -127,11 +186,13 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
           .replace(/{{EFFORT_SCALE}}/g, effort_scale)
           .replace(/{{UNIT_SYSTEM}}/g, unit_system)
           .replace(/{{INJURIES}}/g, injuries)
+
       } else {
         const systemPromptTemplate = fs.readFileSync(
-          path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/NoContext_Hypertrophy.md"),
+          path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/gain_muscle/NoContext_Hypertrophy.md"),
           "utf-8"
         );
+
         systemPrompt = systemPromptTemplate
           .replace(/{{TODAY}}/g, today)
           .replace(/{{EFFORT_SCALE}}/g, effort_scale)

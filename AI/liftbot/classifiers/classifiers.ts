@@ -47,8 +47,14 @@ export const needsSpecificExercise = async (userMessage: string) => {
         });
         const rawContent = completion.choices[0]?.message?.content;
         if (!rawContent) return { type: "general", lifts: [] };
-        const parsed = JSON.parse(rawContent);
-        
+        const cleaned = rawContent
+            .trim()
+            .replace(/^```(?:json)?/, '')
+            .replace(/```$/, '');
+
+        const parsed = JSON.parse(cleaned);
+
+
         return parsed;
 
     } catch (err) {

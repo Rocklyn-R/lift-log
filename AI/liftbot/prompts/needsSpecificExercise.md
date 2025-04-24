@@ -87,3 +87,4 @@ Rules:
 - Do not modify exercise names — include them as written by the user.
 - Do not include explanations.
 - Respond **only** with the JSON object. Do not explain your answer.
+Do not include any explanation, backticks, or extra characters — only the raw JSON.
