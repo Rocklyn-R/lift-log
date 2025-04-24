@@ -33,8 +33,12 @@ export const TrainingProfile = () => {
     ]
 
     useEffect(() => {
-        const injuryArray = injuries.split(',').map(injury => injury.trim());
-        setSelectedInjuries(injuryArray);
+        if (injuries) {
+            const injuryArray = injuries.split(',').map(injury => injury.trim());
+            setSelectedInjuries(injuryArray);
+        }
+
+
     }, [injuries])
 
 
@@ -68,11 +72,27 @@ export const TrainingProfile = () => {
 
     const handleChangeInjuries = async () => {
         const injuryString = selectedInjuries.join(', ');
+        console.log(injuryString)
         dispatch(changeInjuries(injuryString));
         setShowInjuries(false);
-        await updateInjuries(injuryString);
+        if(injuryString) {
+           await updateInjuries(injuryString); 
+        } else {
+            await updateInjuries(null)
+        }
+        
     }
 
+    const handleCancelInjuriesChange = () => {
+        if (injuries) {
+            console.log(injuries);
+            const injuryArray = injuries.split(',').map(injury => injury.trim());
+            setSelectedInjuries(injuryArray);
+        } else {
+            setSelectedInjuries([])
+        }
+        setShowInjuries(false);
+    }
 
 
     return (
@@ -102,18 +122,18 @@ export const TrainingProfile = () => {
                                         <div className="flex space-x-2 items-center">
                                             <button onClick={() => {
                                                 handleChangeTrainingGoal()
-                                            }} className="mt-2 flex items-center dark:border-mediumPurple border-darkestPurple bg-darkestPurple hover:bg-darkPurple text-lightestPurple justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><FaCheck className="text-xl" /></button>
+                                            }} className="mt-2 flex items-center dark:border-mediumPurple border-darkestPurple bg-darkestPurple hover:bg-darkPurple text-lightestPurple justify-center dark:text-lightestPurple border-2 rounded-full p-1 xs-min:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaCheck className="text-xl" /></button>
                                             <button onClick={() => {
                                                 setTrainingGoalValue(trainingGoal)
                                                 setShowTrainingGoal(false)
-                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple border-darkestPurple bg-darkestPurple hover:bg-darkPurple text-lightestPurple  dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><FaX className="text-lg" /></button>
+                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple border-darkestPurple bg-darkestPurple hover:bg-darkPurple text-lightestPurple  dark:text-lightestPurple border-2 rounded-full p-[.30rem] xs-min:p-[.80rem] dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaX className="text-lg" /></button>
                                         </div>
 
                                     </>
                                 ) : (
                                     <div className="flex w-full justify-between items-center">
                                         <span className={`flex ${!trainingGoal && "text-gray-400"} justify-center items-center w-fit rounded-md border-2 border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 bg-white min-w-[5rem]`}>{trainingGoal ? trainingGoal : "Select an option"}</span>
-                                        <button onClick={() => setShowTrainingGoal(true)} className="bg-darkestPurple dark:border-mediumPurple border-transparent hover:bg-darkPurple text-lightestPurple mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple"><MdOutlineEdit className="text-xl" /></button>
+                                        <button onClick={() => setShowTrainingGoal(true)} className="bg-darkestPurple dark:border-mediumPurple border-transparent hover:bg-darkPurple text-lightestPurple mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 xs-min:p-[.80rem] dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:border-darkPurple dark:hover:border-mediumPurple"><MdOutlineEdit className="text-xl" /></button>
                                     </div>
                                 )}
 
@@ -132,18 +152,18 @@ export const TrainingProfile = () => {
                                             className="w-[11rem] mt-2"
                                         />
                                         <div className="flex space-x-2 items-center">
-                                            <button onClick={() => handleChangeBodyCompositionGoal()} className="mt-2  border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><FaCheck className="text-xl" /></button>
+                                            <button onClick={() => handleChangeBodyCompositionGoal()} className="mt-2  border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 xs-min:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaCheck className="text-xl" /></button>
                                             <button onClick={() => {
                                                 setBodyCompositionValue(bodyCompositionGoal)
                                                 setShowBodyCompositionGoal(false)
-                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple dark:text-lightestPurple border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><FaX className="text-lg" /></button>
+                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple dark:text-lightestPurple border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple border-2 rounded-full p-[.30rem] xs-min:p-[.80rem] dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaX className="text-lg" /></button>
                                         </div>
 
                                     </>
                                 ) : (
                                     <div className="flex w-full justify-between items-center">
                                         <span className={`flex ${!bodyCompositionGoal && "text-gray-400"} items-center justify-center rounded-md border-2 border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 bg-white`}>{bodyCompositionGoal ? bodyCompositionGoal : "Select an option"}</span>
-                                        <button onClick={() => setShowBodyCompositionGoal(true)} className="mt-2 dark:border-mediumPurple flex items-center justify-center text-lightestPurple bg-darkestPurple hover:bg-darkPurple border-transparent dark:text-lightestPurple p-1 sm:p-3 border-2 rounded-full dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple"><MdOutlineEdit className="text-xl" /></button>
+                                        <button onClick={() => setShowBodyCompositionGoal(true)} className="mt-2 dark:border-mediumPurple flex items-center justify-center text-lightestPurple bg-darkestPurple hover:bg-darkPurple border-transparent dark:text-lightestPurple p-1 xs-min:p-3 border-2 rounded-full dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:border-darkPurple dark:hover:border-mediumPurple"><MdOutlineEdit className="text-xl" /></button>
                                     </div>
                                 )}
 
@@ -151,12 +171,12 @@ export const TrainingProfile = () => {
                         </div>
                         <div className="mb-4 sm:border-2 border-y-2 border-mediumPurple bg-lightestPurple sm:p-4 p-2 rounded-none sm:rounded-md dark:bg-darkestPurple">
                             <h2 className="text-lg font-bold mb-2 dark:text-lightestPurple">Injuries</h2>
-                            <div className="flex items-center w-full justify-between text-darkestPurple space-x-4">
+                            <div className="relative flex items-center w-full justify-between text-darkestPurple space-x-4">
                                 {showInjuries ? (
                                     <>
                                         <div className="flex flex-col w-full space-y-2">
                                             {possibleInjuries.map((injury: string) => (
-                                                <div className="w-full flex items-center">
+                                                <div className="w-full flex items-center" key={injury}>
 
                                                     <input
                                                         type="checkbox"
@@ -169,28 +189,35 @@ export const TrainingProfile = () => {
                                                 </div>
                                             ))}
                                         </div>
-                                        <div>
-                                            <div className="flex space-x-2 items-center">
-                                                <button onClick={() => { handleChangeInjuries() }} className="mt-2  border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><FaCheck className="text-xl" /></button>
-                                                <button onClick={() => {
-                                                    //setEffortScaleValue(effortScale);
-                                                    //setShowEffortScale(false);
-                                                }} className="mt-2 flex items-center justify-center dark:border-mediumPurple dark:text-lightestPurple border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit"><FaX className="text-lg" /></button>
-                                            </div>
 
+                                        <div className="absolute right-0 items-center flex space-x-2">
+                                            <button onClick={() => { handleChangeInjuries() }} className="mt-2  border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 xs-min:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaCheck className="text-xl" /></button>
+                                            <button onClick={() => {
+                                                handleCancelInjuriesChange();
+                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple dark:text-lightestPurple border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple border-2 rounded-full p-[.30rem] xs-min:p-[.80rem] dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaX className="text-lg" /></button>
                                         </div>
+
+
                                     </>
 
                                 ) : (
                                     <div className="flex w-full justify-between items-center">
                                         <div className="flex flex-col">
-                                        {selectedInjuries.map((injury: string) => (
-                                            <span className="flex items-center justify-center rounded-md border-2 border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 bg-white">{injury}</span>
-                                        ))}
+                                            {selectedInjuries.length > 0 ? (
+                                                selectedInjuries.map((injury: string) => (
+                                                    <span key={injury} className="flex items-center justify-center rounded-md border-2 border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 bg-white">
+                                                        {injury}
+                                                    </span>
+                                                ))
+                                            ) : (
+                                                <span className="flex items-center justify-center rounded-md border-2 border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 bg-white">
+                                                    None
+                                                </span>
+                                            )}
                                         </div>
                                         <button onClick={() => {
-                                            setShowInjuries(true);
-                                        }} className="mt-2 dark:border-mediumPurple flex items-center justify-center text-lightestPurple bg-darkestPurple hover:bg-darkPurple border-transparent dark:text-lightestPurple p-1 sm:p-3 border-2 rounded-full dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple"><MdOutlineEdit className="text-xl" /></button>
+                                            setShowInjuries(true)
+                                        }} className="mt-2 dark:border-mediumPurple flex items-center justify-center text-lightestPurple bg-darkestPurple hover:bg-darkPurple border-transparent dark:text-lightestPurple p-1 sm:p-3 border-2 rounded-full dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:border-darkPurple dark:hover:border-mediumPurple"><MdOutlineEdit className="text-xl" /></button>
                                     </div>
                                 )}
 

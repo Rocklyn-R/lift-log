@@ -25,6 +25,7 @@ module.exports = {
       },
       screens: {
         'phones': {'min': '0px', max: '449px'},
+        "xs-min": {'min': '450px'}, 
         xs: {'min': '450px', 'max': '639px'}, 
         'h-sm': { raw: '(max-height: 640px)' }, 
         'h-md': { raw: '(min-height: 641px)' }, 

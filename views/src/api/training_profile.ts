@@ -68,7 +68,7 @@ export const updateBodyCompositionGoal = async (body_composition_goal: string) =
     }
 }
 
-export const updateInjuries = async (injuries: string) => {
+export const updateInjuries = async (injuries: string | null) => {
     try {
         const response = await fetch(`${BASE_URL}/injuries`, {
             method: 'PUT',

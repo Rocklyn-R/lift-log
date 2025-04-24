@@ -44,7 +44,7 @@ export const bodyCompositionGoalSet = async (user_id: number, body_composition_g
     }
 }
 
-export const injuriesSet = async (user_id: number, injuries: string) => {
+export const injuriesSet = async (user_id: number, injuries: string | null) => {
     const query = `UPDATE training_profile SET injuries = $1
     WHERE user_id = $2`;
     try {
