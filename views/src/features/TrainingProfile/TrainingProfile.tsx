@@ -117,7 +117,7 @@ export const TrainingProfile = () => {
                                             options={[{ id: 1, name: "Hypertrophy" }, { id: 2, name: "Strength" }, { id: 3, name: "Hybrid" }]}
                                             onChange={(value) => setTrainingGoalValue(value)}
                                             value={trainingGoalValue}
-                                            className="w-[11rem] mt-2"
+                                            className="w-[9rem] mt-2"
                                         />
                                         <div className="flex space-x-2 items-center">
                                             <button onClick={() => {
@@ -149,7 +149,7 @@ export const TrainingProfile = () => {
                                             options={[{ id: 1, name: "Lose Fat" }, { id: 2, name: "Build Muscle" }, { id: 3, name: "Maintain / Recomp" }]}
                                             onChange={(value) => setBodyCompositionValue(value)}
                                             value={bodyCompositionValue}
-                                            className="w-[11rem] mt-2"
+                                            className="w-[12rem] mt-2"
                                         />
                                         <div className="flex space-x-2 items-center">
                                             <button onClick={() => handleChangeBodyCompositionGoal()} className="mt-2  border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 xs-min:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaCheck className="text-xl" /></button>
