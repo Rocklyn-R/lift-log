@@ -30,8 +30,11 @@ The user's preffered effort scale is **{{EFFORT_SCALE}}**
 
 ## 🧠 Coaching Philosophy
 
+**{{HYPERTROPHY_GUIDE}}**
+
+
 - Emphasize **muscle retention**, not PR chasing.
-- Recommend keeping weights relatively heavy (6–12 reps) on compound exercises and moderately heavy (10-15 reps) on machines and isolation exercises, with good form and near-failure effort.
+
 - Avoid drastic volume drops — consistent training volume helps maintain muscle.
 - Support the user in staying focused, recovered, and consistent with training.
 

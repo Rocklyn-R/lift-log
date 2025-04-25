@@ -18,7 +18,6 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
       needsContext,
       effort_scale,
       unit_system,
-      training_goal,
       body_composition_goal,
       injuries
     } = req.body;
@@ -41,6 +40,22 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
     const shouldUseContext = needsContext ? needsContext : await needsWorkoutContext(latestUserMessage);
 
     let systemPrompt = "You are LiftBot, a friendly strength training assistant.";
+    const hypertrophyTemplate = fs.readFileSync(
+      path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/hypertrophy.md"),
+      "utf-8"
+    ).trim();
+    const injuriesTemplate = fs.readFileSync(
+      path.join(__dirname, "../AI/liftbot/prompts/injuries/injuries.md"),
+      "utf-8"
+    ).trim();
+
+    const injuriesGuide = injuriesTemplate
+    .replace(/{{INJURIES}}/g, injuries);
+    
+    const hypertrophyGuide = hypertrophyTemplate
+    .replace(/{{INJURIES}}/g, injuries ? injuriesGuide : "User has no injuries.")
+    console.log(hypertrophyGuide);
+    console.log(injuries);
     console.log(shouldUseContext);
     if (shouldUseContext) {
       const liftsToFind = await needsSpecificExercise(latestUserMessage)
@@ -81,7 +96,8 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
             .replace(/{{UNIT_SYSTEM}}/g, unit_system)
             .replace(/{{LIFT_NAMES}}/g, liftsToFind.lifts.map((name: string) => `- ${name}`).join('\n'))
             .replace(/{{FORMATTED_LOGS}}/g, formattedLogs)
-            .replace(/{{FORMATTED_PRS}}/g, formattedPRs);
+            .replace(/{{FORMATTED_PRS}}/g, formattedPRs)
+            .replace(/{{HYPERTROPHY_GUIDE}}/g, hypertrophyGuide);
 
         } else if (body_composition_goal === "Maintain / Recomp") {
           const systemPromptTemplate = fs.readFileSync(
@@ -95,7 +111,8 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
             .replace(/{{UNIT_SYSTEM}}/g, unit_system)
             .replace(/{{LIFT_NAMES}}/g, liftsToFind.lifts.map((name: string) => `- ${name}`).join('\n'))
             .replace(/{{FORMATTED_LOGS}}/g, formattedLogs)
-            .replace(/{{FORMATTED_PRS}}/g, formattedPRs);
+            .replace(/{{FORMATTED_PRS}}/g, formattedPRs)
+            .replace(/{{HYPERTROPHY_GUIDE}}/g, hypertrophyGuide);
 
         } else {
           const systemPromptTemplate = fs.readFileSync(
@@ -110,7 +127,8 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
             .replace(/{{UNIT_SYSTEM}}/g, unit_system)
             .replace(/{{LIFT_NAMES}}/g, liftsToFind.lifts.map((name: string) => `- ${name}`).join('\n'))
             .replace(/{{FORMATTED_LOGS}}/g, formattedLogs)
-            .replace(/{{FORMATTED_PRS}}/g, formattedPRs);
+            .replace(/{{FORMATTED_PRS}}/g, formattedPRs)
+            .replace(/{{HYPERTROPHY_GUIDE}}/g, hypertrophyGuide);
         }
       } else {
         const generalLogs = await getGeneralLogs(user_id);
@@ -131,7 +149,8 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
             .replace(/{{BODY_COMPOSITION_GOAL}}/, body_composition_goal)
             .replace(/{{UNIT_SYSTEM}}/g, unit_system)
             .replace(/{{FORMATTED_LOGS}}/g, formattedGeneralLogs)
-            .replace(/{{FORMATTED_PRS}}/g, formattedGeneralPRs);
+            .replace(/{{FORMATTED_PRS}}/g, formattedGeneralPRs)
+            .replace(/{{HYPERTROPHY_GUIDE}}/g, hypertrophyGuide);
         } else if (body_composition_goal === "Maintain / Recomp") {
 
           const systemPromptTemplate = fs.readFileSync(
@@ -145,7 +164,8 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
             .replace(/{{BODY_COMPOSITION_GOAL}}/, body_composition_goal)
             .replace(/{{UNIT_SYSTEM}}/g, unit_system)
             .replace(/{{FORMATTED_LOGS}}/g, formattedGeneralLogs)
-            .replace(/{{FORMATTED_PRS}}/g, formattedGeneralPRs);
+            .replace(/{{FORMATTED_PRS}}/g, formattedGeneralPRs)
+            .replace(/{{HYPERTROPHY_GUIDE}}/g, hypertrophyGuide);
         } else {
           const systemPromptTemplate = fs.readFileSync(
             path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/gain_muscle/General_GainMuscle.md"),
@@ -158,7 +178,8 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
             .replace(/{{BODY_COMPOSITION_GOAL}}/, body_composition_goal)
             .replace(/{{UNIT_SYSTEM}}/g, unit_system)
             .replace(/{{FORMATTED_LOGS}}/g, formattedGeneralLogs)
-            .replace(/{{FORMATTED_PRS}}/g, formattedGeneralPRs);
+            .replace(/{{FORMATTED_PRS}}/g, formattedGeneralPRs)
+            .replace(/{{HYPERTROPHY_GUIDE}}/g, hypertrophyGuide)
         }
       }
 
@@ -174,6 +195,7 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
           .replace(/{{EFFORT_SCALE}}/g, effort_scale)
           .replace(/{{UNIT_SYSTEM}}/g, unit_system)
           .replace(/{{INJURIES}}/g, injuries)
+          .replace(/{{HYPERTROPHY_GUIDE}}/g, hypertrophyGuide);
 
       } else if (body_composition_goal === "Maintain / Recomp") {
         const systemPromptTemplate = fs.readFileSync(
@@ -186,6 +208,7 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
           .replace(/{{EFFORT_SCALE}}/g, effort_scale)
           .replace(/{{UNIT_SYSTEM}}/g, unit_system)
           .replace(/{{INJURIES}}/g, injuries)
+          .replace(/{{HYPERTROPHY_GUIDE}}/g, hypertrophyGuide);
 
       } else {
         const systemPromptTemplate = fs.readFileSync(
@@ -197,6 +220,7 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
           .replace(/{{TODAY}}/g, today)
           .replace(/{{EFFORT_SCALE}}/g, effort_scale)
           .replace(/{{UNIT_SYSTEM}}/g, unit_system)
+          .replace(/{{HYPERTROPHY_GUIDE}}/g, hypertrophyGuide);
       }
 
     }

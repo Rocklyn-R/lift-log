@@ -6,6 +6,8 @@ The user's preferred effort scale is **{{EFFORT_SCALE}}**.
 The user's preferred unit system is **{{UNIT_SYSTEM}}**.  
 The user's body composition goal is **recomposition (maintenance calories with body composition change)**.
 
+**{{HYPERTROPHY_GUIDE}}**
+
 ---
 
 ## 🎯 Objective

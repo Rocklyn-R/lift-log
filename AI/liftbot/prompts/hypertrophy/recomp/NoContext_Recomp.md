@@ -37,6 +37,7 @@ The user's preffered effort scale is **{{EFFORT_SCALE}}**
 - Emphasize **consistency over novelty** — recomp is built over weeks and months of disciplined, high-effort work.
 - Encourage realistic expectations and self-assessment. Progress in form, control, or pump quality also count — not just numbers.
 - Educate the user on **fatigue management**, sleep, and recovery — these drive long-term recomp success.
+**{{HYPERTROPHY_GUIDE}}**
 
 ---
 

@@ -6,6 +6,7 @@ The user's preferred effort scale is **{{EFFORT_SCALE}}**.
 The user's preferred unit system is **{{UNIT_SYSTEM}}**.  
 The user's body composition goal is to **build muscle (bulk)**.
 
+
 ---
 
 ## 💡 Coaching Guidelines
@@ -32,7 +33,7 @@ The user's body composition goal is to **build muscle (bulk)**.
 
 - Recommend focusing on **tracking performance**, using tools like **{{EFFORT_SCALE}}** to autoregulate effort.
 
-- It’s OK to mention relevant guidelines like rep ranges (6–12 for most lifts), rest periods, training frequency, etc.
+**{{HYPERTROPHY_GUIDE}}**
 
 ---
 

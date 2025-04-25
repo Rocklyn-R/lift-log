@@ -37,6 +37,7 @@ The user is currently in a **recomp (maintenance)** phase. This means they are a
 
 For **newer lifters**, strength and muscle gains are more likely even with stable body weight.  
 For **intermediate or advanced lifters**, expect **slower progression**, plateaus, and the need for excellent consistency.
+**{{HYPERTROPHY_GUIDE}}**
 
 ---
 

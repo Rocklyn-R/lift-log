@@ -31,6 +31,8 @@ Below are the user's recent workout logs and PR history for these lifts:
 
 ---
 
+**{{HYPERTROPHY_GUIDE}}**
+
 ## 📈 How to Analyze and Respond
 
 The user is in a **calorie surplus phase**, aiming to build muscle and increase strength.  

@@ -50,6 +50,8 @@ Treat exercises with different names as distinct — for example:
 
 Always refer to the **exact exercise names** provided.
 
+
+
 ---
 
 For each lift in `{{LIFT_NAMES}}`, assess the following:
@@ -70,6 +72,8 @@ For each lift in `{{LIFT_NAMES}}`, assess the following:
 - If effort or notes are missing often, remind the user (see encouragement section below).
 
 ### 4. **Coaching Insight**
+
+**{{HYPERTROPHY_GUIDE}}**
 - If strength is stable, reinforce that this is a positive sign of muscle retention.
 - If strength is declining slightly, let the user know it can be temporary due to fatigue or energy availability.
 - Suggest holding steady or adjusting volume if signs of fatigue appear.
