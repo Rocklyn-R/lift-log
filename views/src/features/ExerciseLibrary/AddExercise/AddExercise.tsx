@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { CustomSelect } from "../../../components/CustomSelect";
 import { OverlayWindow } from "../../../components/OverlayWIndow"
 import { addExercise, selectCategories } from "../../../redux-store/LibrarySlice";
@@ -23,6 +24,7 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
     const [typeError, setTypeError] = useState("");
     const [showSuccessMessage, setShowSucessMessage] = useState(false);
     const dispatch = useDispatch();
+    const { categoryId } = useParams<{ categoryId: string }>();
 
     const handleCreateExercise = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -47,20 +49,26 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
         if (hasError) {
             return; // Do not proceed with form submission if there are errors
         }
-        const categoryId = categories.find(cat => cat.name === category)?.id;
+        const category_Id = categories.find(cat => cat.name === category)?.id;
         const typeId = types.find(item => item.name === type)?.id;
-        if (name && categoryId && typeId) {
-            const createResult = await createNewExercise(name, categoryId, typeId);
+      
+        if (name && category_Id && typeId) {
+            const createResult = await createNewExercise(name, category_Id, typeId);
             if (createResult) {
                 const typeName = types.find(type => type.id === createResult[0].type)?.name;
                 if (typeName) {
-                    const exerciseObject = {
-                        exercise_id: createResult[0].id,
-                        exercise_name: name,
-                        category_name: category,
-                        type_name: typeName
+                    if (categoryId && Number(categoryId) === category_Id) {
+                        const exerciseObject = {
+                            exercise_id: createResult[0].id,
+                            exercise_name: name,
+                            category_name: category,
+                            type_name: typeName
+                        }
+        
+
+                        dispatch(addExercise(exerciseObject))
                     }
-                    dispatch(addExercise(exerciseObject))
+
                     setShowSucessMessage(true);
                     setTimeout(() => {
                         setShowAddExercise(false);
@@ -91,7 +99,7 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
             className2="p-4"
         >
             {showSuccessMessage ? (
-                <div className="min-h-[5vh] flex items-center justify-center">
+                <div className="min-h-[5vh] flex items-center justify-center dark:text-lightestPurple">
                     <span>Exercise successfully added to library!</span>
                 </div>
             ) : (
@@ -100,7 +108,7 @@ export const AddExercise: React.FC<AddExerciseProps> = ({ setShowAddExercise }) 
                         <label className="dark:text-lightestPurple font-semibold" htmlFor="name">Name</label>
                         <CustomTextInput
                             value={name}
-                            name="name"
+                            name="exercise-name"
                             className="dark:bg-darkPurple dark:text-lightestPurple mt-2 p-3 w-full border-2 border-mediumPurple rounded-md focus:outline-none"
                             placeholder="Name"
                             onChange={setName}
