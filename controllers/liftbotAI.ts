@@ -3,7 +3,7 @@ import openai from "../config/openAI";
 import { exerciseMatchFind, getGeneralLogs, getGeneralPRData, getPRData, getUserLogs } from "models/liftbotAI";
 import fs from "fs";
 import path from "path";
-import { needsSpecificExercise, needsWorkoutContext } from "../AI/liftbot/classifiers/classifiers";
+import { detectFocusShift, needsSpecificExercise, needsWorkoutContext } from "../AI/liftbot/classifiers/classifiers";
 import { formatGeneralLogsForPrompt, formatGeneralPRsForPrompt, formatLogsForPromptByLift, formatPRsForPrompt, groupLogsByDateAndCombineSets } from "../AI/utilities/utilities";
 
 interface User {
@@ -19,7 +19,9 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
       effort_scale,
       unit_system,
       body_composition_goal,
-      injuries
+      injuries,
+      currentFocus,
+      focusShiftMessage
     } = req.body;
     const user_id = (req.user as User).id;
     console.log(body_composition_goal);
@@ -36,7 +38,8 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
       res.status(400).json({ error: "No user message found in messages array." });
       return;
     }
-
+console.log("CURRENTFOCUS:", currentFocus);
+console.log("FocusShiftMessage", focusShiftMessage)
     const shouldUseContext = needsContext ? needsContext : await needsWorkoutContext(latestUserMessage);
 
     let systemPrompt = "You are LiftBot, a friendly strength training assistant.";
@@ -50,20 +53,34 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
     ).trim();
 
     const injuriesGuide = injuriesTemplate
-    .replace(/{{INJURIES}}/g, injuries);
-    
-    const hypertrophyGuide = hypertrophyTemplate
-    .replace(/{{INJURIES}}/g, injuries ? injuriesGuide : "User has no injuries.")
-    console.log(hypertrophyGuide);
-    console.log(injuries);
-    console.log(shouldUseContext);
-    if (shouldUseContext) {
-      const liftsToFind = await needsSpecificExercise(latestUserMessage)
-      console.log(liftsToFind.type);
-      if (liftsToFind.type !== "general") {
+      .replace(/{{INJURIES}}/g, injuries);
 
+    const hypertrophyGuide = hypertrophyTemplate
+      .replace(/{{INJURIES}}/g, injuries ? injuriesGuide : "User has no injuries.")
+
+    let newFocusShiftMessage;
+    let newConversationFocus;
+ 
+    if (shouldUseContext) {
+      if (!focusShiftMessage) {
+
+        newConversationFocus = await needsSpecificExercise(latestUserMessage);
+        newFocusShiftMessage = latestUserMessage;
+      } else {
+        const focusShift = await detectFocusShift(focusShiftMessage, currentFocus, latestUserMessage)
+        console.log(focusShift);
+        if (focusShift === "shifted") {
+          newConversationFocus = await needsSpecificExercise(latestUserMessage);
+          newFocusShiftMessage = latestUserMessage;
+        } else {
+          newConversationFocus = currentFocus;
+          newFocusShiftMessage = focusShiftMessage
+        }
+      }
+
+      if (newConversationFocus.type !== "general") {
         const results = [];
-        for (const lift of liftsToFind.lifts) {
+        for (const lift of newConversationFocus.lifts) {
           const matched = await exerciseMatchFind(lift, user_id);
           results[lift] = matched;
         }
@@ -94,7 +111,7 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
             .replace(/{{TODAY}}/g, today)
             .replace(/{{EFFORT_SCALE}}/g, effort_scale)
             .replace(/{{UNIT_SYSTEM}}/g, unit_system)
-            .replace(/{{LIFT_NAMES}}/g, liftsToFind.lifts.map((name: string) => `- ${name}`).join('\n'))
+            .replace(/{{LIFT_NAMES}}/g, newConversationFocus.lifts.map((name: string) => `- ${name}`).join('\n'))
             .replace(/{{FORMATTED_LOGS}}/g, formattedLogs)
             .replace(/{{FORMATTED_PRS}}/g, formattedPRs)
             .replace(/{{HYPERTROPHY_GUIDE}}/g, hypertrophyGuide);
@@ -109,7 +126,7 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
             .replace(/{{TODAY}}/g, today)
             .replace(/{{EFFORT_SCALE}}/g, effort_scale)
             .replace(/{{UNIT_SYSTEM}}/g, unit_system)
-            .replace(/{{LIFT_NAMES}}/g, liftsToFind.lifts.map((name: string) => `- ${name}`).join('\n'))
+            .replace(/{{LIFT_NAMES}}/g, newConversationFocus.lifts.map((name: string) => `- ${name}`).join('\n'))
             .replace(/{{FORMATTED_LOGS}}/g, formattedLogs)
             .replace(/{{FORMATTED_PRS}}/g, formattedPRs)
             .replace(/{{HYPERTROPHY_GUIDE}}/g, hypertrophyGuide);
@@ -125,7 +142,7 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
             .replace(/{{EFFORT_SCALE}}/g, effort_scale)
             .replace(/{{BODY_COMPOSITION_GOAL}}/, body_composition_goal)
             .replace(/{{UNIT_SYSTEM}}/g, unit_system)
-            .replace(/{{LIFT_NAMES}}/g, liftsToFind.lifts.map((name: string) => `- ${name}`).join('\n'))
+            .replace(/{{LIFT_NAMES}}/g, newConversationFocus.lifts.map((name: string) => `- ${name}`).join('\n'))
             .replace(/{{FORMATTED_LOGS}}/g, formattedLogs)
             .replace(/{{FORMATTED_PRS}}/g, formattedPRs)
             .replace(/{{HYPERTROPHY_GUIDE}}/g, hypertrophyGuide);
@@ -184,6 +201,7 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
       }
 
     } else {
+      newConversationFocus = { type: 'no-context', lifts: [] }
       if (body_composition_goal === "Lose Fat") {
         const systemPromptTemplate = fs.readFileSync(
           path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/fat_loss/NoContext_FatLoss.md"),
@@ -227,6 +245,7 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
 
 
     const cleanedMessages = messages.filter((msg: any) => msg.role !== "system");
+
     const fullMessages = [
       { role: "system", content: systemPrompt },
       ...cleanedMessages,
@@ -236,9 +255,15 @@ export const getLiftBotReply = async (req: Request, res: Response) => {
       model: "gpt-3.5-turbo",
       messages: fullMessages,
     });
-
+    console.log("New Focus Shift Message:", newFocusShiftMessage);
+    console.log("New Conversation Focus:", newConversationFocus);
     const botReply = completion.choices[0]?.message?.content;
-    res.status(200).json({ reply: botReply, needsContext: shouldUseContext });
+    res.status(200).json({
+      reply: botReply,
+      needsContext: shouldUseContext,
+      focusShiftMessage: newFocusShiftMessage,
+      conversationFocus: newConversationFocus
+    });
 
   } catch (error) {
     console.error("LiftBot Error:", error);

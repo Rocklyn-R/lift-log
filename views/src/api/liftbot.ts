@@ -10,7 +10,9 @@ export const sendMessage = async (
     unit_system: string,
     training_goal: string,
     body_composition_goal: string,
-    injuries: string
+    injuries: string,
+    focusShiftMessage: string,
+    currentFocus: {type: string, lifts: string[]}
 ) => {
  try {
         const response = await fetch(`${BASE_URL}/`, {
@@ -26,7 +28,9 @@ export const sendMessage = async (
                 unit_system,
                 training_goal,
                 body_composition_goal,
-                injuries
+                injuries,
+                focusShiftMessage,
+                currentFocus
              })
         })
         const data = await response.json();

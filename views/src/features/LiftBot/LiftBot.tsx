@@ -21,6 +21,8 @@ export const LiftBot = () => {
     const trainingGoal = useSelector(selectTrainingGoal);
     const bodyCompositionGoal = useSelector(selectBodyCompositionGoal);
     const injuries = useSelector(selectInjuries);
+    const [currentFocus, setCurrentFocus] = useState({type: 'no-context', lifts: []});
+    const [focusShiftMessage, setFocusShiftMessage] = useState("");
 
     const handleSend = async () => {
         if (!input.trim()) return;
@@ -44,13 +46,17 @@ export const LiftBot = () => {
             unit_system,
             trainingGoal,
             bodyCompositionGoal,
-            injuries
+            injuries,
+            focusShiftMessage,
+            currentFocus
         );
        setTimeout(() => {
             setMessages(prev => [...prev, { sender: "ai", text: data.reply }]);
             if (!needsContext) {
                 setNeedsContext(data.needsContext);
             }
+            setFocusShiftMessage(data.focusShiftMessage);
+                setCurrentFocus(data.conversationFocus)
         }, 500);
     };
 
