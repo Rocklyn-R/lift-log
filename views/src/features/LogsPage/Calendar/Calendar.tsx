@@ -16,11 +16,11 @@ interface CalendarProps {
 
 
 export const Calendar: React.FC<CalendarProps> = ({ setShowCalendar, action, setShowDay }) => {
-    const [currentDate, setCurrentDate] = useState(new Date());
+    const selectedDate = useSelector(selectSelectedDate);
+    const [currentDate, setCurrentDate] = useState(new Date(selectedDate));
     const [highlightedDates, setHighlightedDates] = useState<string[]>([]);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
-    const selectedDate = useSelector(selectSelectedDate);
 
 
     useEffect(() => {
