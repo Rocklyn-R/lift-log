@@ -15,7 +15,7 @@ import { CopyWorkout } from "./Calendar/CopyWorkout/CopyWorkout";
 import { Header } from "../../components/Header";
 import { Loading } from "../../components/Loading";
 import { setSelectedCategory, setSelectedSet, setSelectedExercise, setExerciseHistory } from "../../redux-store/LogsSlice";
-import { setExercises  } from "../../redux-store/LibrarySlice";
+import { setExercises } from "../../redux-store/LibrarySlice";
 
 
 export const LogsPage = () => {
@@ -55,9 +55,9 @@ export const LogsPage = () => {
 
 
     return (
-        <div className="w-full h-full xl:pl-0 pl-16 relative flex justify-center min-h-screen">
+        <div className="w-full h-full xl:pl-0 pl-16 relative flex justify-center min-h-screen pb-4">
             <div className="w-full h-full flex flex-col items-center min-h-screen">
-                <div className=" sticky top-0 w-full  bg-darkestPurple flex justify-center ">
+                <div className="sticky top-0 w-full  bg-darkestPurple flex justify-center z-40">
                     <button
                         onClick={() => handleAdjustDate('back')}
                         className={` ${dateStringLong ? "xs:top-5 top-5" : "top-3"} z-50 p-3 flex justify-center absolute left-12 xs:left-24 sm:left-44 md:left-52 lg:left-72 md:top-3 text-lightestPurple text-2xl`}
@@ -73,28 +73,29 @@ export const LogsPage = () => {
                     >
                         <FaAngleRight />
                     </button>
+
+                    <button
+                        onClick={() => setShowCalendarNav(true)}
+                        className={`z-50 ${dateStringLong ? 'xs:top-5 sm:top-5 md:top-2 top-5' : 'top-2'} dark:sm:hover:bg-lightestPurple dark:sm:hover:text-darkestPurple dark:sm:border-mediumPurple dark:sm:bg-darkPurple  border-2 border-transparent bg-darkestPurple p-3 fixed right-0 xs:right-6 md:right-8 xl:right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple`}
+                    >
+                        <FaCalendarAlt />
+                    </button>
+
                 </div>
-                <div className={`flex h-full flex-col items-center w-full space-y-4 mt-4`}>
+                <div className={`flex h-fit flex-col items-center w-full mt-4 mb-4 z-10 pb-4`}>
                     {isLoading ? (
                         <div className="dark:bg-darkestPurple flex flex-col items-center mt-20 h-screen bg-lightestPurple">
                             <Loading />
                         </div>
                     ) : (
                         <>
-                               <Log
+                            <Log
                                 setShowEditExercise={setShowEditExercise}
-                            /> 
+                            />
                         </>
                     )}
 
-                    <div>
-                        <button
-                            onClick={() => setShowCalendarNav(true)}
-                            className={`${dateStringLong ? 'xs:top-5 sm:top-5 md:top-2 top-5' : 'top-2'} dark:sm:hover:bg-lightestPurple dark:sm:hover:text-darkestPurple dark:sm:border-mediumPurple dark:sm:bg-darkPurple  border-2 border-transparent bg-darkestPurple p-3 fixed right-0 xs:right-6 md:right-8 xl:right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple`}
-                        >
-                            <FaCalendarAlt />
-                        </button>
-                    </div>
+
                 </div>
                 <button
                     onClick={() => setShowAddExercise(true)}
@@ -124,7 +125,7 @@ export const LogsPage = () => {
             )}
             {showAddExercise && (
                 <AddLog
-                closeAddExercise={closeAddExercise}
+                    closeAddExercise={closeAddExercise}
                 />
             )}
 

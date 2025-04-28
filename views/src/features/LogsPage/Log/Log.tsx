@@ -2,12 +2,11 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux"
 import { reorderExercises } from "../../../api/logs";
 import { setWorkout, selectSelectedDate, selectWorkout, setSelectedExercise, updateExerciseOrder, selectSelectedExercise } from "../../../redux-store/LogsSlice"
-import { DndContext, MeasuringStrategy, DragEndEvent, TouchSensor, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { DndContext, DragEndEvent, TouchSensor, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { SortableLog } from "./SortableLog/SortableLog";
 import { useState } from "react";
 import { DeleteLog } from "./DeleteLog/DeleteLog";
-import { Workout } from "../../../types/types";
 
 interface LogProps {
     setShowEditExercise: (arg0: boolean) => void;
@@ -62,7 +61,7 @@ export const Log: React.FC<LogProps> = ({ setShowEditExercise }) => {
 
 
     return (
-        <div className="space-y-4 h-full dark:text-lightestPurple text-darkPurple font-semibold xs:w-3/4 sm:w-1/2 md:w-2/5 lg:w-1/3">
+        <div className="z-10 space-y-4 h-full dark:text-lightestPurple text-darkPurple font-semibold xs:w-3/4 sm:w-1/2 md:w-2/5 lg:w-1/3">
             <DndContext
                 sensors={sensors}
                 onDragEnd={handleDragEnd}

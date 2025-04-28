@@ -70,7 +70,7 @@ export const SetData: React.FC<SetDataProps> = ({ setEditMode, setWeightInput, s
                         }}
                         className={`absolute ${index === 0 ? "top-[2px]" : "top-[0px]"} left-5 p-2 rounded-full cursor-pointer box-border border-2 border-transparent 
                       dark:hover:bg-lightestPurple dark:hover:text-darkestPurple dark:hover:border-mediumPurple 
-                      hover:border-mediumPurple hover:bg-lightPurple`}
+                      hover:border-mediumPurple hover:bg-lightPurple dark:text-lightestPurple`}
                     >
                         <MdOutlineMessage className="w-5 h-5" />
                     </div>

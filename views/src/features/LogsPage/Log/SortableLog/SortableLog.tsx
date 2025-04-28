@@ -5,10 +5,8 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useSelector } from "react-redux";
 import { selectUnitSystem } from "../../../../redux-store/SettingsSlice";
-import { useState, useRef } from "react";
-import { FiMoreVertical } from "react-icons/fi";
-import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
-import { DeleteLog } from "../DeleteLog/DeleteLog";
+import { MdDeleteOutline } from "react-icons/md";
+
 import { useDispatch } from "react-redux";
 import { setSelectedExercise } from "../../../../redux-store/LogsSlice";
 
@@ -23,7 +21,6 @@ interface SortableLogProps {
 
 export const SortableLog: React.FC<SortableLogProps> = ({ exerciseToDelete, showDeleteMessage, exercise, setShowDeleteMessage }) => {
     const unit_system = useSelector(selectUnitSystem);
-    const dropdownRef = useRef<HTMLDivElement>(null);
     const dispatch = useDispatch();
 
     const {
@@ -32,7 +29,6 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exerciseToDelete, show
         setNodeRef,
         transform,
         transition,
-        isDragging
     } = useSortable({
         id: exercise.exercise_id,
     });
@@ -50,10 +46,10 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exerciseToDelete, show
             ref={setNodeRef}
             {...attributes}
             style={style}
-            className="relative h-full">
+            className="relative h-full z-10">
             <>
                 {/* Three-Dot Menu */}
-                <div className="absolute right-1 top-[1.5rem] -translate-y-1/2 z-20">
+                <div className="absolute right-1 top-[1.5rem] -translate-y-1/2 z-10">
                     <div
                         onClick={(e) => {
                             e.stopPropagation();
