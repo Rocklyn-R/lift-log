@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import openai from "../config/openAI";
-import { exerciseMatchFind, getGeneralLogs, getGeneralPRData, getPRData, getUserLogs } from "models/liftbotAI";
+import { exerciseMatchFind, getGeneralLogs, getGeneralPRData, getPRData, getUserLogs } from "../models/liftbotAI";
 import fs from "fs";
 import path from "path";
 import { detectFocusShift, needsSpecificExercise, needsWorkoutContext } from "../AI/liftbot/classifiers/classifiers";
