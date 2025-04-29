@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { bodyCompositionGoalSet, injuriesSet, trainingGoalSet, trainingProfileCreate, trainingProfileGet } from 'models/training_profile';
+import { bodyCompositionGoalSet, injuriesSet, trainingGoalSet, trainingProfileCreate, trainingProfileGet } from '../models/training_profile';
 
 interface User {
     id: number

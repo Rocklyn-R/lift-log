@@ -1,4 +1,4 @@
-import { createTrainingProfile, getTrainingProfile, setBodyCompositionGoal, setInjuries, setTrainingGoal } from 'controllers/training_profile';
+import { createTrainingProfile, getTrainingProfile, setBodyCompositionGoal, setInjuries, setTrainingGoal } from '../controllers/training_profile';
 import express from 'express';
 
 const trainingProfileRouter = express.Router();
