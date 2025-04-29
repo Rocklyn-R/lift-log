@@ -1,5 +1,5 @@
 import db from "../config/db";
-import { EXERCISE_ALIASES } from "AI/utilities/utilities";
+import { EXERCISE_ALIASES } from "../AI/utilities/utilities";
 
 export const getUserLogs = async (
   user_id: number,
