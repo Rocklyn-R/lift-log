@@ -1,5 +1,5 @@
 interface HeaderProps {
-    text: string;
+  text: React.ReactNode;
 }
 
 export const Header: React.FC<HeaderProps> = ({ text }) => {

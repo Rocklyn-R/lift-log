@@ -56,7 +56,7 @@ export const Settings = () => {
                     <Loading />
                 </div>
             ) : (
-                <div className=" md:text-base text-xs w-full flex justify-center h-full">
+                <div className=" text-base w-full flex justify-center h-full">
                     <div className=" dark:bg-darkestPurple rounded-none sm:rounded-md border-mediumPurple bg-lightestPurple lg:w-1/3 md:w-2/3 sm:w-3/4 w-full h-fit py-4 sm:py-4 sm:px-4">
                         {/* Theme Settings */}
                         <div className="relative dark:bg-darkestPurple mb-4 flex flex-col items-start w-full rounded-none border-y-2 sm:border-2 border-mediumPurple sm:rounded-md p-2 sm:p-4 bg-lightestPurple">
@@ -79,7 +79,7 @@ export const Settings = () => {
                                             <button onClick={() => {
                                                 setNewTheme(theme)
                                                 setShowTheme(false)
-                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple border-darkestPurple bg-darkestPurple hover:bg-darkPurple text-lightestPurple  dark:text-lightestPurple border-2 rounded-full p-1 xs-min:p-[.80rem] dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaX className="text-lg" /></button>
+                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple border-darkestPurple bg-darkestPurple hover:bg-darkPurple text-lightestPurple  dark:text-lightestPurple border-2 rounded-full p-[.30rem] xs-min:p-[.80rem] dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaX className="text-lg" /></button>
                                         </div>
 
                                     </>
@@ -109,7 +109,7 @@ export const Settings = () => {
                                             <button onClick={() => {
                                                 setUnitSystemValue(unitSystem);
                                                 setShowUnitSystem(false);
-                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple dark:text-lightestPurple border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple border-2 rounded-full p-1 xs-min:p-[.80rem] dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaX className="text-lg" /></button>
+                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple dark:text-lightestPurple border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple border-2 rounded-full p-[.30rem] xs-min:p-[.80rem] dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaX className="text-lg" /></button>
                                         </div>
 
                                     </>
@@ -138,7 +138,7 @@ export const Settings = () => {
                                             <button onClick={() => {
                                                 setEffortScaleValue(effortScale);
                                                 setShowEffortScale(false);
-                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple dark:text-lightestPurple border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple border-2 rounded-full p-1 xs-min:p-[.80rem] dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaX className="text-lg" /></button>
+                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple dark:text-lightestPurple border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple border-2 rounded-full p-[.30rem] xs-min:p-[.80rem] dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaX className="text-lg" /></button>
                                         </div>
 
                                     </>

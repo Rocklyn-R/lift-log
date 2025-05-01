@@ -102,7 +102,6 @@ export const LiftBot = () => {
                     {messages.map((msg, index) => (
                         <>
                             <div
-
                                 key={index}
                                 style={{ whiteSpace: "pre-line" }}
                                 className={`liftbot-reply p-3 rounded-xl w-fit max-w-xl ${msg.sender === "user"

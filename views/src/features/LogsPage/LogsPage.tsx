@@ -34,11 +34,31 @@ export const LogsPage = () => {
     const [showCalendarCopy, setShowCalendarCopy] = useState(false);
     const [showViewDay, setShowViewDay] = useState(false);
     const [showCopyDay, setShowCopyDay] = useState(false);
-    const dateStringLong = formatDate(selectedDate).length > 10;
+    const specialCases = ["Today", "Yesterday", "Tomorrow"];
+const formattedDate = formatDate(selectedDate);
+
+const dateStringIsDate = !specialCases.includes(formattedDate);
+
+
+    const splitFormattedDate = (formattedDate: string) => {
+
+        if (specialCases.includes(formattedDate)) {
+            return {
+                day: formattedDate,
+                date: "", // No second line needed
+            };
+        }
+
+        const [day, ...rest] = formattedDate.split(", ");
+        return {
+            day: day + ",",
+            date: rest.join(", "), // e.g., "May 3" or "May 3, 2025"
+        };
+    }
 
 
 
-
+    const { day, date } = splitFormattedDate(formatDate(selectedDate));
 
     const closeAddExercise = () => {
         setShowAddExercise(false);
@@ -60,23 +80,33 @@ export const LogsPage = () => {
                 <div className="sticky top-0 w-full  bg-darkestPurple flex justify-center z-40">
                     <button
                         onClick={() => handleAdjustDate('back')}
-                        className={` ${dateStringLong ? "xs:top-5 top-5" : "top-3"} z-50 p-3 flex justify-center absolute left-12 xs:left-24 sm:left-44 md:left-52 lg:left-72 md:top-3 text-lightestPurple text-2xl`}
+                        className={` ${dateStringIsDate ? "top-6 sm:top-3 md:left-1/4 sm:left-1/5 left-1/6" : "top-3"} z-50 p-3 flex justify-center absolute text-lightestPurple text-2xl`}
                     >
                         <FaAngleLeft />
                     </button>
+                    <Header
+                        text={
+                            <>
+                                <span className="hidden sm:inline">{formatDate(selectedDate)}</span>
+                                <span className="block sm:hidden">
+                                    {day}
+                                    {date && <><br />{date}</>}
+                                </span>
+                            </>
+                        }
+                    />
 
-                    <Header text={formatDate(selectedDate)} />
 
                     <button
                         onClick={() => handleAdjustDate('forward')}
-                        className={`${dateStringLong ? "xs:top-5 top-5" : "top-3"} z-50 absolute p-3 right-12 xs:right-24 sm:right-44 md:right-52 lg:right-72 md:top-3 text-lightestPurple text-2xl`}
+                        className={`${dateStringIsDate ? "top-6 sm:top-3 md:right-1/4 sm:right-1/5 right-1/6" : "top-3"} z-50 absolute p-3 text-lightestPurple text-2xl`}
                     >
                         <FaAngleRight />
                     </button>
 
                     <button
                         onClick={() => setShowCalendarNav(true)}
-                        className={`z-50 ${dateStringLong ? 'xs:top-5 sm:top-5 md:top-2 top-5' : 'top-2'} dark:sm:hover:bg-lightestPurple dark:sm:hover:text-darkestPurple dark:sm:border-mediumPurple dark:sm:bg-darkPurple  border-2 border-transparent bg-darkestPurple p-3 fixed right-0 xs:right-6 md:right-8 xl:right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple`}
+                        className={`z-50 ${dateStringIsDate ? 'top-5 sm:top-2' : 'top-2'} dark:sm:hover:bg-lightestPurple dark:sm:hover:text-darkestPurple dark:sm:border-mediumPurple dark:sm:bg-darkPurple  border-2 border-transparent bg-darkestPurple p-3 fixed right-0 xs:right-6 md:right-8 xl:right-14 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple`}
                     >
                         <FaCalendarAlt />
                     </button>
@@ -99,12 +129,12 @@ export const LogsPage = () => {
                 </div>
                 <button
                     onClick={() => setShowAddExercise(true)}
-                    className="dark:border-mediumPurple dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple border-2 border-transparent bg-darkestPurple p-3 fixed bottom-12 right-6 sm:right-10 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
+                    className="z-40 dark:border-mediumPurple dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple border-2 border-transparent bg-darkestPurple p-3 fixed bottom-12 right-6 sm:right-10 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
                     <FaPlus />
                 </button>
                 <button
                     onClick={() => setShowCalendarCopy(true)}
-                    className="dark:border-mediumPurple dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple border-2 border-transparent bg-darkestPurple p-3 fixed bottom-1/5 h-md:bottom-1/6 right-6 sm:right-10  rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
+                    className="z-40 dark:border-mediumPurple dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple border-2 border-transparent bg-darkestPurple p-3 fixed bottom-1/5 h-md:bottom-1/6 right-6 sm:right-10  rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
                     <IoIosCopy />
                 </button>
 
