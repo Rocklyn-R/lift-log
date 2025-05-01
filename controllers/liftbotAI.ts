@@ -230,7 +230,7 @@ console.log("FocusShiftMessage", focusShiftMessage)
 
       } else {
         const systemPromptTemplate = fs.readFileSync(
-          path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/gain_muscle/NoContext_Hypertrophy.md"),
+          path.join(__dirname, "../AI/liftbot/prompts/hypertrophy/gain_muscle/NoContext_GainMuscle.md"),
           "utf-8"
         );
 
