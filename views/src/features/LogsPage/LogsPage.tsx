@@ -35,9 +35,8 @@ export const LogsPage = () => {
     const [showViewDay, setShowViewDay] = useState(false);
     const [showCopyDay, setShowCopyDay] = useState(false);
     const specialCases = ["Today", "Yesterday", "Tomorrow"];
-const formattedDate = formatDate(selectedDate);
-
-const dateStringIsDate = !specialCases.includes(formattedDate);
+    const formattedDate = formatDate(selectedDate);
+    const dateStringIsDate = !specialCases.includes(formattedDate);
 
 
     const splitFormattedDate = (formattedDate: string) => {
@@ -80,7 +79,7 @@ const dateStringIsDate = !specialCases.includes(formattedDate);
                 <div className="sticky top-0 w-full  bg-darkestPurple flex justify-center z-40">
                     <button
                         onClick={() => handleAdjustDate('back')}
-                        className={` ${dateStringIsDate ? "top-6 sm:top-3 md:left-1/4 sm:left-1/5 left-1/6" : "top-3"} z-50 p-3 flex justify-center absolute text-lightestPurple text-2xl`}
+                        className={` ${dateStringIsDate ? "top-6 sm:top-3" : "top-3"} z-50  md:left-1/4 sm:left-1/5 left-1/6 p-3 flex justify-center absolute text-lightestPurple text-2xl`}
                     >
                         <FaAngleLeft />
                     </button>
@@ -99,7 +98,7 @@ const dateStringIsDate = !specialCases.includes(formattedDate);
 
                     <button
                         onClick={() => handleAdjustDate('forward')}
-                        className={`${dateStringIsDate ? "top-6 sm:top-3 md:right-1/4 sm:right-1/5 right-1/6" : "top-3"} z-50 absolute p-3 text-lightestPurple text-2xl`}
+                        className={`${dateStringIsDate ? "top-6 sm:top-3" : "top-3"} md:right-1/4 sm:right-1/5 right-1/6 z-50 absolute p-3 text-lightestPurple text-2xl`}
                     >
                         <FaAngleRight />
                     </button>
