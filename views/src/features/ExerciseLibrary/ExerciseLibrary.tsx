@@ -26,7 +26,7 @@ export const ExerciseLibrary = () => {
 
 
     return (
-        <div className="flex flex-col xl:pl-0 pl-16 relative h-screen w-full justify-center">
+        <div className="flex flex-col xl:pl-0 pl-16  phones-sm:pb-24 relative h-screen w-full justify-center">
             {categoryId && (
                 <button
                     onClick={() => handleNavigateBack()}
@@ -38,7 +38,7 @@ export const ExerciseLibrary = () => {
             <Header text="Exercise Library" />
             <button
                 onClick={() => setShowAddExercise(true)}
-                className="z-50 border-2 border-transparent dark:border-mediumPurple dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple bg-darkestPurple p-3 fixed bottom-12 right-6 sm:right-10 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
+                className="z-50 phones-sm:hidden border-2 border-transparent dark:border-mediumPurple dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple bg-darkestPurple p-3 fixed bottom-12 right-6 sm:right-10 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
                 <FaPlus />
             </button>
             {isLoading ? (
@@ -59,7 +59,15 @@ export const ExerciseLibrary = () => {
                     )}
                 </div>
             )}
+      <div className="z-40 phones-sm:fixed phones-sm:flex hidden justify-center items-center bottom-0 left-0 w-full h-[10%] pl-16 space-x-4 dark:bg-darkestPurple bg-lightestPurple border-t-2 border-mediumPurple">
+                    <button
+                        onClick={() => setShowAddExercise(true)}
+                        className="z-40 dark:border-mediumPurple dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple border-2 border-transparent bg-darkestPurple p-3 rounded-full text-lightestPurple text-2xl hover:bg-darkPurple">
+                        <FaPlus />
+                    </button>
+  
 
+                </div>
             {showAddExercise && (
                 <AddExercise
                     setShowAddExercise={setShowAddExercise}

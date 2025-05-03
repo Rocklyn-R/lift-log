@@ -76,7 +76,7 @@ export const UserSettings = () => {
 
                 <div className="flex w-full justify-between items-center">
                     <span className="flex items-center rounded-md border-2 border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 w-fit bg-white justify-center">{email}</span>
-                    <button onClick={() => setShowUserName(true)} className="mt-2 dark:border-mediumPurple flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 h-fit dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple bg-darkestPurple border-transparent hover:bg-darkPurple text-lightestPurple"><MdOutlineEdit className="text-xl" /></button>
+                    <button onClick={() => setShowUserName(true)} className="mt-2 dark:border-mediumPurple flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-3 h-fit dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple bg-darkestPurple border-transparent hover:bg-darkPurple text-lightestPurple"><MdOutlineEdit className="text-xl" /></button>
                 </div>
 
                 {showUsername && (
@@ -123,7 +123,7 @@ export const UserSettings = () => {
                     <button onClick={() => {
                         setStatusMessage("")
                         setShowEditPassword(true)
-                    }} className="mt-2 flex dark:border-mediumPurple items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit bg-darkestPurple border-transparent hover:bg-darkPurple text-lightestPurple"><MdOutlineEdit className="text-xl" /></button>
+                    }} className="mt-2 flex dark:border-mediumPurple items-center justify-center dark:text-lightestPurple border-2 rounded-full p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit bg-darkestPurple border-transparent hover:bg-darkPurple text-lightestPurple"><MdOutlineEdit className="text-xl" /></button>
                 </div>
                 {showEditPassword && (
                     <OverlayWindow

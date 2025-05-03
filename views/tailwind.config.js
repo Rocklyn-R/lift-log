@@ -9,6 +9,9 @@ module.exports = {
       fontFamily: {
         robotoMono: ['"Roboto Mono"', 'monospace'],
       },
+      zIndex: {
+        '45': '45',
+      },
       colors: {
         darkestBlue: '#083757',
         darkBlue: '#115583',
@@ -25,6 +28,7 @@ module.exports = {
       },
       screens: {
         'phones': {'min': '0px', max: '449px'},
+        'phones-sm': {'min': '0px', max: '639px'},
         "xs-min": {'min': '450px'}, 
         xs: {'min': '450px', 'max': '639px'}, 
         'h-sm': { raw: '(max-height: 640px)' }, 

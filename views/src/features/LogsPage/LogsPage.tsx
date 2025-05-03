@@ -3,7 +3,7 @@ import { selectLogsLoading, selectSelectedDate, setSelectedDate } from "../../re
 import { adjustDate, formatDate } from "../../utilities/utilities";
 import { useDispatch } from "react-redux";
 import { FaAngleLeft, FaAngleRight, FaPlus } from "react-icons/fa6";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AddLog } from "./AddLog/AddLog";
 import { EditLog } from "./EditLog/EditLog";
 import { Log } from "./Log/Log";
@@ -37,7 +37,34 @@ export const LogsPage = () => {
     const specialCases = ["Today", "Yesterday", "Tomorrow"];
     const formattedDate = formatDate(selectedDate);
     const dateStringIsDate = !specialCases.includes(formattedDate);
+    const [isScrolling, setIsScrolling] = useState(false);
+    const scrollTimeout = useRef<number | null>(null);
 
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolling(true);
+
+            // ✅ Use scrollTimeout.current here
+            if (scrollTimeout.current !== null) {
+                clearTimeout(scrollTimeout.current);
+            }
+
+            scrollTimeout.current = window.setTimeout(() => {
+                setIsScrolling(false);
+            }, 300);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+
+            // ✅ Again, use scrollTimeout.current
+            if (scrollTimeout.current !== null) {
+                clearTimeout(scrollTimeout.current);
+            }
+        };
+    }, []);
 
     const splitFormattedDate = (formattedDate: string) => {
 
@@ -111,7 +138,7 @@ export const LogsPage = () => {
                     </button>
 
                 </div>
-                <div className={`flex h-fit flex-col items-center w-full mt-4 mb-4 z-10 pb-4`}>
+                <div className={`flex h-fit flex-col items-center w-full mt-4 mb-4 z-10 pb-4 phones-sm:pb-24`}>
                     {isLoading ? (
                         <div className="dark:bg-darkestPurple flex flex-col items-center mt-20 h-screen bg-lightestPurple">
                             <Loading />
@@ -126,18 +153,32 @@ export const LogsPage = () => {
 
 
                 </div>
+                <div className="z-40 phones-sm:fixed phones-sm:flex hidden justify-center items-center bottom-0 left-0 w-full h-[10%] pl-16 space-x-4 dark:bg-darkestPurple bg-lightestPurple border-t-2 border-mediumPurple">
+                    <button
+                        onClick={() => setShowAddExercise(true)}
+                        className="z-40 dark:border-mediumPurple dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple border-2 border-transparent bg-darkestPurple p-3 rounded-full text-lightestPurple text-2xl hover:bg-darkPurple">
+                        <FaPlus />
+                    </button>
+                    <button
+                        onClick={() => setShowCalendarCopy(true)}
+                        className="z-40 dark:border-mediumPurple dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple border-2 border-transparent bg-darkestPurple p-3 flex justify-center items-center rounded-full text-lightestPurple text-2xl hover:bg-darkPurple">
+                        <IoIosCopy />
+                    </button>
+
+                </div>
                 <button
                     onClick={() => setShowAddExercise(true)}
-                    className="z-40 dark:border-mediumPurple dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple border-2 border-transparent bg-darkestPurple p-3 fixed bottom-12 right-6 sm:right-10 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
+                    className="z-40 phones-sm:hidden dark:border-mediumPurple dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple border-2 border-transparent bg-darkestPurple p-3 fixed bottom-12 right-6 sm:right-10 rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
                     <FaPlus />
                 </button>
                 <button
                     onClick={() => setShowCalendarCopy(true)}
-                    className="z-40 dark:border-mediumPurple dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple border-2 border-transparent bg-darkestPurple p-3 fixed bottom-1/5 h-md:bottom-1/6 right-6 sm:right-10  rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
+                    className="z-40 phones-sm:hidden dark:border-mediumPurple dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple border-2 border-transparent bg-darkestPurple p-3 fixed bottom-1/5 h-md:bottom-1/6 right-6 sm:right-10  rounded-full justify-self-end text-lightestPurple text-2xl hover:bg-darkPurple">
                     <IoIosCopy />
                 </button>
 
             </div>
+
             {showCalendarCopy && (
                 <Calendar
                     action="copy"
@@ -152,7 +193,7 @@ export const LogsPage = () => {
                     setShowDay={setShowViewDay}
                 />
             )}
-            {showAddExercise && (
+            {showAddExercise && !isScrolling && (
                 <AddLog
                     closeAddExercise={closeAddExercise}
                 />
@@ -169,7 +210,7 @@ export const LogsPage = () => {
                     setShowCalendar={setShowCalendarNav}
                 />
             )}
-            {showCopyDay && (
+            {showCopyDay && !isScrolling && (
                 <CopyWorkout
                     setShowCalendar={setShowCalendarCopy}
                     setShowCopyDay={setShowCopyDay}

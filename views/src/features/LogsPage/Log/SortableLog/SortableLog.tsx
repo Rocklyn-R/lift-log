@@ -46,7 +46,7 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exerciseToDelete, show
             ref={setNodeRef}
             {...attributes}
             style={style}
-            className="relative h-full z-10">
+            className="relative h-full z-10 xs:max-w-[75%] xs:min-w-[75%] lg:min-w-[40%] lg:max-w-[40%] md:min-w-[50%] md:max-w-[50%] sm:min-w-[65%] sm:max-w-[65%] min-w-[95%] max-w-[95%]">
             <>
                 {/* Three-Dot Menu */}
                 <div className="absolute right-1 top-[1.5rem] -translate-y-1/2 z-10">
@@ -70,7 +70,10 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exerciseToDelete, show
                 className={`${showDeleteMessage ? "" : "hover:bg-lightPurple"} dark:bg-darkPurple bg-whitestPurple rounded-md shadow-xl hover:cursor-pointer bo box-border border-2 dark:border-mediumPurple border-mediumPurple w-full`}>
                 {exercise.sets.length > 0 && (
                     <>
-                        <h3 className="p-2 border-b-2 dark:border-mediumPurple border-mediumPurple font-semibold text-lg">{exercise.exercise_name}</h3>
+                    <div className="border-b-2 w-full dark:border-mediumPurple border-mediumPurple">
+                        <h3 className="py-2 pl-2  font-semibold text-lg w-[85%]">{exercise.exercise_name}</h3>
+                    </div>
+                        
 
 
 

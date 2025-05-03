@@ -75,7 +75,7 @@ function App() {
         {/* Overlay */}
         {isOpen && (
           <div
-            className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-30 z-40"
+            className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-30 z-45"
             onClick={() => setIsOpen(false)} // Close the menu on clicking the overlay
           ></div>
         )}

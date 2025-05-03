@@ -75,18 +75,18 @@ export const Settings = () => {
                                         <div className="flex space-x-2 items-center">
                                             <button onClick={() => {
                                                 handleUpdateTheme()
-                                            }} className="mt-2 flex items-center dark:border-mediumPurple border-darkestPurple bg-darkestPurple hover:bg-darkPurple text-lightestPurple justify-center dark:text-lightestPurple border-2 rounded-full p-1 xs-min:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaCheck className="text-xl" /></button>
+                                            }} className="mt-2 flex items-center dark:border-mediumPurple border-darkestPurple bg-darkestPurple hover:bg-darkPurple text-lightestPurple justify-center dark:text-lightestPurple border-2 rounded-full p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaCheck className="text-xl" /></button>
                                             <button onClick={() => {
                                                 setNewTheme(theme)
                                                 setShowTheme(false)
-                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple border-darkestPurple bg-darkestPurple hover:bg-darkPurple text-lightestPurple  dark:text-lightestPurple border-2 rounded-full p-[.30rem] xs-min:p-[.80rem] dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaX className="text-lg" /></button>
+                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple border-darkestPurple bg-darkestPurple hover:bg-darkPurple text-lightestPurple  dark:text-lightestPurple border-2 rounded-full p-[.80rem] dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaX className="text-lg" /></button>
                                         </div>
 
                                     </>
                                 ) : (
                                     <div className="flex w-full justify-between items-center">
                                         <span className="flex items-center w-fit rounded-md border-2 border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 bg-white">{theme}</span>
-                                        <button onClick={() => setShowTheme(true)} className="bg-darkestPurple dark:border-mediumPurple border-transparent hover:bg-darkPurple text-lightestPurple mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 sm:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:border-darkPurple dark:hover:border-mediumPurple"><MdOutlineEdit className="text-xl" /></button>
+                                        <button onClick={() => setShowTheme(true)} className="bg-darkestPurple dark:border-mediumPurple border-transparent hover:bg-darkPurple text-lightestPurple mt-2 flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:border-darkPurple dark:hover:border-mediumPurple"><MdOutlineEdit className="text-xl" /></button>
                                     </div>
                                 )}
 
@@ -105,18 +105,18 @@ export const Settings = () => {
                                             className="w-[6.7rem] mt-2"
                                         />
                                         <div className="flex space-x-2 items-center">
-                                            <button onClick={handleChangeUnitSystem} className="mt-2  border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 xs-min:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaCheck className="text-xl" /></button>
+                                            <button onClick={handleChangeUnitSystem} className="mt-2  border-transparent bg-darkestPurple dark:border-mediumPurple hover:bg-darkPurple text-lightestPurple flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaCheck className="text-xl" /></button>
                                             <button onClick={() => {
                                                 setUnitSystemValue(unitSystem);
                                                 setShowUnitSystem(false);
-                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple dark:text-lightestPurple border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple border-2 rounded-full p-[.30rem] xs-min:p-[.80rem] dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaX className="text-lg" /></button>
+                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple dark:text-lightestPurple border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple border-2 rounded-full p-[.80rem] dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaX className="text-lg" /></button>
                                         </div>
 
                                     </>
                                 ) : (
                                     <div className="flex w-full justify-between items-center">
                                         <span className="flex items-center justify-center rounded-md border-2 border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 bg-white">{unitSystemValue}</span>
-                                        <button onClick={() => setShowUnitSystem(true)} className="mt-2 dark:border-mediumPurple flex items-center justify-center text-lightestPurple bg-darkestPurple hover:bg-darkPurple border-transparent dark:text-lightestPurple p-1 xs-min:p-3 border-2 rounded-full dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:border-darkPurple dark:hover:border-mediumPurple"><MdOutlineEdit className="text-xl" /></button>
+                                        <button onClick={() => setShowUnitSystem(true)} className="mt-2 dark:border-mediumPurple flex items-center justify-center text-lightestPurple bg-darkestPurple hover:bg-darkPurple border-transparent dark:text-lightestPurple p-3 border-2 rounded-full dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:border-darkPurple dark:hover:border-mediumPurple"><MdOutlineEdit className="text-xl" /></button>
                                     </div>
                                 )}
 
@@ -134,18 +134,18 @@ export const Settings = () => {
                                             className="w-[6.7rem] mt-2"
                                         />
                                         <div className="flex space-x-2 items-center">
-                                            <button onClick={handleChangeEffortScale} className="mt-2  border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-1 xs-min:p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaCheck className="text-xl" /></button>
+                                            <button onClick={handleChangeEffortScale} className="mt-2  border-transparent bg-darkestPurple hover:bg-darkPurple dark:border-mediumPurple text-lightestPurple flex items-center justify-center dark:text-lightestPurple border-2 rounded-full p-3 dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaCheck className="text-xl" /></button>
                                             <button onClick={() => {
                                                 setEffortScaleValue(effortScale);
                                                 setShowEffortScale(false);
-                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple dark:text-lightestPurple border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple border-2 rounded-full p-[.30rem] xs-min:p-[.80rem] dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaX className="text-lg" /></button>
+                                            }} className="mt-2 flex items-center justify-center dark:border-mediumPurple dark:text-lightestPurple border-transparent bg-darkestPurple hover:bg-darkPurple text-lightestPurple border-2 rounded-full p-[.80rem] dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple h-fit hover:border-darkPurple dark:hover:border-mediumPurple"><FaX className="text-lg" /></button>
                                         </div>
 
                                     </>
                                 ) : (
                                     <div className="flex w-full justify-between items-center">
                                         <span className="flex items-center justify-center rounded-md border-2 border-mediumPurple dark:bg-darkPurple dark:text-lightestPurple font-semibold mt-2 min-h-12 p-3 bg-white">{effortScaleValue}</span>
-                                        <button onClick={() => setShowEffortScale(true)} className="mt-2 dark:border-mediumPurple flex items-center justify-center text-lightestPurple bg-darkestPurple hover:bg-darkPurple border-transparent dark:text-lightestPurple p-1 sm:p-3 border-2 rounded-full dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:border-darkPurple dark:hover:border-mediumPurple"><MdOutlineEdit className="text-xl" /></button>
+                                        <button onClick={() => setShowEffortScale(true)} className="mt-2 dark:border-mediumPurple flex items-center justify-center text-lightestPurple bg-darkestPurple hover:bg-darkPurple border-transparent dark:text-lightestPurple p-3 border-2 rounded-full dark:bg-darkPurple dark:hover:bg-lightestPurple dark:hover:text-darkestPurple hover:border-darkPurple dark:hover:border-mediumPurple"><MdOutlineEdit className="text-xl" /></button>
                                     </div>
                                 )}
 
