@@ -31,7 +31,7 @@ export const ExerciseLibrary = () => {
                 <button
                     onClick={() => handleNavigateBack()}
                     style={{ height: '0' }}
-                    className="absolute top-6 left-24 xl:left-12 z-50"
+                    className="absolute top-6 left-24 xl:left-12 z-45"
                 ><MdArrowBackIos className="text-2xl text-lightestPurple" /></button>
             )}
 

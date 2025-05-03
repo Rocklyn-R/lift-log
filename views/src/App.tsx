@@ -69,7 +69,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="flex w-full h-screen dark:bg-darkestPurple bg-lightestPurple">
+      <div className="select-none flex w-full h-screen dark:bg-darkestPurple bg-lightestPurple">
 
         {isAuthenticated && <Navigation isOpen={isOpen} setIsOpen={setIsOpen} />}
         {/* Overlay */}

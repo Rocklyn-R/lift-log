@@ -11,6 +11,7 @@ module.exports = {
       },
       zIndex: {
         '45': '45',
+        '48': '48',
       },
       colors: {
         darkestBlue: '#083757',

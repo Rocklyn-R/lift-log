@@ -64,7 +64,7 @@ export const UserSettings = () => {
         } 
         dispatch(setPendingEmail(newEmail));
         setShowUserName(false); 
-        const confirmationEmail = await sendConfirmationEmail(newEmail);
+        await sendConfirmationEmail(newEmail);
     
     }
 

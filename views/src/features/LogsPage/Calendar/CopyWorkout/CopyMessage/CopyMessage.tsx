@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { OverlayWindow } from "../../../../../components/OverlayWIndow";
-import { selectHistory, selectSelectedDate, selectWorkout, selectWorkoutToCopy, setDateToCopy, setWorkoutOnDate, setWorkoutToCopy } from "../../../../../redux-store/LogsSlice";
+import { selectSelectedDate, selectWorkout, selectWorkoutToCopy, setDateToCopy, setWorkoutOnDate, setWorkoutToCopy } from "../../../../../redux-store/LogsSlice";
 import { formatDateForHistory } from "../../../../../utilities/utilities";
 import { Button } from "../../../../../components/Button";
 import { useDispatch } from "react-redux";
@@ -20,7 +20,6 @@ export const CopyMessage: React.FC<CopyMessageProps> = ({ setShowCopyMessage, se
     const dispatch = useDispatch();
     const workoutToCopy = useSelector(selectWorkoutToCopy);
     const workout = useSelector(selectWorkout);
-    const history = useSelector(selectHistory);
     
     const handleCancel = () => {
         setShowCopyMessage(false);
@@ -28,9 +27,10 @@ export const CopyMessage: React.FC<CopyMessageProps> = ({ setShowCopyMessage, se
     }
 
     const handleSelectCopy = async () => {
- 
+        setShowCopyMessage(false);
+        setShowCopyDay(false)
         const setIds = findPRsOnCopy(workoutToCopy, selectedDate)
-     
+
         for (const exercise of workoutToCopy) {
  
             const exerciseOrder = (() => {
@@ -77,7 +77,7 @@ export const CopyMessage: React.FC<CopyMessageProps> = ({ setShowCopyMessage, se
                     PRsToRemove: setIds
                 }))
                 // Await the API call
-                const addSetResult = await addSetToLog(
+               await addSetToLog(
                     setId,
                     selectedDate,           // date
                     exercise.exercise_id,    // exercise_id
@@ -100,11 +100,9 @@ export const CopyMessage: React.FC<CopyMessageProps> = ({ setShowCopyMessage, se
         if (setIds.length > 0) {
             setIds.forEach(set_id => updatePR(false, set_id))
         };
-        setShowCopyMessage(false);
         dispatch(setDateToCopy(""));
         dispatch(setWorkoutOnDate([]));
         dispatch(setWorkoutToCopy([]));
-        setShowCopyDay(false)
     };
 
     return (

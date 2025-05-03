@@ -80,7 +80,7 @@ const sensors = useSensors(
 
 
     return (
-        <div className="flex w-full flex-col items-center justify-center z-10 space-y-4 h-full dark:text-lightestPurple text-darkPurple font-semibold ">
+        <div className="flex w-full flex-col items-center justify-center space-y-4 h-full dark:text-lightestPurple text-darkPurple font-semibold ">
             <DndContext
                 sensors={sensors}
                 onDragStart={handleDragStart}

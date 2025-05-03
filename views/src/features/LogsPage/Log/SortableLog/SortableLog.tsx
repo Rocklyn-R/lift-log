@@ -46,7 +46,7 @@ export const SortableLog: React.FC<SortableLogProps> = ({ exerciseToDelete, show
             ref={setNodeRef}
             {...attributes}
             style={style}
-            className="relative h-full z-10 xs:max-w-[75%] xs:min-w-[75%] lg:min-w-[40%] lg:max-w-[40%] md:min-w-[50%] md:max-w-[50%] sm:min-w-[65%] sm:max-w-[65%] min-w-[95%] max-w-[95%]">
+            className="relative select-none h-full z-10 xs:max-w-[75%] xs:min-w-[75%] lg:min-w-[40%] lg:max-w-[40%] md:min-w-[50%] md:max-w-[50%] sm:min-w-[65%] sm:max-w-[65%] min-w-[95%] max-w-[95%]">
             <>
                 {/* Three-Dot Menu */}
                 <div className="absolute right-1 top-[1.5rem] -translate-y-1/2 z-10">
