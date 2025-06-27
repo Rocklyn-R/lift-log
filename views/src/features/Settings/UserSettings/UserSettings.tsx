@@ -36,6 +36,11 @@ export const UserSettings = () => {
             setLoadingPasswordUpdate(false);
             return;
         }
+        if (email === "demo@example.com") {
+            setPasswordErrorMessage("Demo user password cannot be changed");
+            setLoadingPasswordUpdate(false);
+            return;
+        }
         const passwordUpdated = await updateUserPassword(oldPassword, newPassword);
     
         setOldPassword('');
@@ -58,10 +63,15 @@ export const UserSettings = () => {
 
     const handleUpdateEmail = async (e: React.FormEvent) => {
         e.preventDefault();
+        setEmailStatusMessage("");
         if (email === newEmail) {
             setEmailStatusMessage("New email must be different from current email");
             return;
         } 
+        if (email === "demo@example.com") {
+            setEmailStatusMessage("Demo user email cannot be changed.")
+            return;
+        }
         dispatch(setPendingEmail(newEmail));
         setShowUserName(false); 
         await sendConfirmationEmail(newEmail);
@@ -81,7 +91,10 @@ export const UserSettings = () => {
 
                 {showUsername && (
                     <OverlayWindow
-                        onClose={() => setShowUserName(false)}
+                        onClose={() => {
+                            setShowUserName(false);
+                            setEmailStatusMessage("")
+                        }}
                         headerText="Change Email"
                         className="dark:bg-darkestPurple w-full xs:w-3/4 sm:w-1/2 md:w-1/3 lg-w-1/4"
                         className2="p-4 space-y-2 items-center dark:bg-darkestPurple flex justify-center items-center w-full"
@@ -99,9 +112,14 @@ export const UserSettings = () => {
                                 className="w-fit mb-2"
                             />
                             <div className="flex space-x-4">
-                                <Button className="mb-3" onClick={() => setShowUserName(false)} type="button">Cancel</Button>
+                                <Button className="mb-3" onClick={() => {
+                                    setShowUserName(false)
+                                    setEmailStatusMessage("");
+                                    setNewEmail("");
+                                    }} type="button">Cancel</Button>
                                 <Button className="mb-3" type="submit">Save</Button>
                             </div>
+                            {emailStatusMessage && <p className="text-red-700">{emailStatusMessage}</p>}
                         </form>
 
                     </OverlayWindow>
@@ -127,7 +145,13 @@ export const UserSettings = () => {
                 </div>
                 {showEditPassword && (
                     <OverlayWindow
-                        onClose={() => setShowEditPassword(false)}
+                        onClose={() => {
+                            setShowEditPassword(false);
+                            setPasswordErrorMessage("");
+                            setOldPassword("");
+                            setNewPassword("");
+                            setNewPasswordRepeat("")
+                        }}
                         headerText="Change Password"
                         className=" dark:bg-darkestPurple w-full xs:w-3/4 sm:w-1/2 md:w-1/3 lg-w-1/4"
                         className2=" p-4 items-center dark:bg-darkestPurple space-y-4 flex justify-center items-center w-full"
@@ -158,9 +182,15 @@ export const UserSettings = () => {
                                         placeholder="Repeat new password"
                                         required={true}
                                     />
-                                    {passwordErrorMessage && <p className="absolute text-red-800 font-semibold text-center w-full">{passwordErrorMessage}</p>}
+                                    {passwordErrorMessage && <p className=" text-red-800 font-semibold text-center w-full">{passwordErrorMessage}</p>}
                                     <div className="flex space-x-4 mt-6 justify-center">
-                                        <Button disabled={loadingPasswordUpdate} width="w-24" onClick={() => setShowEditPassword(false)} type="button">Cancel</Button>
+                                        <Button disabled={loadingPasswordUpdate} width="w-24" onClick={() => {
+                                        setShowEditPassword(false);
+                                        setPasswordErrorMessage("");
+                                        setOldPassword("");
+                                        setNewPassword("");
+                                        setNewPasswordRepeat("")
+                                        }} type="button">Cancel</Button>
                                         <Button width="w-24" disabled={loadingPasswordUpdate} type="submit">{loadingPasswordUpdate ? <Loading size="w-6 h-6" /> : "Save"} </Button>
                                     </div>
                                 </form>

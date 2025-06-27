@@ -17,6 +17,10 @@ usersRouter.post(
     }
 );
 
+usersRouter.get('/login-failure', (req: express.Request, res: express.Response): void => {
+    res.status(401).json({ error: 'Login failed' });
+});
+
 usersRouter.get('/auth', checkAuthenticated, (req: Request, res: Response) => {
     res.status(200).json({ user: req.user });
 });

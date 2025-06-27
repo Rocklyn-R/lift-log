@@ -32,7 +32,7 @@ export const getCategories = async (req: Request, res: Response) => {
     try {
         const result = await categoriesGet();
         if (result) {
-            res.status(201).json({ categories: result})
+            res.status(200).json({ categories: result})
         }
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' })
@@ -46,7 +46,7 @@ export const getExercises = async (req: Request, res: Response) => {
     try {
         const result = await exercisesGet(id, user_id);
         if (result) {
-            res.status(201).json({ exercises: result})
+            res.status(200).json({ exercises: result})
         }
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' })
@@ -72,7 +72,7 @@ export const updateExercise = async (req: Request, res: Response) => {
     try {
         const result = await exerciseUpdate(name, category, type, exercise_id, user_id);
         if (result) {
-            res.status(201).json({ message: "Exercise successfully updated"})
+            res.status(200).json({ message: "Exercise successfully updated"})
         }
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' })
@@ -85,7 +85,7 @@ export const deleteExercise = async (req: Request, res: Response) => {
     try {
         const result = await exerciseDelete(exercise_id, user_id);
         if (result) {
-            res.status(201).json({ message: "Exercise successfully deleted"})
+            res.status(200).json({ message: "Exercise successfully deleted"})
         }
     } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' })
